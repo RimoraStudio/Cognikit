@@ -1,0 +1,275 @@
+name: Validate Skills
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install validation tools
+        run: |
+          sudo snap install yq
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq jq
+
+      - name: Validate skills
+        run: |
+          set -euo pipefail
+
+          FAIL=0
+          WARN_COUNT=0
+
+          if [ ! -d "skills" ]; then
+            echo "::error::No skills/ directory found"
+            exit 1
+          fi
+
+          SKILL_DIRS=()
+          while IFS= read -r dir; do
+            SKILL_DIRS+=("$dir")
+          done < <(find skills -mindepth 1 -maxdepth 1 -type d | sort)
+
+          if [ ${#SKILL_DIRS[@]} -eq 0 ]; then
+            echo "::error::No skill directories found under skills/"
+            exit 1
+          fi
+
+          for skill_dir in "${SKILL_DIRS[@]}"; do
+            skill_name=$(basename "$skill_dir")
+            echo ""
+            echo "=============================================="
+            echo "Validating: $skill_name"
+            echo "=============================================="
+
+            # (a) Check SKILL.md exists
+            skill_md="$skill_dir/SKILL.md"
+            if [ ! -f "$skill_md" ]; then
+              echo "::error file=$skill_md::SKILL.md not found in $skill_dir"
+              FAIL=1
+              continue
+            fi
+
+            # (b) Parse YAML frontmatter and validate required fields
+            # Extract frontmatter (between first and second ---)
+            frontmatter=$(awk '/^---$/{n++; if(n==2) exit} n==1' "$skill_md")
+
+            if [ -z "$frontmatter" ]; then
+              echo "::error file=$skill_md::No YAML frontmatter found in SKILL.md"
+              FAIL=1
+              continue
+            fi
+
+            missing_fields=0
+            for field in name description version license; do
+              value=$(echo "$frontmatter" | yq -r ".$field // empty" 2>/dev/null)
+              if [ -z "$value" ]; then
+                echo "::error file=$skill_md::Missing required field: $field"
+                missing_fields=1
+                FAIL=1
+              fi
+            done
+
+            if [ "$missing_fields" -eq 1 ]; then
+              continue
+            fi
+
+            # (c) Check that name is kebab-case (no prefix, no underscores, no camelCase)
+            fm_name=$(echo "$frontmatter" | yq -r '.name' 2>/dev/null)
+            if [[ ! "$fm_name" =~ ^[a-z][a-z0-9]*(-[a-z0-9]+)*$ ]]; then
+              echo "::error file=$skill_md::Skill name '$fm_name' must be kebab-case (e.g. 'my-skill', not 'MySkill' or 'cognikit/my-skill')"
+              FAIL=1
+            else
+              echo "  [OK] name: $fm_name"
+            fi
+
+            # (d) Check that all reference files mentioned in SKILL.md exist under references/
+            # Look for patterns like `references/something.md` or `references/something`
+            ref_pattern='references/[A-Za-z0-9._/-]+'
+            refs_found=$(grep -oE "$ref_pattern" "$skill_md" | sort -u || true)
+
+            if [ -n "$refs_found" ]; then
+              refs_dir="$skill_dir/references"
+              while IFS= read -r ref; do
+                # Strip any trailing punctuation
+                ref=$(echo "$ref" | sed 's/[.,;:)]*$//')
+                ref_path="$skill_dir/$ref"
+                if [ ! -f "$ref_path" ]; then
+                  echo "::error file=$skill_md::Referenced file '$ref' not found at $ref_path"
+                  FAIL=1
+                else
+                  echo "  [OK] reference exists: $ref"
+                fi
+              done <<< "$refs_found"
+            else
+              echo "  [INFO] No reference files mentioned in SKILL.md"
+            fi
+
+            # (e) Check SKILL.md file size is under 50KB (warn, not fail)
+            file_size=$(wc -c < "$skill_md")
+            if [ "$file_size" -gt 51200 ]; then
+              echo "::warning file=$skill_md::SKILL.md is $file_size bytes (over 50KB limit). Consider splitting content into reference files."
+              WARN_COUNT=$((WARN_COUNT + 1))
+            else
+              echo "  [OK] SKILL.md size: $file_size bytes"
+            fi
+
+            # (f) Check for em dashes in SKILL.md and reference files (warn, not fail)
+            em_dash=$'\u2014'
+            files_to_check=("$skill_md")
+            if [ -d "$skill_dir/references" ]; then
+              while IFS= read -r ref_file; do
+                files_to_check+=("$ref_file")
+              done < <(find "$skill_dir/references" -type f -name '*.md' | sort)
+            fi
+
+            for check_file in "${files_to_check[@]}"; do
+              em_count=$(grep -c "$em_dash" "$check_file" 2>/dev/null || echo 0)
+              if [ "$em_count" -gt 0 ]; then
+                rel_path=$(realpath --relative-to=. "$check_file")
+                echo "::warning file=$rel_path::Found $em_count em dash(es) in $rel_path. Use periods, commas, or line breaks instead."
+                WARN_COUNT=$((WARN_COUNT + 1))
+              fi
+            done
+
+            # (g) Check for emojis in SKILL.md (warn, not fail)
+            # Match common emoji ranges
+            emoji_pattern='[\xF0\x9F\x98-\x9F]'
+            emoji_count=$(grep -cP "$emoji_pattern" "$skill_md" 2>/dev/null || echo 0)
+            if [ "$emoji_count" -gt 0 ]; then
+              echo "::warning file=$skill_md::Found potential emoji(s) in SKILL.md. Avoid emojis in skill content."
+              WARN_COUNT=$((WARN_COUNT + 1))
+            fi
+
+            echo "  [DONE] $skill_name validation complete"
+          done
+
+          # Validate registry.json
+          echo ""
+          echo "=============================================="
+          echo "Validating registry.json"
+          echo "=============================================="
+
+          if [ ! -f "registry.json" ]; then
+            echo "::warning file=registry.json::registry.json not found at repo root"
+          else
+            if ! jq empty registry.json 2>/dev/null; then
+              echo "::error file=registry.json::registry.json is not valid JSON"
+              FAIL=1
+            else
+              echo "  [OK] registry.json is valid JSON"
+
+              # Check all listed skills exist
+              skill_names_in_registry=$(jq -r '.skills[].name // .skills[].id // .[]?.name // empty' registry.json 2>/dev/null || true)
+
+              if [ -n "$skill_names_in_registry" ]; then
+                while IFS= read -r reg_skill; do
+                  [ -z "$reg_skill" ] && continue
+                  # Extract the part after cognikit/ for directory matching
+                  short_name=$(echo "$reg_skill" | sed 's|^cognikit/||')
+                  if [ -d "skills/$short_name" ]; then
+                    echo "  [OK] registry skill '$reg_skill' exists at skills/$short_name"
+                  else
+                    echo "::error file=registry.json::Skill '$reg_skill' listed in registry.json but skills/$short_name not found"
+                    FAIL=1
+                  fi
+                done <<< "$skill_names_in_registry"
+              fi
+            fi
+          fi
+
+          echo ""
+          echo "=============================================="
+          echo "Validation Summary"
+          echo "=============================================="
+          echo "Warnings: $WARN_COUNT"
+          if [ "$FAIL" -eq 1 ]; then
+            echo "::error::Validation failed with errors above"
+            exit 1
+          fi
+          echo "All validations passed."
+
+  lint-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install markdownlint-cli2
+        run: npm install -g markdownlint-cli2
+
+      - name: Run markdownlint on all .md files
+        run: |
+          # Run markdownlint on all markdown files, treating as info/warnings
+          # so they don't block CI for existing content
+          markdownlint-cli2 '**/*.md' '!node_modules/**' || true
+
+      - name: Check for broken internal links
+        run: |
+          set -uo pipefail
+          BROKEN=0
+
+          # Find all markdown files and check internal links
+          while IFS= read -r md_file; do
+            dir=$(dirname "$md_file")
+
+            # Extract markdown links: [text](path) where path is not http/https/#/mailto
+            while IFS= read -r link; do
+              [ -z "$link" ] && continue
+
+              # Skip external links, anchors, and mailto
+              case "$link" in
+                http://*|https://*|mailto:*|\#*) continue ;;
+              esac
+
+              # Strip anchor from link path
+              link_path=$(echo "$link" | sed 's/#.*//')
+
+              [ -z "$link_path" ] && continue
+
+              # Resolve relative to the md file's directory
+              resolved="$dir/$link_path"
+
+              if [ ! -e "$resolved" ]; then
+                echo "::warning file=$md_file::Broken internal link: '$link' (resolved: $resolved)"
+                BROKEN=$((BROKEN + 1))
+              fi
+            done < <(grep -oP '\[[^]]*\]\(([^)]+)\)' "$md_file" | grep -oP '(?<=\()[^)]+' | sed 's/^ *//;s/ *$//')
+          done < <(find . -name '*.md' -not -path './node_modules/*' -not -path './.git/*' | sort)
+
+          echo ""
+          echo "Broken link check complete. Found $BROKEN broken link(s)."
+          if [ "$BROKEN" -gt 0 ]; then
+            echo "::warning::Found $BROKEN broken internal link(s). See warnings above."
+          fi
+
+  publish:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Placeholder publish step
+        run: |
+          echo "Would publish to skills.sh"
+          echo ""
+          echo "Skills in this repo:"
+          find skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort | while read -r s; do
+            echo "  - cognikit/$s"
+          done
+          echo ""
+          echo "Publishing is not yet implemented. This job validates that the"
+          echo "publish path runs after successful validation on push to main."

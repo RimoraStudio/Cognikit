@@ -1,0 +1,73 @@
+{
+  "name": "cognikit",
+  "description": "A kit that gives AI agents cognitive abilities. Premium Agent Skills for Claude Code, Cursor, Windsurf, and any SKILL.md-compatible platform.",
+  "url": "https://cognikit.com",
+  "github": "https://github.com/RimoraStudio/cognikit",
+  "license": "MIT",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "design-systems",
+      "displayName": "Design Systems",
+      "description": "Choose and implement the right visual design system for any app or website. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, an anti-AI-slop checklist, and DESIGN.md spec generation.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "design",
+      "tags": [
+        "design-system",
+        "ui",
+        "ux",
+        "brutalism",
+        "minimalist",
+        "glassmorphism",
+        "responsive",
+        "flutter",
+        "web",
+        "anti-ai-slop"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/design-systems --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/design-systems",
+      "docs": "https://cognikit.com/skills/design-systems",
+      "references": [
+        "anti-ai-slop.md",
+        "choosing-a-system.md",
+        "components.md",
+        "design-md.md",
+        "design-systems.md",
+        "modern-trends.md",
+        "responsive-adaptive.md"
+      ]
+    },
+    {
+      "name": "design-system-architecture",
+      "displayName": "Design System Architecture",
+      "description": "Build, scale, audit, and govern a design system as an engineering product. Covers token architecture, governance models, contribution tiers, versioning, deprecation, drift detection, multi-brand orchestration, Figma-to-code pipelines, CI gates, and AI-agent readiness.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "engineering",
+      "tags": [
+        "design-system",
+        "architecture",
+        "tokens",
+        "governance",
+        "versioning",
+        "drift-detection",
+        "monorepo",
+        "figma",
+        "ci"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/design-system-architecture --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/design-system-architecture",
+      "docs": "https://cognikit.com/skills/design-system-architecture",
+      "references": [
+        "token-architecture.md",
+        "monorepo-structure.md",
+        "component-api.md",
+        "governance.md",
+        "versioning.md",
+        "drift-detection.md",
+        "ai-readiness.md"
+      ]
+    }
+  ]
+}

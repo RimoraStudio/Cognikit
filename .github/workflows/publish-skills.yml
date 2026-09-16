@@ -1,0 +1,148 @@
+name: Publish Skills
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install validation tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq jq
+
+      - name: Determine skill from release
+        id: skill
+        run: |
+          set -euo pipefail
+          # Release tag convention: <skill-name>-<version> e.g. design-systems-1.0.0
+          TAG="${GITHUB_REF#refs/tags/}"
+          echo "Release tag: $TAG"
+
+          # Try to extract skill name and version from tag
+          # Supports formats: skill-name-1.2.3
+          SKILL_NAME=""
+          VERSION=""
+
+          if [[ "$TAG" =~ ^([a-z0-9-]+)-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            SKILL_NAME="${BASH_REMATCH[1]}"
+            VERSION="${BASH_REMATCH[2]}"
+          fi
+
+          if [ -z "$SKILL_NAME" ] || [ -z "$VERSION" ]; then
+            echo "::error::Could not parse skill name and version from tag '$TAG'"
+            echo "Expected format: <skill-name>-<semver> e.g. design-systems-1.0.0"
+            exit 1
+          fi
+
+          echo "skill_name=$SKILL_NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Parsed skill: $SKILL_NAME, version: $VERSION"
+
+      - name: Validate skill being published
+        run: |
+          set -euo pipefail
+          SKILL_NAME="${{ steps.skill.outputs.skill_name }}"
+          VERSION="${{ steps.skill.outputs.version }}"
+
+          echo "=============================================="
+          echo "Publishing: $SKILL_NAME @ $VERSION"
+          echo "=============================================="
+
+          SKILL_DIR="skills/$SKILL_NAME"
+
+          if [ ! -d "$SKILL_DIR" ]; then
+            echo "::error::Skill directory '$SKILL_DIR' not found"
+            exit 1
+          fi
+
+          if [ ! -f "$SKILL_DIR/SKILL.md" ]; then
+            echo "::error file=$SKILL_DIR/SKILL.md::SKILL.md not found"
+            exit 1
+          fi
+
+          # Parse frontmatter
+          frontmatter=$(awk '/^---$/{n++; if(n==2) exit} n==1' "$SKILL_DIR/SKILL.md")
+
+          if [ -z "$frontmatter" ]; then
+            echo "::error file=$SKILL_DIR/SKILL.md::No YAML frontmatter found"
+            exit 1
+          fi
+
+          # Validate required fields
+          for field in name description version license; do
+            value=$(echo "$frontmatter" | yq -r ".$field // empty" 2>/dev/null || \
+                    echo "$frontmatter" | grep -E "^${field}:" | sed "s/^${field}:[[:space:]]*//")
+            if [ -z "$value" ]; then
+              echo "::error file=$SKILL_DIR/SKILL.md::Missing required field: $field"
+              exit 1
+            fi
+          done
+
+          # Check name is kebab-case
+          fm_name=$(echo "$frontmatter" | grep -E "^name:" | sed 's/^name:[[:space:]]*//')
+          if [[ ! "$fm_name" =~ ^[a-z][a-z0-9]*(-[a-z0-9]+)*$ ]]; then
+            echo "::error file=$SKILL_DIR/SKILL.md::Skill name '$fm_name' must be kebab-case"
+            exit 1
+          fi
+
+          # Check version matches release tag
+          fm_version=$(echo "$frontmatter" | grep -E "^version:" | sed 's/^version:[[:space:]]*//')
+          if [ "$fm_version" != "$VERSION" ]; then
+            echo "::error file=$SKILL_DIR/SKILL.md::SKILL.md version '$fm_version' does not match release tag version '$VERSION'"
+            exit 1
+          fi
+
+          # Check reference files exist
+          ref_pattern='references/[A-Za-z0-9._/-]+'
+          refs_found=$(grep -oE "$ref_pattern" "$SKILL_DIR/SKILL.md" | sort -u || true)
+          if [ -n "$refs_found" ]; then
+            while IFS= read -r ref; do
+              ref=$(echo "$ref" | sed 's/[.,;:)]*$//')
+              if [ ! -f "$SKILL_DIR/$ref" ]; then
+                echo "::error file=$SKILL_DIR/SKILL.md::Referenced file '$ref' not found"
+                exit 1
+              fi
+            done <<< "$refs_found"
+          fi
+
+          # Validate registry.json if it exists
+          if [ -f "registry.json" ]; then
+            if ! jq empty registry.json 2>/dev/null; then
+              echo "::error file=registry.json::registry.json is not valid JSON"
+              exit 1
+            fi
+            echo "  [OK] registry.json is valid JSON"
+          fi
+
+          echo ""
+          echo "  [OK] Skill validated: $fm_name @ $fm_version"
+
+      - name: Publish to skills.sh
+        run: |
+          SKILL_NAME="${{ steps.skill.outputs.skill_name }}"
+          VERSION="${{ steps.skill.outputs.version }}"
+
+          echo "=============================================="
+          echo "Would publish to skills.sh"
+          echo "=============================================="
+          echo "  Skill:  $SKILL_NAME"
+          echo "  Version: $VERSION"
+          echo "  Source:  skills/$SKILL_NAME/"
+          echo ""
+          echo "Publishing is not yet implemented. This workflow validates the"
+          echo "skill being released and confirms it is ready for publication."
+          echo ""
+          echo "When implemented, this step would:"
+          echo "  1. Package the skill directory"
+          echo "  2. Upload to skills.sh registry API"
+          echo "  3. Update registry.json with the new version"
+          echo "  4. Trigger marketplace index refresh"
