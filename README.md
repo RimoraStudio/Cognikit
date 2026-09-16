@@ -7,9 +7,12 @@ Cognikit is a curated marketplace and registry of Agent Skills following the ope
 ## Install a skill
 
 ```bash
-# Install from the Cognikit monorepo (skills.sh indexes via install telemetry)
-npx skills add RimoraStudio/cognikit/tree/main/skills/design-systems --global --yes
-npx skills add RimoraStudio/cognikit/tree/main/skills/design-system-architecture --global --yes
+# Install a specific skill (shortest command)
+npx skills add RimoraStudio/cognikit --skill design-systems -g -y
+npx skills add RimoraStudio/cognikit --skill design-system-architecture -g -y
+
+# Install all skills at once
+npx skills add RimoraStudio/cognikit --all -g -y
 
 # List available skills without installing
 npx skills add RimoraStudio/cognikit --list
@@ -19,8 +22,8 @@ npx skills add RimoraStudio/cognikit --list
 
 | Skill | What it does | Install |
 |---|---|---|
-| `design-systems` | Choose and implement a visual design system. 14 design systems, 110 anti-AI-slop rules, component library, responsive adaptation, DESIGN.md generation. | `npx skills add RimoraStudio/cognikit/tree/main/skills/design-systems` |
-| `design-system-architecture` | Build, scale, and govern a design system as an engineering product. Token architecture, governance, versioning, drift detection, AI-agent readiness. | `npx skills add RimoraStudio/cognikit/tree/main/skills/design-system-architecture` |
+| `design-systems` | Choose and implement a visual design system. 14 design systems, 110 anti-AI-slop rules, component library, responsive adaptation, DESIGN.md generation. | `npx skills add RimoraStudio/cognikit --skill design-systems -g -y` |
+| `design-system-architecture` | Build, scale, and govern a design system as an engineering product. Token architecture, governance, versioning, drift detection, AI-agent readiness. | `npx skills add RimoraStudio/cognikit --skill design-system-architecture -g -y` |
 
 More skills coming soon.
 
