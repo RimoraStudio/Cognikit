@@ -1,0 +1,75 @@
+---
+import { marked } from "marked";
+import Base from "../../layouts/Base.astro";
+import { loadRegistry, evalCount } from "../../lib/catalog";
+
+export function getStaticPaths() {
+  const registry = loadRegistry();
+  return registry.skills.map((skill) => ({ params: { name: skill.name } }));
+}
+
+const registry = loadRegistry();
+const skill = registry.skills.find((s) => s.name === Astro.params.name)!;
+const related = (skill.related || [])
+  .map((r) => registry.skills.find((s) => s.name === r))
+  .filter(Boolean);
+const evals = evalCount(skill.name);
+const bodyHtml = marked.parse(skill.skillBody || "");
+---
+
+<Base title={`${skill.displayName} | Cognikit`} description={skill.description}>
+  <section class="skill-head">
+    <div class="container">
+      <a class="back" href="/">← all skills</a>
+      <h1 class="skill-title">{skill.name}</h1>
+      <p class="skill-desc">{skill.description}</p>
+      <div class="meta-row">
+        <span class="meta-pill accent">{skill.category}</span>
+        <span class="meta-pill">v{skill.version}</span>
+        <span class="meta-pill">{skill.license}</span>
+        {skill.references.length > 0 && <span class="meta-pill">{skill.references.length} reference files</span>}
+        {evals > 0 && <span class="meta-pill">{evals} eval prompts</span>}
+        {skill.tags.slice(0, 4).map((t) => <span class="meta-pill">{t}</span>)}
+      </div>
+      <div class="install-box">
+        <code>{skill.install}</code>
+        <button class="copy-btn" data-cmd={skill.install}>copy</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <article class="skill-body" set:html={bodyHtml} />
+
+    {
+      related.length > 0 && (
+        <section class="bundles">
+          <h2>Related skills</h2>
+          {related.map((r) => (
+            <div class="bundle-row">
+              <a class="bundle-name" href={`/skills/${r!.name}`} style="color: var(--text); text-decoration: none;">
+                {r!.name}
+              </a>
+              <span class="bundle-desc">{r!.description.slice(0, 110)}...</span>
+              <span class="card-cat">{r!.category}</span>
+            </div>
+          ))}
+        </section>
+      )
+    }
+  </div>
+
+  <script>
+    document.querySelectorAll(".copy-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(btn.dataset.cmd);
+        btn.textContent = "copied";
+        btn.classList.add("done");
+        setTimeout(() => {
+          btn.textContent = "copy";
+          btn.classList.remove("done");
+        }, 1600);
+      });
+    });
+  </script>
+</Base>

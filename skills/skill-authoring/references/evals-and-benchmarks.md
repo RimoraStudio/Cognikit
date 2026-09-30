@@ -1,4 +1,4 @@
-﻿# Evals and Benchmarks Reference
+# Evals and Benchmarks Reference
 
 Depth for the "Evals" section of SKILL.md. Load when setting up,
 running, or debugging skill evals.

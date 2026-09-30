@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Cognikit", description = "A kit that gives AI agents cognitive abilities." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="/">cognikit<span>.</span></a>
+        <nav class="header-nav">
+          <a href="/#skills">skills</a>
+          <a href="https://github.com/RimoraStudio/Cognikit">github</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <span>cognikit.com</span>
+        <span>
+          <a href="https://github.com/RimoraStudio/Cognikit">GitHub</a>
+          <a href="https://skills.sh">skills.sh</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

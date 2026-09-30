@@ -1,4 +1,4 @@
-﻿---
+---
 name: skill-authoring
 description: >
   Authors new AI skills and agents: frontmatter that triggers

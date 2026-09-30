@@ -1,0 +1,107 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadRegistry, evalCount } from "../lib/catalog";
+
+const registry = loadRegistry();
+const skills = registry.skills.filter((s) => s.name !== "cognikit");
+const categories = [...new Set(skills.map((s) => s.category))].sort();
+const totalEvals = registry.skills.reduce((n, s) => n + evalCount(s.name), 0);
+---
+
+<Base>
+  <section class="hero">
+    <div class="container">
+      <h1>A kit that gives AI agents cognitive abilities.</h1>
+      <p>
+        Curated, spec-validated Agent Skills for Claude Code, Cursor,
+        Windsurf, and every SKILL.md-compatible agent. Each skill ships
+        with eval prompts, a pre-flight checklist, and soft links into
+        the rest of the kit.
+      </p>
+      <div class="hero-install">
+        <span class="prompt">$</span>
+        <code>npx skills add RimoraStudio/cognikit --all -g -y</code>
+      </div>
+      <div class="hero-stats">
+        <span><b>{skills.length}</b> specialist skills</span>
+        <span><b>{categories.length}</b> categories</span>
+        <span><b>{registry.bundles.length}</b> bundles</span>
+        <span><b>{totalEvals}</b> eval prompts</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="bundles">
+      <h2>Bundles</h2>
+      {
+        registry.bundles.map((b) => (
+          <div class="bundle-row">
+            <span class="bundle-name">{b.displayName}</span>
+            <span class="bundle-desc">{b.description}</span>
+            <code class="bundle-cmd">{b.install}</code>
+          </div>
+        ))
+      }
+    </section>
+
+    <div class="controls" id="skills">
+      <input class="search" id="search" type="search" placeholder="Search skills, tags, capabilities..." autofocus />
+      {
+        categories.map((c) => (
+          <button class="chip" data-cat={c}>{c}</button>
+        ))
+      }
+    </div>
+
+    <div class="grid" id="grid">
+      {
+        skills.map((s) => {
+          const evals = evalCount(s.name);
+          const haystack = `${s.name} ${s.displayName} ${s.description} ${s.tags.join(" ")} ${s.category}`.toLowerCase();
+          return (
+            <a class="card" href={`/skills/${s.name}`} data-cat={s.category} data-search={haystack}>
+              <div class="card-top">
+                <span class="card-name">{s.name}</span>
+                <span class="card-cat">{s.category}</span>
+              </div>
+              <p class="card-desc">{s.description}</p>
+              <div class="card-meta">
+                <span>v{s.version}</span>
+                <span>{s.references.length} refs</span>
+                {evals > 0 && <span>{evals} evals</span>}
+                <span>{s.related.length} related</span>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <script>
+    const search = document.getElementById("search");
+    const chips = [...document.querySelectorAll(".chip")];
+    const cards = [...document.querySelectorAll(".card")];
+    let activeCat = null;
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      for (const card of cards) {
+        const matchesQ = !q || card.dataset.search.includes(q);
+        const matchesC = !activeCat || card.dataset.cat === activeCat;
+        card.style.display = matchesQ && matchesC ? "" : "none";
+      }
+    }
+
+    search.addEventListener("input", apply);
+    for (const chip of chips) {
+      chip.addEventListener("click", () => {
+        const cat = chip.dataset.cat;
+        activeCat = activeCat === cat ? null : cat;
+        for (const c of chips) c.classList.toggle("active", c.dataset.cat === activeCat);
+        apply();
+      });
+    }
+  </script>
+</Base>

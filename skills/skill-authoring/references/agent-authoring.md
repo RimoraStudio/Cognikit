@@ -1,4 +1,4 @@
-﻿# Agent Authoring Reference
+# Agent Authoring Reference
 
 Depth for the "Authoring agents" section of SKILL.md. Load when
 writing or fixing an agent file.
