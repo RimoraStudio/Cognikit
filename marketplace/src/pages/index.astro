@@ -7,10 +7,37 @@ const registry = loadRegistry();
 const skills = registry.skills.filter((s) => s.name !== "cognikit");
 const categories = [...new Set(skills.map((s) => s.category))].sort();
 const totalEvals = registry.skills.reduce((n, s) => n + evalCount(s.name), 0);
+
+const CAT_COLORS: Record<string, string> = {
+  design: "#d97757",
+  engineering: "#6b9fff",
+  security: "#e06c6c",
+  "ai-agents": "#7fc8a9",
+  "ai-ml": "#c9a0dc",
+  data: "#e8c468",
+  marketing: "#f0937e",
+  compliance: "#a0a0a8",
+  mobile: "#6fd3e0",
+  meta: "#d97757",
+};
+
+const graphNodes = registry.skills.map((s) => ({
+  name: s.name,
+  hub: s.name === "cognikit",
+  color: CAT_COLORS[s.category] || "#9a9aa3",
+}));
+const seen = new Set<string>();
+const graphEdges = registry.skills.flatMap((s) =>
+  (s.related || [])
+    .map((r) => [s.name, r].sort().join("~"))
+    .filter((k) => !seen.has(k) && seen.add(k))
+    .map((k) => k.split("~"))
+);
 ---
 
 <Base>
   <section class="hero">
+    <canvas id="graph"></canvas>
     <div class="container">
       <h1>A kit that gives AI agents cognitive abilities.</h1>
       <p>
@@ -80,6 +107,84 @@ const totalEvals = registry.skills.reduce((n, s) => n + evalCount(s.name), 0);
     </div>
   </div>
 
+  <script is:inline define:vars={{ graphNodes, graphEdges }}>
+    const canvas = document.getElementById("graph");
+    if (canvas && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const ctx = canvas.getContext("2d");
+      const pos = new Map();
+      let W = 0, H = 0, dpr = 1;
+
+      function size() {
+        dpr = Math.min(devicePixelRatio || 1, 2);
+        W = canvas.clientWidth;
+        H = canvas.clientHeight;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      size();
+      addEventListener("resize", size);
+
+      const hub = graphNodes.find((n) => n.hub);
+      const ring = graphNodes.filter((n) => !n.hub);
+      const orbit = ring.map((n, i) => ({
+        n,
+        a: (i / ring.length) * Math.PI * 2,
+        r: 0.9 + ((i * 7) % 5) * 0.08,
+        speed: (i % 2 ? 1 : -1) * 0.02 + (i % 3) * 0.004,
+        wob: i * 1.7,
+      }));
+
+      let t = 0;
+      function frame() {
+        t += 0.008;
+        ctx.clearRect(0, 0, W, H);
+        const cx = W * 0.7, cy = H * 0.5;
+        const rx = Math.min(W * 0.26, 340), ry = H * 0.42;
+
+        pos.set(hub.name, { x: cx, y: cy });
+        for (const o of orbit) {
+          const a = o.a + t * o.speed * 4;
+          const wob = Math.sin(t * 1.6 + o.wob) * 0.04;
+          pos.set(o.n.name, {
+            x: cx + Math.cos(a) * rx * o.r * (1 + wob),
+            y: cy + Math.sin(a) * ry * o.r * (1 + wob),
+          });
+        }
+
+        ctx.lineWidth = 1;
+        for (const [a, b] of graphEdges) {
+          const pa = pos.get(a), pb = pos.get(b);
+          if (!pa || !pb) continue;
+          ctx.strokeStyle = "rgba(232,232,234,0.10)";
+          ctx.beginPath();
+          ctx.moveTo(pa.x, pa.y);
+          ctx.lineTo(pb.x, pb.y);
+          ctx.stroke();
+        }
+
+        ctx.font = "10px 'JetBrains Mono', monospace";
+        for (const n of graphNodes) {
+          const p = pos.get(n.name);
+          if (!p) continue;
+          const r = n.hub ? 5 : 2.6;
+          const glow = n.hub ? 12 : 7;
+          ctx.fillStyle = n.color;
+          ctx.globalAlpha = 0.18;
+          ctx.beginPath(); ctx.arc(p.x, p.y, glow, 0, 7); ctx.fill();
+          ctx.globalAlpha = 0.95;
+          ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill();
+          ctx.globalAlpha = n.hub ? 0.9 : 0.42;
+          ctx.fillStyle = "#9a9aa3";
+          ctx.fillText(n.name, p.x + r + 5, p.y + 3);
+          ctx.globalAlpha = 1;
+        }
+        requestAnimationFrame(frame);
+      }
+      frame();
+    }
+  </script>
+
   <script>
     const search = document.getElementById("search");
     const chips = [...document.querySelectorAll(".chip")];
@@ -103,6 +208,33 @@ const totalEvals = registry.skills.reduce((n, s) => n + evalCount(s.name), 0);
         for (const c of chips) c.classList.toggle("active", c.dataset.cat === activeCat);
         apply();
       });
+    }
+
+    for (const card of cards) {
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    }
+
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          let d = 0;
+          for (const e of entries) {
+            if (!e.isIntersecting) continue;
+            e.target.style.setProperty("--d", `${Math.min(d++ * 60, 480)}ms`);
+            e.target.classList.add("reveal");
+            io.unobserve(e.target);
+          }
+        },
+        { rootMargin: "0px 0px -8% 0px" }
+      );
+      for (const el of document.querySelectorAll(".card, .bundle-row")) {
+        el.style.opacity = "0";
+        io.observe(el);
+      }
     }
   </script>
 </Base>

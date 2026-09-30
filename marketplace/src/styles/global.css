@@ -6,8 +6,10 @@
   --text-dim: #9a9aa3;
   --text-faint: #5c5c66;
   --accent: #d97757;
-  --mono: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  --mono: "JetBrains Mono", "SF Mono", "Cascadia Code", Consolas, monospace;
   --sans: -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
+  --display: "Space Grotesk", -apple-system, "Segoe UI", sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { box-sizing: border-box; }
@@ -62,15 +64,29 @@ body {
 /* ---------- hero ---------- */
 
 .hero {
-  padding: 88px 0 64px;
+  position: relative;
+  padding: 96px 0 72px;
   border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hero > .container { position: relative; z-index: 1; }
+
+#graph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .hero h1 {
-  font-size: clamp(36px, 6vw, 60px);
+  font-family: var(--display);
+  font-size: clamp(38px, 6.5vw, 64px);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
   margin: 0 0 20px;
   max-width: 16ch;
 }
@@ -152,6 +168,10 @@ body {
 
 .chip:hover { border-color: var(--text-dim); color: var(--text); }
 
+.chip {
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
 .chip.active {
   background: var(--text);
   border-color: var(--text);
@@ -172,16 +192,35 @@ body {
 }
 
 .card {
+  position: relative;
   background: var(--bg);
   padding: 24px;
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
-  transition: background 0.15s;
+  transition: background 0.2s var(--ease-out);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(217, 119, 87, 0.09),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
 }
 
 .card:hover { background: var(--bg-raised); }
+.card:hover::before { opacity: 1; }
+.card:hover .card-name { color: var(--accent); }
+
+.card-name { transition: color 0.2s; }
 
 .card-top {
   display: flex;
@@ -412,4 +451,38 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 420px;
+}
+
+/* ---------- motion ---------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 { animation: hero-in 0.9s var(--ease-out) both; }
+.hero p { animation: hero-in 0.9s var(--ease-out) 0.08s both; }
+.hero-install { animation: hero-in 0.9s var(--ease-out) 0.16s both; }
+.hero-stats { animation: hero-in 0.9s var(--ease-out) 0.24s both; }
+
+.reveal {
+  animation: rise 0.55s var(--ease-out) both;
+  animation-delay: var(--d, 0s);
+}
+
+.skill-head, .install-box { animation: hero-in 0.7s var(--ease-out) both; }
+.skill-body { animation: rise 0.7s var(--ease-out) 0.1s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal { opacity: 1; }
+  #graph { display: none; }
 }
