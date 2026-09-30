@@ -1,7 +1,8 @@
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://cognikit.com",
+  site: "https://rimorastudio.github.io",
+  base: "/Cognikit",
   output: "static",
   trailingSlash: "never",
 });

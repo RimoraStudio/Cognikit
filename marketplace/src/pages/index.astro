@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { loadRegistry, evalCount } from "../lib/catalog";
 
+const base = import.meta.env.BASE_URL;
 const registry = loadRegistry();
 const skills = registry.skills.filter((s) => s.name !== "cognikit");
 const categories = [...new Set(skills.map((s) => s.category))].sort();
@@ -60,7 +61,7 @@ const totalEvals = registry.skills.reduce((n, s) => n + evalCount(s.name), 0);
           const evals = evalCount(s.name);
           const haystack = `${s.name} ${s.displayName} ${s.description} ${s.tags.join(" ")} ${s.category}`.toLowerCase();
           return (
-            <a class="card" href={`/skills/${s.name}`} data-cat={s.category} data-search={haystack}>
+            <a class="card" href={`${base}/skills/${s.name}`} data-cat={s.category} data-search={haystack}>
               <div class="card-top">
                 <span class="card-name">{s.name}</span>
                 <span class="card-cat">{s.category}</span>
