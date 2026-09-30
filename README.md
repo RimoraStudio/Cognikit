@@ -2,7 +2,7 @@
 
 > A kit that gives AI agents cognitive abilities. Premium Agent Skills for Claude Code, Cursor, Windsurf, and any SKILL.md-compatible platform.
 
-Cognikit is a curated marketplace and registry of Agent Skills following the open [SKILL.md standard](https://docs.claude.com/en/docs/claude-code/skills). Each skill is a self-contained package of expertise that makes AI agents better at specific tasks: design systems, code review, accessibility, motion engineering, and more.
+Cognikit is a curated marketplace and registry of Agent Skills following the open [SKILL.md standard](https://docs.claude.com/en/docs/claude-code/skills). Each skill is a self-contained package of expertise that makes AI agents better at specific tasks: design systems, code review, security audits, MCP servers, SEO, store compliance, legal docs, and more. Skills pass Anthropic's official spec validator and ship with eval prompts.
 
 ## Install a skill
 
@@ -17,6 +17,18 @@ npx skills add RimoraStudio/cognikit --all -g -y
 # List available skills without installing
 npx skills add RimoraStudio/cognikit --list
 ```
+
+## Bundles
+
+Groups of related skills installed together:
+
+| Bundle | Skills | Install |
+|---|---|---|
+| `full` | All 16 skills | `npx skills add RimoraStudio/cognikit --all -g -y` |
+| `design` | design-systems, design-system-architecture, marketing-sites, dashboard-ui, mobile-app-design | `npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design -g -y` |
+| `engineering` | code-review, api-design, security-audit | `npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit -g -y` |
+| `ai-stack` | mcp-server, agent-memory, model-distillation, rag-pipelines | `npx skills add RimoraStudio/cognikit --skill mcp-server --skill agent-memory --skill model-distillation --skill rag-pipelines -g -y` |
+| `launch` | security-audit, seo, legal-docs, app-store-compliance | `npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill app-store-compliance -g -y` |
 
 ## Available skills
 
@@ -41,6 +53,20 @@ npx skills add RimoraStudio/cognikit --list
 
 Every skill is self-contained. Where a task crosses fields, skills carry soft "Related skills" pointers that degrade gracefully if the sibling is not installed. The `related` field in `registry.json` makes the graph machine-readable for the marketplace.
 
+## How agents pick a skill
+
+Three layers teach an agent which skill to use and when:
+
+1. **`SKILLS.md`** at the repo root is the routing map: a task-to-skill table plus workflow chains for common jobs (e.g. new API feature = api-design, implement, code-review, security-audit).
+2. **The `cognikit` skill** is a router meta-skill. It activates only when a request spans fields or is ambiguous, then hands off to the right specialist.
+3. **Skill descriptions** carry concrete trigger phrases, so single-field tasks route directly to the specialist without passing through the router.
+
+## Quality
+
+- All 16 skills pass Anthropic's official spec validator (spec-allowed frontmatter keys only; version lives under `metadata:`)
+- Each skill ships `evals/evals.json` with realistic test prompts, including implicit triggers that never name the skill
+- CI checks required frontmatter, kebab-case names, reference file integrity, registry consistency, and no em dashes
+
 ## Marketplace
 
 Visit [cognikit.com](https://cognikit.com) for the full marketplace with search, ratings, documentation, and one-click install.
@@ -51,18 +77,32 @@ Visit [cognikit.com](https://cognikit.com) for the full marketplace with search,
 cognikit/
 ├── README.md                          # This file
 ├── LICENSE                            # MIT
-├── registry.json                      # Skill registry index
+├── SKILLS.md                          # Routing map: task -> skill, workflow chains
+├── registry.json                      # Skill registry index, related graph, bundles
 ├── CONTRIBUTING.md                    # How to author and submit skills
 ├── .github/workflows/                 # CI: validate, lint, publish
 │   ├── validate-skills.yml
 │   └── publish-skills.yml
-├── skills/                            # All skill packages
+├── skills/                            # All skill packages (16)
+│   ├── cognikit/                      # Router meta-skill
 │   ├── design-systems/                # Visual design system skill
 │   │   ├── SKILL.md
-│   │   └── references/
-│   └── design-system-architecture/    # Design system engineering skill
-│       ├── SKILL.md
-│       └── references/
+│   │   ├── references/
+│   │   └── evals/
+│   ├── marketing-sites/               # Landing page + conversion design
+│   ├── dashboard-ui/                  # Data-dense interface design
+│   ├── mobile-app-design/             # Mobile UI conventions
+│   ├── design-system-architecture/    # Design system engineering
+│   ├── code-review/                   # Confidence-filtered code review
+│   ├── api-design/                    # API contract design
+│   ├── security-audit/                # OWASP security audit
+│   ├── mcp-server/                    # MCP server building
+│   ├── agent-memory/                  # Agent memory architecture
+│   ├── model-distillation/            # Local model distillation
+│   ├── rag-pipelines/                 # RAG systems
+│   ├── seo/                           # Technical + on-page SEO
+│   ├── app-store-compliance/          # App Store / Play requirements
+│   └── legal-docs/                    # Privacy policy, ToS, legal pages
 └── marketplace/                       # Dedicated marketplace platform
     └── README.md                      # Platform spec and roadmap
 ```
