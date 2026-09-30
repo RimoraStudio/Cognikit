@@ -45,7 +45,8 @@ Think of it as the index, not a chapter.
 | Landing pages, heroes, pricing, conversion copy | `marketing-sites` |
 | Dashboards, admin panels, charts, data tables | `dashboard-ui` |
 | Mobile app UI, iOS/Android conventions, touch patterns | `mobile-app-design` |
-| Code diffs, PR review, bug finding | `code-review` |
+| Code diffs, PR review, bug finding, over-engineering, bloat | `code-review` |
+| Authoring skills or agents, SKILL.md files, eval prompts | `skill-authoring` |
 | REST contracts, endpoints, error shapes, pagination | `api-design` |
 | Vulnerabilities, OWASP, secrets, dependency CVEs | `security-audit` |
 | MCP servers, agent tools, tool schemas | `mcp-server` |

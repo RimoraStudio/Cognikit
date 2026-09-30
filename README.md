@@ -24,9 +24,9 @@ Groups of related skills installed together:
 
 | Bundle | Skills | Install |
 |---|---|---|
-| `full` | All 16 skills | `npx skills add RimoraStudio/cognikit --all -g -y` |
+| `full` | All 17 skills | `npx skills add RimoraStudio/cognikit --all -g -y` |
 | `design` | design-systems, design-system-architecture, marketing-sites, dashboard-ui, mobile-app-design | `npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design -g -y` |
-| `engineering` | code-review, api-design, security-audit | `npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit -g -y` |
+| `engineering` | code-review, api-design, security-audit, skill-authoring | `npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit --skill skill-authoring -g -y` |
 | `ai-stack` | mcp-server, agent-memory, model-distillation, rag-pipelines | `npx skills add RimoraStudio/cognikit --skill mcp-server --skill agent-memory --skill model-distillation --skill rag-pipelines -g -y` |
 | `launch` | security-audit, seo, legal-docs, app-store-compliance | `npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill app-store-compliance -g -y` |
 
@@ -36,7 +36,8 @@ Groups of related skills installed together:
 |---|---|---|---|
 | `design-systems` | Choose and implement a visual design system. 14 design systems, 110 anti-AI-slop rules, component library, responsive adaptation, DESIGN.md generation. | design | `npx skills add RimoraStudio/cognikit --skill design-systems -g -y` |
 | `design-system-architecture` | Build, scale, and govern a design system as an engineering product. Token architecture, governance, versioning, drift detection, AI-agent readiness. | engineering | `npx skills add RimoraStudio/cognikit --skill design-system-architecture -g -y` |
-| `code-review` | Confidence-filtered code review. Real bugs, security issues, and convention violations ranked by severity with file:line citations. | engineering | `npx skills add RimoraStudio/cognikit --skill code-review -g -y` |
+| `code-review` | Confidence-filtered code review. Real bugs, security issues, and convention violations ranked by severity, plus an optional over-engineering pass. | engineering | `npx skills add RimoraStudio/cognikit --skill code-review -g -y` |
+| `skill-authoring` | Author and audit Agent Skills and agent configs. Pushy trigger descriptions, progressive disclosure, evals, agent frontmatter. | engineering | `npx skills add RimoraStudio/cognikit --skill skill-authoring -g -y` |
 | `api-design` | Design REST contracts before implementation. Routes, error shapes, pagination, idempotency, versioning. | engineering | `npx skills add RimoraStudio/cognikit --skill api-design -g -y` |
 | `security-audit` | Adversarial OWASP audit. Attack surface mapping, exploitability-confirmed findings, dependency CVEs, remediation. | security | `npx skills add RimoraStudio/cognikit --skill security-audit -g -y` |
 | `mcp-server` | Build Model Context Protocol servers. stdio/HTTP/MCPB deployment, tool design, TS + Python examples, inspector testing. | ai-agents | `npx skills add RimoraStudio/cognikit --skill mcp-server -g -y` |
@@ -63,7 +64,7 @@ Three layers teach an agent which skill to use and when:
 
 ## Quality
 
-- All 16 skills pass Anthropic's official spec validator (spec-allowed frontmatter keys only; version lives under `metadata:`)
+- All 17 skills pass Anthropic's official spec validator (spec-allowed frontmatter keys only; version lives under `metadata:`)
 - Each skill ships `evals/evals.json` with realistic test prompts, including implicit triggers that never name the skill
 - CI checks required frontmatter, kebab-case names, reference file integrity, registry consistency, and no em dashes
 
@@ -83,7 +84,7 @@ cognikit/
 ├── .github/workflows/                 # CI: validate, lint, publish
 │   ├── validate-skills.yml
 │   └── publish-skills.yml
-├── skills/                            # All skill packages (16)
+├── skills/                            # All skill packages (17)
 │   ├── cognikit/                      # Router meta-skill
 │   ├── design-systems/                # Visual design system skill
 │   │   ├── SKILL.md
@@ -94,6 +95,7 @@ cognikit/
 │   ├── mobile-app-design/             # Mobile UI conventions
 │   ├── design-system-architecture/    # Design system engineering
 │   ├── code-review/                   # Confidence-filtered code review
+│   ├── skill-authoring/               # Skill + agent authoring
 │   ├── api-design/                    # API contract design
 │   ├── security-audit/                # OWASP security audit
 │   ├── mcp-server/                    # MCP server building

@@ -335,8 +335,44 @@ Container(
 **Rules:**
 - One card = one concept (don't stuff unrelated content)
 - Consistent radius across all cards on a page
-- Don't nest cards inside cards (depth confusion)
+- Don't nest cards inside cards (depth confusion). Exception: the
+  deliberate double-bezel pattern below.
 - If every element is a card, remove the cards (use spacing instead)
+
+---
+
+### Double-bezel card (Doppelrand / nested enclosure)
+
+**When:** Premium surfaces that should read as machined hardware, a
+glass plate sitting in an aluminum tray. Hero cards, pricing cards,
+featured media, key product UI on high-variance briefs.
+
+**Anatomy:**
+- **Outer shell:** wrapper with a subtle tint (`bg-black/5` or
+  `bg-white/5`), a hairline ring (`ring-1 ring-black/5` or
+  `border border-white/10`), padding `p-1.5` or `p-2`, and a large
+  radius (`rounded-[2rem]`).
+- **Inner core:** the content container, its own background, its own
+  inner highlight
+  (`shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]`), and a radius
+  computed from the shell so curves stay concentric
+  (`rounded-[calc(2rem-0.375rem)]`).
+
+**Web:**
+```tsx
+<div className="rounded-[2rem] bg-black/5 p-1.5 ring-1 ring-black/5">
+  <div className="rounded-[calc(2rem-0.375rem)] bg-white p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+    {children}
+  </div>
+</div>
+```
+
+**Rules:**
+- Inner radius = outer radius minus shell padding. Concentric curves
+  are the whole point; mismatched radii read as a bug.
+- Dark mode: `bg-white/5` shell, `border-white/10` ring.
+- Reserve for hero/feature surfaces. If every card is double-bezelled,
+  none are.
 
 ---
 
@@ -443,7 +479,13 @@ SliverGrid(
 ```
 
 **Rules:**
-- Use `grid-flow-dense` to prevent empty cells
+- Always set `grid-auto-flow: dense` (`grid-flow-dense`) so the browser
+  backfills gaps instead of leaving dead cells
+- Verify span math before shipping: count columns and rows, confirm
+  every `col-span`/`row-span` interlocks, render the grid and check for
+  empty voids or missing corners. A bento with a dead cell is a
+  planning error, not a styling one
+- Cell count = content count. 3 items = 3 cells
 - Vary cell sizes for visual rhythm
 - 3-5 intentional cells > 8 messy ones
 - At least 2-3 cells need visual variation (image, gradient, chart)
@@ -576,6 +618,19 @@ ElevatedButton(
 - Destructive = red/orange, never the primary color
 - Icon buttons need tooltips on desktop
 - FAB: one per screen, bottom-right, 56px
+
+**Magnetic / kinetic hover (desktop, premium surfaces):**
+- On hover, do not just shift the background. If the button carries a
+  nested trailing-icon circle, translate it diagonally
+  (`group-hover:translate-x-1 group-hover:-translate-y-px
+  group-hover:scale-105`) for internal kinetic tension.
+- On `:active`, `scale-[0.98]` to simulate a physical push.
+- For true cursor-magnetism, drive translation with motion values
+  (`useMotionValue` / `useTransform`), never `useState` on mousemove.
+  `useState` re-renders the tree on every pointer event and collapses
+  on mobile.
+- Collapse to a plain hover color-shift under `prefers-reduced-motion`
+  and on touch devices.
 
 ---
 
@@ -1171,6 +1226,60 @@ DropdownButton<String>(
 - Custom dropdown OK on desktop
 - Search for lists > 10 items
 - Show selected state on trigger after selection
+
+---
+
+## Micro-UI patterns
+
+### Keystroke chip (`<kbd>`)
+
+**When:** Rendering keyboard shortcuts in docs, command palettes,
+onboarding, or "press X to" hints.
+
+**Anatomy:**
+- Physical key look: 1px hairline border, tiny bottom shadow, 4px
+  radius, monospace glyph
+- Sits inline with body text, slightly smaller than surrounding type
+
+**Web:**
+```tsx
+<kbd className="inline-flex h-6 min-w-6 items-center justify-center rounded border border-[#EAEAEA] bg-[#F7F6F3] px-1.5 font-mono text-xs text-gray-600 shadow-[0_1px_0_rgba(0,0,0,0.08)]">
+  ⌘K
+</kbd>
+```
+
+**Rules:**
+- Group combos with a `+` separator: `⌘` + `K`.
+- Keystrokes are information, not decoration. Never style random text
+  as a key.
+
+---
+
+### Faux-OS window chrome
+
+**When:** Mocking up a software product inside a marketing page.
+
+**Anatomy:**
+- Minimal container with a light top bar holding three small,
+  light-gray circles (macOS-style window controls), left-aligned
+- Content below: a real screenshot or a simplified live preview
+
+**Web:**
+```tsx
+<div className="overflow-hidden rounded-xl border border-[#EAEAEA] bg-white">
+  <div className="flex h-8 items-center gap-1.5 border-b border-[#EAEAEA] bg-[#FAFAF9] px-3">
+    <span className="h-2.5 w-2.5 rounded-full bg-[#E5E4E2]" />
+    <span className="h-2.5 w-2.5 rounded-full bg-[#E5E4E2]" />
+    <span className="h-2.5 w-2.5 rounded-full bg-[#E5E4E2]" />
+  </div>
+  {preview}
+</div>
+```
+
+**Rules:**
+- The dots are symbols, not buttons. Chrome only, never interactive.
+- Wrap real previews only. Div-built fake dashboards are an AI tell
+  (see `anti-ai-slop.md` tell 84).
 
 ---
 

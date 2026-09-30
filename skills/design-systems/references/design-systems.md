@@ -100,6 +100,24 @@ patterns you can apply to any Next.js marketing site:
 - Raw, unpolished feel (intentionally)
 - Grid-based but with deliberate breaks
 
+### Industrial variant split
+
+Industrial brutalism (blueprint/terminal flavor) splits into two
+substrates. Pick ONE per project, never mix:
+
+- **Swiss Industrial Print (light):** `#F4F4F0`/`#EAE8E3` paper,
+  `#111` carbon ink, hazard red `#E61919` as the only accent.
+  Monolithic grotesk type, visible grid lines, oversized numerals.
+- **Tactical Telemetry (dark):** `#0A0A0A`/`#121212` CRT background,
+  `#EAEAEA` white phosphor text, same hazard red, optional terminal
+  green `#4AF626` for a single-purpose element only. Monospace
+  dominance, dense tabular data, ASCII framing, CRT scanlines.
+
+Both variants ban `border-radius`, gradients, soft shadows, and
+translucency. Full technique specs (ASCII framing, halftone, scanline
+CSS, macro/micro typography values) are in `modern-trends.md` section
+15.
+
 ### Color
 - Background: bright solid colors (`#FFD700`, `#FF6B6B`, `#4ECDC4`, `#FFE66D`)
 - Text: black (`#000000`) on light, white on dark colors

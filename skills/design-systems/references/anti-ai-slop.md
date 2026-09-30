@@ -23,7 +23,7 @@ the cluster and you can kill it in one sweep instead of hunting items.
 | The Slides | Exported deck | Full-viewport sections, big number headings, one idea per screen, zero density | Scrollable content with real information hierarchy |
 | The Portfolio | Dribbble shot | Decorative blobs, huge whitespace with little content, big display type saying nothing | Content over ornament; every section earns its space |
 
-A design can hit 100 of the 110 tells below and still fail if it lands
+A design can hit 100 of the 122 tells below and still fail if it lands
 inside one of these clusters whole. Check the cluster first, then the
 details.
 
@@ -140,6 +140,11 @@ of the most reliable AI tells.
 **For everything else, default sans-serif display:**
 - Geist Display, ABC Diatype, Söhne Breit, Cabinet Grotesk Display,
   Migra Sans, GT Walsheim, Inter Display, PP Neue Montreal
+
+**If a serif IS justified** (per the two rules above), rotate from the
+endorsed pool: Lyon Text, Newsreader, Playfair Display, EB Garamond,
+Cormorant Garamond, Tiempos Headline, Recoleta. Do not reuse the same
+serif across consecutive projects.
 
 ### 8. Inter Everywhere
 
@@ -657,8 +662,19 @@ required links.
 
 **The tell:** These are the "default" AI icon choices.
 
-**Instead:** Use Phosphor, Heroicons, Remix Line, or a custom set for
-differentiation. Use ultra-light, precise lines, not thick strokes.
+**Icon hierarchy (pick the highest available, then stop):**
+1. `@phosphor-icons/react` (the default reach)
+2. `@radix-ui/react-icons` (when the project is Radix/shadcn-based)
+3. `@tabler/icons-react` (broad set, consistent stroke)
+4. `lucide-react` (last resort; allowed only when the project already
+   depends on it or the user explicitly asks)
+
+**Rules:**
+- One icon family per project. Never mix families in the same tree.
+- Standardize `strokeWidth` globally (e.g. `1.5` or `2.0`).
+- Never hand-roll SVG icon paths. If a glyph is missing, install a
+  second library or compose from primitives.
+- Prefer thin, precise strokes over thick default strokes.
 
 ### 65. Cliche Icon Metaphors
 
@@ -691,8 +707,8 @@ illustration style.
 
 **The tell:** Emoji characters (🔒, ⚙️, 👤) used as UI icons.
 
-**Instead:** Use a proper icon library (Lucide, Phosphor, Material,
-Heroicons, or custom SVG).
+**Instead:** Use a proper icon library per the hierarchy in tell 64
+(Phosphor > Radix > Tabler > Lucide as last resort).
 
 ---
 
@@ -1037,6 +1053,120 @@ bundle size.
 - LCP < 2.5s. Hero image must be preloaded.
 - INP < 200ms. Heavy work off main thread.
 - CLS < 0.1. Reserve space for images, fonts, embeds.
+
+---
+
+## Extended audit tells
+
+Granular checks surfaced by redesign work on existing projects. Same
+rules: every item fails the design if present.
+
+**Layout**
+
+### 111. H1 Wraps to 4+ Lines
+
+**The tell:** A narrow container squeezes the hero H1 into a 4-6 line
+text wall.
+
+**Rule:** The H1 never exceeds 2-3 lines on desktop. Fix the math, not
+the message: widen the container (`max-w-5xl`, `max-w-6xl`, or
+`w-full`) and size with `clamp()` (e.g. `clamp(3rem, 5vw, 5.5rem)`) so
+words flow horizontally. Verify the rendered line count before
+shipping.
+
+### 112. Left-Sidebar Dashboard Default
+
+**The tell:** Every dashboard gets a left sidebar because that is the
+default mental image.
+
+**Instead:** Consider top navigation, a floating command menu, or a
+collapsible rail. A sidebar is a choice, not a reflex.
+
+### 113. Buttons at Mismatched Heights in Card Groups
+
+**The tell:** Cards with different content lengths leave CTAs floating
+at random heights.
+
+**Instead:** Pin buttons to the bottom of each card (`mt-auto` on the
+action row, `flex flex-col` on the card) so they form a clean
+horizontal line regardless of the content above.
+
+### 114. Feature Lists Starting at Different Y Positions
+
+**The tell:** In pricing tables or comparison cards, the feature list
+begins at a different vertical position in each column.
+
+**Instead:** Use fixed-height title/price blocks or consistent spacing
+above the list so all lists start on the same line.
+
+### 115. Broken Baseline Rhythm Across Columns
+
+**The tell:** Titles, descriptions, and prices in side-by-side panels
+sit at different heights.
+
+**Instead:** Align shared elements across all items in a row.
+Misaligned baselines read as broken layout, not organic variety.
+
+### 116. Mathematical Alignment That Reads Wrong
+
+**The tell:** Elements centered by the math look off-center to the eye:
+icons next to text, play buttons in circles, short labels in buttons.
+
+**Instead:** Apply 1-2px optical adjustments. Centered by computation
+is not centered to the eye.
+
+**Typography**
+
+### 117. Numbers in a Proportional Font
+
+**The tell:** Data-heavy tables and metrics rendered in proportional
+figures, so columns of numbers jitter and refuse to align.
+
+**Instead:** Use a monospace face or enable tabular figures
+(`font-variant-numeric: tabular-nums`, Tailwind `tabular-nums`) for
+data, pricing, and stat displays.
+
+### 118. Orphaned Words
+
+**The tell:** A single word sits alone on the last line of a headline
+or paragraph.
+
+**Instead:** Fix with `text-wrap: balance` on headings or
+`text-wrap: pretty` on body copy.
+
+**Interactivity**
+
+### 119. Dead Links
+
+**The tell:** Buttons and links pointing to `#` or `javascript:void`.
+
+**Instead:** Link to real destinations or visually disable the element.
+A control that goes nowhere is worse than no control.
+
+### 120. No Active State in Navigation
+
+**The tell:** The current page is indistinguishable from other nav
+items.
+
+**Instead:** Style the active nav link differently (accent text, pill,
+or underline) so users know where they are.
+
+### 121. Anchor Links Jump Instantly
+
+**The tell:** In-page anchor clicks teleport with no transition.
+
+**Instead:** Add `scroll-behavior: smooth` (disabled under
+`prefers-reduced-motion`).
+
+**Accessibility**
+
+### 122. Missing Cookie Consent
+
+**The tell:** A site that sets non-essential cookies has no consent
+mechanism where the jurisdiction requires one.
+
+**Instead:** Add a compliant consent banner when required. It is a
+legal surface, so keep it calm, readable, and dismissible.
 
 ---
 

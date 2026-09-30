@@ -1,0 +1,23 @@
+{
+  "skill_name": "skill-authoring",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "every time i ask the agent to write our release notes it formats them differently and i keep correcting the same things (sections order, tone, linking tickets). can you turn this into a skill so it just does it right?",
+      "expected_output": "Captures the workflow intent first (job statement plus real trigger phrases the user would say) before writing. Produces a SKILL.md with name in lowercase-hyphens matching the directory, a description under ~500 chars containing both the capability and quoted trigger phrases, an 'AI execution flow (follow in order)' numbered section ending in a verify step, decision content expressed as tables where applicable, an 'Anti-patterns (never do)' section, 'Related skills', and a 'Pre-flight checklist' of output-verifying items. Keeps the body under ~500 lines and offers or writes evals/evals.json with realistic prompts and behavior-level expected_output assertions.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "i wrote a skill for reviewing terraform plans but it never fires unless i literally say the skill name, and the file is like 900 lines. can you fix it",
+      "expected_output": "Diagnoses the two failures separately: the description is rewritten to include both what the skill does and quoted trigger phrases a real user would say (including phrasings that never name the skill), staying under ~500 chars; the bloated body is split per progressive disclosure, moving depth into references/ files that are each named in the body with when-to-load guidance, keeping SKILL.md under ~500 lines. Explains that 'when to use' belongs only in the description because the body is invisible until triggered. Does not rewrite the domain content wholesale; restructures what exists.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "create a subagent that triages incoming bug reports: dedupes against open issues, assigns severity, and drafts a first response. repo has an agents/ dir already",
+      "expected_output": "Produces an agent Markdown file under agents/ with frontmatter: name (lowercase-hyphens, 3-50 chars), description in the 'Use this agent when... Typical triggers include...' format naming 2-4 prose scenarios, model set to inherit, a distinct color, and tools restricted to the minimum needed. The system prompt body is second person with a role line, responsibilities, numbered process, output format, edge cases, and a 'When to invoke' section developing the scenarios from the description. Does not dump the full agent spec into chat unprompted; references details only as needed.",
+      "files": []
+    }
+  ]
+}

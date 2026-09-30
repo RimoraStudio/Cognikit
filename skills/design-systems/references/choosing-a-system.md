@@ -100,3 +100,53 @@ Once chosen, document:
 
 This becomes the project's design system spec. See
 `design-systems.md` for the detailed rules of each system.
+
+---
+
+## Buy vs. build: official package or aesthetic
+
+Before implementing, decide whether the brief maps to a real design
+system (install the official package) or an aesthetic family (build it
+yourself). Never hand-recreate an official system's CSS, and never
+pretend an aesthetic trend is an official package.
+
+### Reach for the official package
+
+| Brief reads as | Install | Why |
+|---|---|---|
+| Microsoft / enterprise SaaS / dashboards | `@fluentui/react-components` or `@fluentui/web-components` | Official Fluent UI, Microsoft tokens, accessibility done |
+| Google-ish, Material-flavored product | `@material/web` + Material 3 tokens | Official, theme-able via Material Theming |
+| IBM-style B2B / enterprise analytics | `@carbon/react` + `@carbon/styles` | Official Carbon, mature data-density patterns |
+| Shopify app surfaces | `@shopify/polaris` | Required for Shopify admin UI |
+| Atlassian / Jira-style product | `@atlaskit/*` + `@atlaskit/tokens` | Official Atlassian DS |
+| GitHub-style devtool / community page | `@primer/css` or `@primer/react-brand` | Official Primer; Brand variant for marketing |
+| UK public-sector service | `govuk-frontend` | Legally / regulatorily expected |
+| US public-sector / trust-first | `uswds` | Same |
+| Fast local-business / agency MVP | Bootstrap 5.3 | Boring, fast, works |
+| Modern accessible React foundation | `@radix-ui/themes` | Primitives + polished theme |
+| Modern SaaS where you own the components | shadcn/ui | You own the code, easy to customise; never ship the default state |
+| Tailwind-based indie SaaS / AI marketing | Tailwind v4 utilities + `dark:` variant | Default small-team stack |
+
+**Rules:**
+- If the brief matches a row, install the package. Do not approximate
+  its CSS by hand.
+- One system per project. Do not mix Fluent React with Carbon in the
+  same tree, or import shadcn/ui into a Material 3 app.
+- If you adopt a system's tokens, do not then override 90% of them.
+
+### Aesthetic-only directions (no official package exists)
+
+For these, there is no single official package. Build with native CSS +
+Tailwind + a maintained component library. Be honest in code comments
+about what is borrowed inspiration vs. official material.
+
+| Aesthetic | Honest implementation |
+|---|---|
+| Glassmorphism / frosted glass | `backdrop-filter`, layered borders, highlight overlays. Solid-fill fallback under `prefers-reduced-transparency`. |
+| Bento (Apple-style tile grids) | CSS Grid with mixed cell sizes and `grid-auto-flow: dense`. No library owns this. |
+| Brutalism | Native CSS, monospace, raw borders. Pick the Swiss Industrial Print (light) or Tactical Telemetry (dark) variant (see `modern-trends.md`). |
+| Editorial / magazine | Serif display type, asymmetric grid, generous whitespace. |
+| Dark tech / terminal | Monospace + single neon accent, terminal motifs. |
+| Aurora / mesh gradients | SVG or layered radial gradients. |
+| Kinetic typography | Native CSS animations, scroll-driven animations, GSAP for scroll hijacks. |
+| Apple Liquid Glass | Apple documents this for Apple platforms only. There is no official `liquid-glass.css`. Web implementations are approximations using `backdrop-filter` + layered borders + highlights. Label clearly as approximation. |

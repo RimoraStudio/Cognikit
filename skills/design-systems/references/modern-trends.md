@@ -87,6 +87,23 @@ motion.easing.spring: type: spring, stiffness: 100, damping: 20
 - A component's motion spec is part of its documentation, not an
   afterthought.
 
+**Motion tooling split (web):**
+- **Framer Motion (`motion/react`)** for UI component animation:
+  springs, layout animation, `whileInView`, gesture physics, magnetic
+  hovers.
+- **GSAP + ScrollTrigger (`@gsap/react`)** for scroll-driven
+  choreography: pinned sections, scrubbed reveals, parallax stacks,
+  horizontal scroll hijacks.
+- Use both in one project when needed, but keep the boundary clean:
+  components get Motion, scroll timelines get GSAP. Never animate the
+  same element with both.
+- In React/Next.js, any component using Motion or pointer physics is an
+  isolated `'use client'` leaf. Continuous values (cursor position,
+  scroll progress) flow through `useMotionValue` / `useScroll`, never
+  `useState`.
+- For scroll entry reveals, `IntersectionObserver` or `whileInView`,
+  never `window.addEventListener('scroll')`.
+
 ---
 
 ## 3. Bento grids grew up
@@ -282,6 +299,142 @@ designer's role shifts from screen-maker to system-curator.
 
 ---
 
+## 13. AIDA page structure for marketing pages
+
+Landing and marketing pages follow Attention, Interest, Desire, Action.
+Each stage is a distinct chapter separated by macro-whitespace
+(`py-24` to `py-40`), not a continuous scroll of same-density content.
+
+| Stage | Content | Execution |
+|---|---|---|
+| Attention | Hero | The thesis moment. One idea, max 4 text elements, H1 in 2-3 lines (see `anti-ai-slop.md` tells 31, 111). |
+| Interest | Features | Bento grid, zig-zag, or interactive typography. Highest information density on the page. |
+| Desire | Proof | Scroll-driven reveals, media showcases, testimonials, pinned sections. |
+| Action | Conversion | One high-contrast CTA block + clean footer. Repeat the hero CTA label verbatim. |
+
+**Rules:**
+- Every marketing page opens with navigation (floating pill, split nav,
+  or minimal bar), never a bare hero.
+- Match content to stage. Stats and pricing live in Interest/Desire,
+  never the hero.
+- The page ends with one action. A second competing CTA intent is a
+  tell (see `anti-ai-slop.md` tell 94).
+
+---
+
+## 14. Inline typography images
+
+A signature move for high-variance headlines: small pill-shaped images
+embedded inside display type, sitting at cap-height as visual
+punctuation.
+
+```tsx
+<h1>
+  We build
+  <span
+    className="mx-2 inline-block h-[0.8em] w-[2em] rounded-full bg-cover bg-center align-middle"
+    style={{ backgroundImage: 'url(...)' }}
+  />
+  digital spaces
+</h1>
+```
+
+**Rules:**
+- Image height ~0.8em, width ~2em, `rounded-full`, `align-middle`.
+- Maximum one inline image per headline, one headline per page.
+- On mobile (< 768px), stack the image below the headline or remove it.
+- Never place a second decorative span (stamp, badge, pill-tag) in the
+  same headline.
+- Use once per project at most. It is a signature, not a default.
+
+---
+
+## 15. Brutalist techniques: ASCII framing and analog degradation
+
+For brutalist directions, commit to ONE substrate per project. Do not
+mix light and dark substrates within the same interface.
+
+| Variant | Substrate | Character |
+|---|---|---|
+| Swiss Industrial Print | Light: `#F4F4F0`/`#EAE8E3` paper, `#111` carbon ink, hazard red `#E61919` as the only accent | 1960s corporate identity and machinery blueprints. Monolithic grotesk type, visible grid lines, oversized bleeding numerals |
+| Tactical Telemetry | Dark: `#0A0A0A`/`#121212` CRT, `#EAEAEA` white phosphor, same hazard red; optional terminal green `#4AF626` for one single-purpose element only | Military databases and HUDs. Monospace dominance, dense tabular data, ASCII framing |
+
+**Techniques:**
+- **ASCII framing:** `[ SECTION ]`, `< RE-IND >`, `>>>`, `///`,
+  crosshair `+` at grid intersections, `®`/`©`/`™` as geometric
+  elements, randomized strings (`REV 2.6`, `UNIT / D-01`).
+- **CRT scanlines (dark variant):**
+  `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)`.
+- **Halftone / 1-bit dithering:** SVG radial dot patterns with
+  `mix-blend-mode: multiply` to degrade images and serif type.
+- **Blueprint grid lines:** `display: grid; gap: 1px;` on a contrasting
+  parent background produces razor-thin dividers without border
+  declarations.
+- **Macro-typography:** uppercase at `clamp(4rem, 10vw, 15rem)`,
+  tracking `-0.03em` to `-0.06em`, leading `0.85` to `0.95`.
+- **Micro-typography:** monospace at `10-14px`, tracking `0.05-0.1em`,
+  uppercase, for all metadata, navigation, and unit IDs.
+- `border-radius` is banned in both variants. All corners are 90
+  degrees.
+- Gradients, soft shadows, and translucency are banned. Colors simulate
+  physical media or primitive emissive displays.
+
+---
+
+## 16. Semantic color language
+
+Document palette entries as descriptive name + hex + functional role.
+"Deep Charcoal Ink `#18181B`, primary text" survives a rebrand and
+reads as a material decision; `gray-800` is trivia.
+
+| Bad | Good |
+|---|---|
+| `gray-800` | Charcoal Ink `#18181B`, primary text |
+| `bg-light` | Canvas White `#F9FAFB`, page surface |
+| `border` | Whisper Border `rgba(226,232,240,0.5)`, 1px structural lines |
+| `accent` | Aviation Red `#E61919`, alerts and vital highlights |
+
+**Rules:**
+- Every palette entry in DESIGN.md carries name, hex, and role.
+- Names describe what the color is (ink, paper, brass, fog); the role
+  states what it does (primary text, card surface, divider).
+- Token identifiers still name by purpose per the three-tier
+  architecture (`color.text.body`, not `color.charcoal-ink`). Semantic
+  names are the documentation layer, not the variable names.
+
+---
+
+## 17. Warm monochrome + desaturated pastels (editorial minimalism)
+
+For calm, document-style minimalism (workspace tools, editorial
+products, premium utilities):
+
+- **Canvas:** pure white `#FFFFFF` or warm bone `#F7F6F3` / `#FBFBFA`.
+- **Text:** off-black `#111111` or `#2F3437`, never `#000000`. Muted
+  secondary `#787774`.
+- **Borders:** ultra-light `#EAEAEA` or `rgba(0,0,0,0.06)` on every
+  structural line.
+- **Accents:** desaturated pastel fills only, always paired with their
+  dark text counterparts:
+
+| Pastel fill | Text on it | Use |
+|---|---|---|
+| `#FDEBEC` | `#9F2F2D` | Errors, destructive tags |
+| `#E1F3FE` | `#1F6C9F` | Info, neutral-callout |
+| `#EDF3EC` | `#346538` | Success, confirmed |
+| `#FBF3DB` | `#956400` | Warnings, highlights |
+
+- **Serif for hero headings and pull quotes only:** Lyon Text,
+  Newsreader, or Playfair Display at `letter-spacing: -0.02em` to
+  `-0.04em`, `line-height: 1.1`. Sans (Geist, Switzer, Helvetica Neue)
+  for everything else.
+- Shadows near zero: max `0 2px 8px rgba(0,0,0,0.04)`. No gradients,
+  no glow, no glass beyond a subtle navbar blur.
+- `rounded-full` pills are reserved for small tags and chips, never
+  cards or primary buttons.
+
+---
+
 ## Applying 2026 trends to the skill workflow
 
 When using this skill, apply these trends during implementation:
@@ -305,3 +458,12 @@ When using this skill, apply these trends during implementation:
    token-driven type scales.
 10. **AI governance**: The design system is the constraint layer for
     AI-generated UI. Run the anti-slop checklist on all output.
+11. **AIDA structure**: Marketing pages run Attention, Interest,
+    Desire, Action as distinct chapters.
+12. **Signature techniques**: Inline typography images, double-bezel
+    surfaces, kbd chips. Each is a once-per-project signature, not a
+    default.
+13. **Brutalism variants**: Pick Swiss Industrial Print (light) or
+    Tactical Telemetry (dark). Never mix substrates.
+14. **Semantic color names**: Document palette entries as name + hex +
+    role in DESIGN.md.

@@ -1,8 +1,8 @@
 ---
 name: design-systems
-description: Use when building, redesigning, or choosing a visual design system for any app or website. Triggers on "design system", "UI/UX", "redesign", "make it modern", "make it professional", "brutalism", "minimalist", "glassmorphism", "neumorphism", "material design", "bento grid", "editorial", "swiss design", "cyberpunk UI", "art deco UI", "what design style", "choose a design system", "design direction", "product-led editorial", "token-first design system", "server-safe component barrel", "GSAP scroll reveal", "Tailwind @theme tokens", or any visual design decision for a new or existing project. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, anti-AI-slop checklist, DESIGN.md spec generation, anti-drift conventions (truth comments, quarantined debt, derived nav), UX psychology laws (Fitts, Hick, peak-end, endowed progress), and Flutter + Web implementation notes.
+description: Use when building, redesigning, or choosing a visual design system for any app or website. Triggers on "design system", "UI/UX", "redesign", "make it modern", "make it professional", "brutalism", "minimalist", "glassmorphism", "neumorphism", "material design", "bento grid", "editorial", "swiss design", "cyberpunk UI", "art deco UI", "what design style", "choose a design system", "design direction", "product-led editorial", "token-first design system", "server-safe component barrel", "GSAP scroll reveal", "Tailwind @theme tokens", or any visual design decision for a new or existing project. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, anti-AI-slop checklist, DESIGN.md spec generation, brief-inference dials (DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY), buy-vs-build system routing, audit-and-upgrade fix priorities, anti-drift conventions (truth comments, quarantined debt, derived nav), UX psychology laws (Fitts, Hick, peak-end, endowed progress), and Flutter + Web implementation notes.
 metadata:
-  version: 1.3.0
+  version: 1.4.0
 license: MIT
 ---
 
@@ -19,27 +19,29 @@ implementation patterns for Flutter, Web, and React Native.
 
 When this skill activates, follow these steps in order. Do not skip.
 
-1. **Detect**: Check if the project already has a design system (Step 1
+1. **Brief inference**: Read the brief, state a one-line design read,
+   and set the three dials (Step 0 below).
+2. **Detect**: Check if the project already has a design system (Step 1
    below). If yes, read it and follow it. If no, continue.
-2. **Gather**: Read the project's stack, screens, brand assets, content
+3. **Gather**: Read the project's stack, screens, brand assets, content
    type, and platform targets (Step 2).
-3. **Audit**: If the project has existing UI, audit it for anti-patterns
+4. **Audit**: If the project has existing UI, audit it for anti-patterns
    and inconsistencies (Step 3).
-4. **Propose**: Propose 1-3 design directions. Let the user choose if
+5. **Propose**: Propose 1-3 design directions. Let the user choose if
    multiple are viable (Step 4).
-5. **Document**: Generate or update `DESIGN.md` at the project root
+6. **Document**: Generate or update `DESIGN.md` at the project root
    using the template in `references/design-md.md` (Step 5).
-6. **Implement**: Build components using `references/components.md` as
+7. **Implement**: Build components using `references/components.md` as
    the base, adapting visual style to the chosen system from
    `references/design-systems.md`.
-7. **Modernize**: Apply 2026 best practices from
+8. **Modernize**: Apply 2026 best practices from
    `references/modern-trends.md`: three-tier token architecture, motion
    tokens, calm interfaces, accessibility-first, dark mode baseline.
-8. **Adapt**: Ensure the design works on phone, tablet, and desktop
+9. **Adapt**: Ensure the design works on phone, tablet, and desktop
    using `references/responsive-adaptive.md`.
-9. **Audit**: Run the 110-point anti-AI-slop checklist from
-   `references/anti-ai-slop.md` before declaring done.
-10. **Verify**: Run the pre-flight checklist at the bottom of this file.
+10. **Audit**: Run the anti-AI-slop checklist from
+    `references/anti-ai-slop.md` before declaring done.
+11. **Verify**: Run the pre-flight checklist at the bottom of this file.
 
 ## When to use
 
@@ -58,6 +60,56 @@ Activate this skill when:
 Before choosing or suggesting a design system, gather the current project
 context. This is mandatory for existing projects and recommended for new
 ones.
+
+### Step 0: Brief inference
+
+Before touching code, infer what the user actually wants. Read these
+signals first:
+
+- **Page kind**: landing, portfolio, dashboard, editorial, redesign
+  (preserve vs overhaul)
+- **Vibe words** the user used: "minimalist", "Linear-style",
+  "Awwwards", "brutalist", "premium consumer", "editorial", "dark tech"
+- **Reference signals**: URLs, screenshots, named products, competitors
+- **Audience**: B2B procurement vs design-conscious consumer vs
+  recruiter. The audience picks the aesthetic, not your taste
+- **Quiet constraints**: accessibility-first, public-sector, regulated
+  industries, trust-first commerce. These override aesthetic preference
+
+Output a one-line design read before any code:
+
+> "Reading this as: [page kind] for [audience], with a [vibe] language,
+> leaning toward [design system or aesthetic family]."
+
+Example: *"Reading this as: B2B SaaS landing for technical buyers, with
+a Linear-style minimalist language, leaning toward Material 3 with
+restrained motion."*
+
+If the read genuinely diverges between two directions, ask exactly one
+clarifying question ("closer to Linear-clean or Awwwards-experimental?").
+Never a multi-question dump. If you can infer confidently, do not ask.
+Declare the read and proceed.
+
+Then set three dials. Every layout, motion, and density decision below
+is gated by them:
+
+| Dial | 1 | 10 | Baseline |
+|---|---|---|---|
+| `DESIGN_VARIANCE` | Perfect symmetry | Artsy chaos | 8 |
+| `MOTION_INTENSITY` | Static | Cinematic / physics | 6 |
+| `VISUAL_DENSITY` | Art gallery airy | Cockpit packed | 4 |
+
+Adjust per signal (baseline `8 / 6 / 4` unless the read overrides):
+
+| Signal | VARIANCE | MOTION | DENSITY |
+|---|---|---|---|
+| Minimalist / calm / editorial / Linear-style | 5-6 | 3-4 | 2-3 |
+| Premium consumer / luxury / brand | 7-8 | 5-7 | 3-4 |
+| Playful / experimental / Awwwards / agency | 9-10 | 8-10 | 3-4 |
+| Landing page / portfolio / marketing (default) | 7-9 | 6-8 | 3-5 |
+| Trust-first / public-sector / a11y-critical | 3-4 | 2-3 | 4-5 |
+| Redesign: preserve | match existing | +1 | match existing |
+| Redesign: overhaul | +2 | +2 | match existing |
 
 ### Step 1: Detect if a design system exists
 
@@ -165,7 +217,9 @@ If the project already has UI, audit it before suggesting changes:
 - Lorem ipsum?
 
 Record the findings. These inform the direction proposal in Step 4 and
-the DESIGN.md creation in the output phase.
+the DESIGN.md creation in the output phase. For redesigns, apply the
+fix priority order and upgrade technique menu in
+`references/audit-and-upgrade.md`.
 
 ### Step 4: Propose a direction
 
@@ -180,6 +234,27 @@ directions. For each:
    current state (if existing) or what would be built (if new)
 4. **Trade-offs**: what the system does well and what to watch for
    (accessibility, performance, build speed, longevity)
+
+Before proposing, silently roll the variance engine: pick ONE vibe
+archetype and ONE layout archetype per direction so each proposal is a
+distinct combination, not a reskin:
+
+- **Vibe archetypes:** Ethereal Glass (dark, mesh gradients, backdrop
+  blur), Editorial Luxury (warm neutrals, contrast serif, subtle grain),
+  Soft Structuralism (light, massive grotesk type, diffuse shadows),
+  Warm Monochrome (bone white, desaturated pastel accents), Swiss
+  Industrial Print or Tactical Telemetry (brutalist variants, see
+  `references/modern-trends.md`)
+- **Layout archetypes:** Asymmetrical Bento (mixed `col-span`/`row-span`
+  cells), Z-Axis Cascade (overlapping layers, slight rotation, depth),
+  Editorial Split (massive type left, interactive content right),
+  Blueprint Grid (visible compartments, hairline rules)
+
+Design as thesis: the hero opens with the most characteristic thing in
+the subject's world, whatever form makes sense for it: a headline, a
+number, a live demo, an interactive moment. Big number + small label +
+supporting stats + gradient accent is the template answer; use it only
+if it is truly the best option for this brief.
 
 Spend boldness in one place. Each proposal names one signature element
 (a headline treatment, a hero pattern, a dark section, an illustration
@@ -216,8 +291,10 @@ universal:
 4. **Cover all states.** Loading, empty, error, and loaded. A screen
    that only handles "loaded" is incomplete.
 5. **No em dashes in UI copy.** Use periods, commas, or line breaks.
-6. **No emojis as icons.** Use a proper icon library (Lucide, Material,
-   Heroicons, or custom SVG).
+6. **No emojis as icons.** Use a proper icon library. Hierarchy:
+   Phosphor > Radix > Tabler > Lucide (last resort, allowed only when the
+   project already depends on it or the user explicitly asks). One family
+   per project.
 7. **Match the platform.** Flutter apps should feel like Flutter, web
    should feel like web. Don't force web patterns into Flutter or vice
    versa.
@@ -292,16 +369,17 @@ Load these for detailed guidance. All files exist under `references/`.
 | `design-systems.md` | Detailed breakdown of all 14 systems (colors, typography, spacing, components, when to use, when to avoid) | After choosing a system, to get its rules |
 | `components.md` | Universal component library (nav, cards, inputs, buttons, modals, lists, tables, empty states, skeletons, FAB, etc.) with Flutter + Web + React Native snippets | When building any UI component |
 | `responsive-adaptive.md` | Phone, tablet, desktop adaptation rules, breakpoints, touch vs mouse, platform conventions | When making the design work across form factors |
-| `anti-ai-slop.md` | 110 universal AI design tells to avoid, organized by category | Before declaring any design task done |
+| `anti-ai-slop.md` | 122 universal AI design tells to avoid, organized by category | Before declaring any design task done |
 | `ux-psychology.md` | UX laws and effects with concrete application rules (Fitts, Hick, Miller, Jakob, peak-end, Zeigarnik, Doherty, Tesler, Postel, defaults) and a dark-pattern guardrail | When designing flows, navigation, onboarding, or any decision-heavy UI |
 | `design-md.md` | DESIGN.md template and maintenance rules | When creating or updating the project's DESIGN.md |
 | `modern-trends.md` | 2026 design system trends: token architecture, motion tokens, evolved bento, calm interfaces, WCAG 3.0, dark mode baseline, functional micro-interactions, variable fonts, AI governance | When implementing the chosen system, to apply current best practices |
 | `anti-drift.md` | Anti-drift conventions: token-first rules, primitive composition, type scale, quarantined debt, truth comments, derived nav, server-safe barrels, animation ownership, page-as-manifest | When implementing or reviewing code in a project with more than one contributor |
+| `audit-and-upgrade.md` | Redesign workflow: fix priority order (font, color, hover, layout, components, states, polish) and the upgrade technique menu | When redesigning or upgrading an existing UI |
 
 ## Anti-AI Slop (always check)
 
 AI-generated design has recognizable fingerprints. Regardless of which
-design system you choose, avoid all 110 tells in
+design system you choose, avoid all 122 tells in
 `references/anti-ai-slop.md`. Check the five fingerprint clusters first
 (Dashboard, Startup, Blog, Slides, Portfolio): a page can pass every
 individual tell and still land inside a cluster whole. Then check the
@@ -310,25 +388,29 @@ detailed tells, organized by category:
 **Color (6 tells):** Lila Rule, premium-consumer palette ban, oversaturated
 accents, multiple accents, color consistency violations, mixed grey families
 
-**Typography (8 tells):** serif-as-default, Inter everywhere, mixed-family
-emphasis, missing weight variety, missing letter-spacing, all-caps
-overuse, title case, italic descender clipping
+**Typography (10 tells):** serif-as-default, Inter everywhere,
+mixed-family emphasis, missing weight variety, missing letter-spacing,
+all-caps overuse, title case, italic descender clipping, proportional
+numbers, orphaned words
 
-**Layout (21 tells):** centered hero, three equal cards, eyebrow everywhere,
+**Layout (27 tells):** centered hero, three equal cards, eyebrow everywhere,
 section repetition, zigzag alternation, split-header, bento without rhythm,
 empty bento cells, forced symmetry, `100vh` instead of `100dvh`, flexbox
 math, no max-width, uniform radius, no overlap/depth, symmetrical padding,
 edge-to-edge nav, hero stack overload, logo wall in hero, nav wrap,
-hero overflow, mobile collapse not explicit
+hero overflow, mobile collapse not explicit, H1 wraps past 3 lines,
+left-sidebar dashboard default, buttons at mismatched heights, feature
+lists misaligned, broken baseline rhythm, math-aligned but optically wrong
 
 **Materiality (7 tells):** glassmorphism on everything, pure-black shadows,
 generic grey borders, inconsistent radii, zero texture, even gradients,
 inconsistent lighting
 
-**Interactivity (11 tells):** static-only state, no hover, no press
+**Interactivity (14 tells):** static-only state, no hover, no press
 feedback, instant transitions, missing focus ring, unmotivated motion,
 marquee overload, standard easing, animating layout properties,
-scroll listeners, no reduced motion
+scroll listeners, no reduced motion, dead links, no active nav state,
+anchor jumps
 
 **Component (10 tells):** generic card, filled+ghost button pattern, pill
 badges, accordion FAQ, 3-card carousel, 3-tower pricing, modals
@@ -348,9 +430,9 @@ hand-rolled SVGs, text-only pages
 
 **Theme (3 tells):** theme inconsistency, pure black bg, no dark mode
 
-**Accessibility (10 tells):** button contrast, form contrast, CTA wrap,
+**Accessibility (11 tells):** button contrast, form contrast, CTA wrap,
 duplicate CTA intent, missing alt text, div soup, no skip link, no back
-nav, no 404 page, no form validation
+nav, no 404 page, no form validation, missing cookie consent
 
 **Code quality (7 tells):** inline styles, hardcoded widths, arbitrary
 z-index, dead code, import hallucinations, missing meta tags, no legal
@@ -393,7 +475,7 @@ Before considering a design task complete:
 - [ ] All states covered (loading, empty, error, loaded)
 - [ ] First-run flows show endowed progress (a real step already done, never 0%)
 - [ ] No universal anti-patterns (em dashes, emoji icons, generic AI tells)
-- [ ] Anti-AI Slop 110-point checklist passed (see `references/anti-ai-slop.md`)
+- [ ] Anti-AI Slop 122-point checklist passed (see `references/anti-ai-slop.md`)
 - [ ] Responsive: layout adapts at phone, tablet, desktop breakpoints
 - [ ] Touch targets >= 44pt on mobile, click targets >= 24px on desktop
 - [ ] Platform-appropriate (Flutter feels like Flutter, web feels like web)

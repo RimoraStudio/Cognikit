@@ -175,7 +175,7 @@ existing step rather than adding one that differs by a pixel or two.
 
 ## Icons
 
-- **Library:** <Material Icons, Lucide, Phosphor, custom SVG>
+- **Library:** <Phosphor > Radix > Tabler > Lucide last resort, or custom SVG>
 - **Standard size:** <e.g. 24x24>
 - **Stroke width:** <if applicable>
 - **Section icons color:** <token>

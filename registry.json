@@ -4,7 +4,7 @@
   "url": "https://cognikit.com",
   "github": "https://github.com/RimoraStudio/cognikit",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "installAll": "npx skills add RimoraStudio/cognikit --all --global --yes",
   "bundles": [
     {
@@ -12,7 +12,7 @@
       "displayName": "Full Cognikit",
       "description": "Every skill in the kit, one install.",
       "install": "npx skills add RimoraStudio/cognikit --all --global --yes",
-      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "legal-docs"]
+      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "legal-docs", "skill-authoring"]
     },
     {
       "name": "design",
@@ -25,8 +25,8 @@
       "name": "engineering",
       "displayName": "Engineering Bundle",
       "description": "Contract design and review quality gates.",
-      "install": "npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit --global --yes",
-      "skills": ["code-review", "api-design", "security-audit"]
+      "install": "npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit --skill skill-authoring --global --yes",
+      "skills": ["code-review", "api-design", "security-audit", "skill-authoring"]
     },
     {
       "name": "ai-stack",
@@ -47,8 +47,8 @@
     {
       "name": "design-systems",
       "displayName": "Design Systems",
-      "description": "Choose and implement the right visual design system for any app or website. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, an anti-AI-slop checklist, DESIGN.md spec generation, anti-drift conventions (token-first composition, namespaced mock palettes, quarantined debt, truth comments, server-safe barrels, animation ownership, page-as-manifest), and UX psychology laws (Fitts, Hick, Miller, Jakob, peak-end, endowed progress) with a dark-pattern guardrail.",
-      "version": "1.3.0",
+      "description": "Choose and implement the right visual design system for any app or website. Brief-inference read with variance/motion/density dials, 14 design systems with when-to-use guidance plus buy-vs-build routing, a variance engine for non-repeating directions, 122 anti-AI-slop rules, component patterns (double-bezel cards, gapless bento, magnetic hover, micro-UIs), AIDA page structure, audit-and-upgrade workflow, DESIGN.md spec generation, anti-drift conventions, and UX psychology laws with a dark-pattern guardrail.",
+      "version": "1.4.0",
       "license": "MIT",
       "category": "design",
       "tags": [
@@ -70,6 +70,7 @@
       "references": [
         "anti-ai-slop.md",
         "anti-drift.md",
+        "audit-and-upgrade.md",
         "choosing-a-system.md",
         "components.md",
         "design-md.md",
@@ -114,8 +115,8 @@
     {
       "name": "code-review",
       "displayName": "Code Review",
-      "description": "Review code changes for real bugs, security issues, and convention violations with a confidence filter that suppresses noise. Covers correctness, security, state/concurrency, error handling, and project-convention violations. Severity-ranked findings with file:line citations, not style nitpicks.",
-      "version": "1.1.0",
+      "description": "Review code changes for real bugs, security issues, and convention violations with a confidence filter that suppresses noise. Covers correctness, security, state/concurrency, error handling, and project-convention violations, plus an optional simplicity pass that hunts over-engineering (reinvented stdlib, dead abstractions, unneeded deps) with one-liner findings. Severity-ranked findings with file:line citations, not style nitpicks.",
+      "version": "1.2.0",
       "license": "MIT",
       "category": "engineering",
       "tags": [
@@ -183,8 +184,8 @@
     {
       "name": "mcp-server",
       "displayName": "MCP Server",
-      "description": "Design and build Model Context Protocol servers that expose tools, resources, and prompts to AI agents. Covers stdio vs HTTP vs MCPB deployment models, tool design principles, runnable TypeScript and Python server examples, client config, and testing with the MCP inspector.",
-      "version": "1.0.0",
+      "description": "Design and build Model Context Protocol servers that expose tools, resources, and prompts to AI agents. Discovery-first design phase, deployment decision matrix (remote HTTP / MCP app / MCPB bundled / stdio), tool design patterns, elicitation vs widget routing, .mcp.json plugin integration, MCPB manifest and bundling, local security rules, runnable TypeScript and Python examples, and inspector testing.",
+      "version": "1.1.0",
       "license": "MIT",
       "category": "ai-agents",
       "tags": [
@@ -201,7 +202,7 @@
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/mcp-server",
       "docs": "https://cognikit.com/skills/mcp-server",
       "related": ["api-design", "security-audit", "agent-memory"],
-      "references": []
+      "references": ["deployment.md", "ui-widgets.md"]
     },
     {
       "name": "agent-memory",
@@ -298,8 +299,8 @@
     {
       "name": "dashboard-ui",
       "displayName": "Dashboard UI",
-      "description": "Design data-dense dashboards, admin panels, and internal tools that answer questions rather than decorate. Question-first hierarchy, chart selection rules, data table discipline, widget states, filters, density, and anti-patterns for dashboard design.",
-      "version": "1.0.0",
+      "description": "Design data-dense dashboards, admin panels, and internal tools that answer questions rather than decorate. Audience archetypes and KPI selection process, question-first hierarchy, chart selection rules, data table discipline, widget states, filters, density, and anti-patterns for dashboard design.",
+      "version": "1.1.0",
       "license": "MIT",
       "category": "design",
       "tags": [
@@ -321,8 +322,8 @@
     {
       "name": "mobile-app-design",
       "displayName": "Mobile App Design",
-      "description": "Design mobile app UIs that respect platform conventions instead of shrunken web pages. iOS HIG vs Material 3 decisions, navigation patterns, touch ergonomics, safe areas, mobile components, feedback patterns, and screen-flow-first design.",
-      "version": "1.0.0",
+      "description": "Design mobile app UIs that respect platform conventions instead of shrunken web pages. Four layers: pre-work (MFRI risk index, design bible locking), platform and navigation (iOS HIG vs Material 3, deep links, predictive back), visual design (60/30/10 color, 8-pt grid, system fonts, OLED dark mode, haptics), and execution (states, Peak-End rule, user-stage personalization, performance patterns, anti-AI-tells, 33-point quality checklist).",
+      "version": "2.0.0",
       "license": "MIT",
       "category": "design",
       "tags": [
@@ -341,7 +342,7 @@
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/mobile-app-design",
       "docs": "https://cognikit.com/skills/mobile-app-design",
       "related": ["design-systems", "design-system-architecture"],
-      "references": []
+      "references": ["mobile-navigation.md", "mobile-perf-patterns.md", "mobile-quality-checklist.md"]
     },
     {
       "name": "cognikit",
@@ -431,6 +432,28 @@
       "docs": "https://cognikit.com/skills/legal-docs",
       "related": ["app-store-compliance", "seo"],
       "references": []
+    },
+    {
+      "name": "skill-authoring",
+      "displayName": "Skill Authoring",
+      "description": "Author, audit, and improve Agent Skills and agent configs against the open SKILL.md standard. Covers pushy trigger descriptions, three-level progressive disclosure, execution-flow body conventions, agent frontmatter, evals.json test cases, benchmark metrics, and the validate-fix-rerun iteration loop.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "engineering",
+      "tags": [
+        "skills",
+        "agents",
+        "authoring",
+        "skill-md",
+        "evals",
+        "agent-config",
+        "meta"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/skill-authoring --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/skill-authoring",
+      "docs": "https://cognikit.com/skills/skill-authoring",
+      "related": ["code-review", "mcp-server", "cognikit"],
+      "references": ["agent-authoring.md", "evals-and-benchmarks.md"]
     }
   ]
 }

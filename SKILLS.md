@@ -14,7 +14,8 @@ or a task spans several fields, start with the `cognikit` router skill.
 | Landing pages, hero sections, pricing pages, conversion copy | `marketing-sites` | design |
 | Dashboards, admin panels, data tables, charts, metrics UI | `dashboard-ui` | design |
 | Mobile app UI, iOS/Android conventions, nav patterns, touch | `mobile-app-design` | design |
-| Reviewing code, diffs, PRs, finding bugs before merge | `code-review` | engineering |
+| Reviewing code, diffs, PRs, finding bugs or bloat before merge | `code-review` | engineering |
+| Authoring skills or agent configs, SKILL.md files, eval prompts | `skill-authoring` | engineering |
 | REST endpoints, API contracts, error shapes, pagination | `api-design` | engineering |
 | Vulnerabilities, OWASP, secrets, dependency CVEs, audit | `security-audit` | security |
 | Building MCP servers, exposing tools/resources to agents | `mcp-server` | ai-agents |
@@ -37,6 +38,7 @@ Common jobs that run skills in sequence.
 | Agent platform | `mcp-server` → `agent-memory` → `rag-pipelines` → `model-distillation` → `security-audit` |
 | Launch checklist | `security-audit` → `seo` → `legal-docs` → `app-store-compliance` (if mobile) |
 | Internal chatbot | `rag-pipelines` → `agent-memory` → `model-distillation` (when data justifies) |
+| New Cognikit skill | `skill-authoring` → `code-review` |
 
 ## Rules for agents
 
