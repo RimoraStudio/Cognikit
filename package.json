@@ -1,0 +1,8 @@
+{
+  "name": "cognikit",
+  "private": true,
+  "description": "Cognikit skill registry and validation tooling",
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  }
+}

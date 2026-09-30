@@ -8,9 +8,12 @@ description: >
   commit", or wants a second pass on recently written code. Also triggers
   on "code review", "PR review", "pre-merge check", "look for issues in
   this file". Produces findings ranked by severity with file:line
-  citations, not style nitpicks.
+  citations, not style nitpicks. Optional simplicity pass on
+  "--simplicity", "review for over-engineering", "what can we delete",
+  "is this over-engineered", or "find bloat": hunts code to cut,
+  reported as one-line findings separate from bugs.
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 license: MIT
 ---
 
@@ -23,6 +26,17 @@ that will actually hurt, cite exact locations, and stay quiet about
 things that do not matter. The output is a short list of high-confidence
 findings, not a wall of suggestions.
 
+## Review modes
+
+| Mode | Trigger | What runs |
+|---|---|---|
+| Correctness (default) | "review my code", "find bugs", "is this safe to merge" | Correctness pass only |
+| Simplicity | `--simplicity`, "review for over-engineering", "what can we delete" | Simplicity pass only |
+| Full | "full review", "bugs and bloat", "review everything" | Correctness pass, then simplicity pass |
+
+Simplicity findings never mix with bug findings. Report them under their
+own heading with their own format.
+
 ## AI execution flow (follow in order)
 
 1. **Scope**: Identify what to review. Prefer the diff (`git diff`,
@@ -33,9 +47,11 @@ findings, not a wall of suggestions.
    and the project's conventions. Do not flag code you have not traced.
 3. **Scan**: Walk the changes once for each category below, in order:
    correctness, security, state/concurrency, error handling, then
-   project-convention violations.
+   project-convention violations. In simplicity or full mode, run the
+   simplicity pass after this scan completes.
 4. **Filter**: Score every candidate finding against the confidence
-   filter. Drop anything below the bar.
+   filter, or the simplicity bar in a simplicity pass. Drop anything
+   below the bar.
 5. **Report**: Emit findings in the format below. If nothing survives
    the filter, say so plainly. Do not pad with nitpicks to look busy.
 6. **Verify**: Run the pre-flight checklist at the bottom.
@@ -85,6 +101,54 @@ findings, not a wall of suggestions.
   uses spaces, that is a finding. If you merely prefer a different
   pattern, that is not.
 
+## Simplicity pass (optional)
+
+Runs only in simplicity or full mode, after the correctness scan. Hunt
+for code that should not exist, in priority order:
+
+1. **YAGNI**: ask "does this need to exist?" before "is it correct?"
+   Speculative features, config nobody sets, abstractions with one
+   implementation or one caller.
+2. **Stdlib**: hand-rolled logic the standard library already ships.
+3. **Native**: dependencies or code duplicating platform features
+   (CSS over JS, `Intl` over moment, DB constraints over app code).
+4. **Fewer lines**: same behavior, shorter form.
+
+Before judging a function, grep every caller. A helper that looks
+over-general may earn its keep across call sites. Also hunt: dead code,
+unneeded dependencies, over-general utils, wrappers that only delegate.
+
+Never flag for deletion: validation at trust boundaries, error handling
+that prevents data loss, security measures, accessibility basics, or a
+single smoke test / `assert`-based self-check. Lines marked with a
+`ponytail:` comment are deliberate simplifications with a named ceiling.
+Leave them.
+
+### Simplicity findings format
+
+One line per finding:
+
+`L<line>: <tag> <what>. <replacement>.` (use `<file>:L<line>:` for
+multi-file diffs)
+
+| Tag | Meaning |
+|---|---|
+| `delete:` | Dead code, unused flexibility, speculative feature. Replacement: nothing. |
+| `stdlib:` | Hand-rolled thing the stdlib ships. Name the function. |
+| `native:` | Dependency or code doing what the platform already does. Name the feature. |
+| `yagni:` | Abstraction with one implementation, config nobody sets, layer with one caller. |
+| `shrink:` | Same logic, fewer lines. Show the shorter form. |
+
+End the block with `net: -<N> lines possible.` Nothing to cut:
+`Lean already.`
+
+### Simplicity confidence bar
+
+The bug confidence filter does not apply here. Report only what a
+senior dev would actually delete: you verified it is unused or
+replaceable, the replacement exists and is strictly simpler, and
+removing it loses no behavior a caller relies on. When unsure, drop it.
+
 ## Confidence filter
 
 Report a finding only if it passes ALL of these:
@@ -114,6 +178,8 @@ One short code snippet or fix sketch if the fix is not obvious.
 ```
 
 Group by severity, highest first. Number of findings is not a goal.
+Simplicity findings, if the mode produced any, go under a separate
+`## Simplifications` heading after the findings block.
 
 ## Anti-patterns (never do)
 
@@ -142,3 +208,5 @@ Group by severity, highest first. Number of findings is not a goal.
 - [ ] No style-only or preference-only findings
 - [ ] Reviewed the diff scope, not the whole codebase
 - [ ] If zero findings: stated that plainly with what was checked
+- [ ] Simplicity findings use the one-liner format with a tag
+- [ ] Mode scope respected: correctness, simplicity, or both

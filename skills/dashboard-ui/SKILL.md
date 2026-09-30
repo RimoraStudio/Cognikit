@@ -9,7 +9,7 @@ description: >
   layout". Also triggers on KPI screens, operational views, and any
   interface whose job is helping a person decide from data.
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 license: MIT
 ---
 
@@ -52,6 +52,31 @@ edge. Respect it.
 - **Bottom**: detail tables, raw rows, drill-down targets.
 - **Inverted data pyramid**: KPI to breakdown to raw rows. Each level
   answers "why" for the level above it.
+
+## Audience & KPI selection
+
+One dashboard serves one audience. Pick the archetype before picking
+widgets; it fixes the KPI count and the refresh cadence.
+
+| Type | Audience | Cadence | KPI count |
+|---|---|---|---|
+| Strategic | C-suite, VPs | Weekly | 3-5 |
+| Operational | Team leads, managers | Daily | 8-15 |
+| Analytical | Analysts | On-demand | Unlimited |
+| Real-time monitoring | Engineers, support | Live | 10-20 |
+
+KPI selection process:
+
+1. List 20 metrics the audience cares about.
+2. Filter to metrics they can act on. Vanity metrics die here.
+3. Group survivors into 3 to 5 themes (revenue, customers, ops).
+4. Pick 1 to 3 primary metrics per theme.
+
+Then tier them so size follows importance:
+
+- **Level 1, headline**: 3 to 5 KPIs rendered large.
+- **Level 2, supporting**: 6 to 10 charts of context.
+- **Level 3, detail**: tables and drill-downs for investigation.
 
 ## Chart selection
 
@@ -113,6 +138,9 @@ Dashboards are tools, not brochures.
 - One card chrome treatment: same border or shadow, same radius, same
   header pattern. Per-widget chrome styling is noise.
 - Tabular figures for numbers so columns stay aligned.
+- Colorblind-safe palette: `#0077BB` blue, `#EE7733` orange,
+  `#009988` teal, `#CC3311` red. Never pair pure red and pure green
+  without a label or texture differentiator.
 
 ## Interaction rules
 
@@ -144,6 +172,10 @@ unreadable. Decide per widget:
 - **Simplify**: chart becomes big-number-plus-delta; table becomes a
   card list.
 
+On mobile the rules harden: show the top 3 KPIs only, stack charts
+vertically in priority order, and degrade each chart to a big number
+plus its delta.
+
 ## Related skills
 
 - `design-systems`: for the visual direction (tokens, typography, card
@@ -156,12 +188,16 @@ unreadable. Decide per widget:
 - [ ] Listed the 3 to 5 questions this view answers, in priority order
 - [ ] Every widget maps to a question; decoration removed
 - [ ] One hero number max; primary metric or alert is top-left or top
+- [ ] 5-second test passes: a viewer names the most important metric
+  within 5 seconds
+- [ ] Every KPI carries a comparison value (vs target or prior period)
 - [ ] Charts picked from the selection table; no banned chart forms
 - [ ] Tables: correct alignment, sortable headers, sticky header,
   pagination or virtualization past 50 rows
 - [ ] Every widget has loading (skeleton), empty, error (retry), and
-  stale states
+  stale states; "last updated" timestamp visible on live data
 - [ ] Sections load progressively; no whole-page blocking on one query
 - [ ] Filters are chips; filter state synced to URL; reset-all exists
-- [ ] Per-widget mobile behavior defined (stack, hide, or simplify)
+- [ ] Per-widget mobile behavior defined (stack, hide, or simplify);
+  mobile shows the top 3 KPIs
 - [ ] All interactions reachable by keyboard
