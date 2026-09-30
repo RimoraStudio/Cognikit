@@ -1,0 +1,23 @@
+{
+  "skill_name": "api-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Adding invoicing to our SaaS backend (Express + Postgres). Need endpoints for creating invoices, listing them per customer, marking them paid, and sending them out by email. Design the API contract before I write any handlers.",
+      "expected_output": "Surveys the existing codebase conventions first (route prefix, error shape, auth, pagination style), then produces an endpoint table using plural-noun routes with HTTP methods carrying actions: POST /invoices, GET /customers/:id/invoices, PATCH /invoices/:id, and a sub-resource action like POST /invoices/:id/send. Defines a single error envelope with machine-readable SCREAMING_SNAKE codes and safe messages, status code semantics (422 for validation, 409 for conflicts), cursor pagination on list endpoints, opaque IDs in URLs, and an Idempotency-Key plan for retryable writes. Flags hard-to-reverse decisions (field names, URL structure, versioning) and asks for approval before implementation.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "frontend keeps shipping code that branches on our error message strings and it breaks every time we tweak wording. also half our endpoints return {success:false} inside a 200 and half return real status codes. this is a mess, help me standardize it",
+      "expected_output": "Recognizes a contract-level error design problem and prescribes one uniform error shape for every endpoint ({error: {code, message, details}}), explains that clients must branch on the machine-readable code and never on message, maps HTTP status classes to failure types (400 malformed, 401 auth, 403 forbidden, 404 missing, 409 conflict, 422 validation, 429 rate limited, 500 server), and explicitly calls out the 200-with-success:false pattern as an anti-pattern to eliminate. Notes that error messages must never leak stack traces or SQL internals, and recommends versioning or a migration note since changing response shapes is breaking.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We're about to make our internal API public for partners next quarter. Right now routes are a mix of /getUser style endpoints and some REST-ish stuff, no versioning, offset pagination everywhere. What needs fixing before we ship v1?",
+      "expected_output": "Produces a pre-launch contract remediation plan: mandates a /v1/ prefix on all public routes from day one with no mixing of versioned and unversioned paths, renames verb endpoints to resource routes with HTTP methods carrying actions, replaces auto-increment/sequential IDs in URLs with opaque IDs or UUIDs, keeps offset pagination only where page-jumping is genuinely needed and moves feeds/large collections to cursor pagination, standardizes the error envelope with codes, and adds idempotency for write endpoints partners will retry. Flags each decision that is hard to change post-launch (URL structure, field naming convention camelCase vs snake_case, auth scheme) for explicit sign-off.",
+      "files": []
+    }
+  ]
+}

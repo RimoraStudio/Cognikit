@@ -1,0 +1,23 @@
+{
+  "skill_name": "dashboard-ui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build me an ops dashboard for our fulfillment team. They need to see today's order volume, which warehouses are behind SLA, failed shipments that need action, and a drill-down into individual orders. React + Recharts.",
+      "expected_output": "Starts by listing the 3 to 5 questions the screen answers in priority order (e.g., is volume on track, which warehouse is slipping, which shipments need action now), maps one widget per question, and lays out the page for F-pattern reading: the hero metric or active alert top-left/top, supporting breakdowns in the middle band, the order detail table at the bottom. Picks chart types from the selection table (line for volume trend, horizontal bars for warehouse comparison, table for failed shipments, no gauges/pies/3D/dual-axes), designs loading skeletons, empty, error-with-retry, and stale ('last updated') states per widget, puts one global time-range picker with URL-synced filter chips and a reset-all, and defines per-widget mobile behavior. Tables follow the rules: numbers right-aligned with tabular-nums, sortable sticky headers, pagination past 50 rows.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "our admin page has like 14 charts on it and nobody can tell at a glance whether things are fine or on fire. the CEO just opens it and closes it. can you make it actually useful?",
+      "expected_output": "Reframes the page around decisions rather than data display: asks or infers the few questions the viewer actually asks ('is something wrong, what do I do about it'), cuts every widget that cannot name its question, and rebuilds the hierarchy with a single hero number or alert state at the top (not multiple competing heroes), supporting context in the middle, and detail/drill-down below, following the inverted data pyramid. Replaces decoration-first choices: swaps gauges/pies/gradient areas for numbers-with-delta, sparklines, and bars per the chart table, applies one semantic palette instead of per-widget accent colors, adds the four widget states and progressive loading, and makes filters visible as chips synced to the URL.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need a data table for our billing admin panel, thousands of invoices. Requirements: sort by amount/date/status, filter to overdue, click a row to see the invoice, and our accountants want compact rows. What's the right way to build this so it doesn't fall over at scale?",
+      "expected_output": "Specifies a production data table per the skill's rules: right-aligned numeric columns with tabular-nums or monospace digits, single date format everywhere, sortable and filterable column headers that stay sticky on scroll, a density toggle including the requested compact mode, row-click opening the invoice detail, and checkboxes plus a bulk-action bar if actions apply to many rows. For scale: server-side pagination or virtualization past ~50 rendered rows (never thousands of DOM rows), filters rendered as removable chips with URL sync and a reset-all, and designed states: skeleton rows for loading, an empty state explaining why nothing matches with a clear-filters action, and an error state with retry. Keyboard navigation for rows and visible focus.",
+      "files": []
+    }
+  ]
+}

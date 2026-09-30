@@ -885,6 +885,60 @@ Center(
 - Headline + description always (not just "No data")
 - CTA only if user can take action
 - Keep it calm, not apologetic
+- First-time use: pair the empty state with setup progress (below) so
+  the user sees they've already started, not just that nothing exists
+
+---
+
+### Setup progress / checklist
+
+**When:** First-run onboarding, profile completeness, multi-step setup.
+Show advancement before the user has acted. Endowed progress motivates
+completion because abandoning feels like losing what's already earned.
+
+**Anatomy:**
+- Progress bar or "N of M" step indicator, never starting at 0
+- Checklist rows in three states: done (check, muted), current
+  (highlighted), upcoming (neutral)
+- The first item is already complete (account created, workspace set up)
+- Optional: "Continue" CTA targeting the next incomplete step
+
+**Design system adaptation:**
+- Minimalist: thin bar, check marks, no percentage label
+- Material 3: linear progress indicator + checklist cards
+- Neo-Brutalism: thick-bordered steps, hard-offset "done" stamps
+
+**Flutter:**
+```dart
+Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  FontStyleInter(text: 'Getting started · 1 of 4', fsize: 14, fontweight: FontWeight.w600, color: appColor.textPrimary),
+  SizedBox(height: 8),
+  LinearProgressIndicator(value: 0.25, backgroundColor: appColor.homeBlueVeryLight),
+])
+```
+
+**Web:**
+```tsx
+<div className="rounded-lg border p-4">
+  <p className="text-sm font-medium">Getting started · 1 of 4</p>
+  <div className="mt-2 h-1.5 rounded-full bg-gray-100">
+    <div className="h-full w-1/4 rounded-full bg-accent" />
+  </div>
+  <ul className="mt-3 space-y-2 text-sm">
+    <li className="flex gap-2 text-gray-400"><Check size={16} /> Create account</li>
+    <li className="flex gap-2 font-medium"><CircleDot size={16} /> Add your first job</li>
+    <li className="flex gap-2 text-gray-500"><Circle size={16} /> Invite your team</li>
+  </ul>
+</div>
+```
+
+**Rules:**
+- The endowed step must be real (account created, email verified),
+  never fake; invented progress is an AI slop tell
+- Never display 0% or "0 of N"; frame the user as already started
+- Always show the path ahead: how many steps and what is next
+- Persist progress so a returning user resumes where they left off
+- Cap checklists at 5-7 items; longer lists kill the goal-gradient effect
 
 ---
 

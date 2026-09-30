@@ -1,0 +1,23 @@
+{
+  "skill_name": "mobile-app-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Designing a habit tracker app in Flutter for iOS and Android. Core screens: today view with habits to check off, a stats/streaks view, habit detail with history, add/edit habit, and settings. Design the UI structure before I start building.",
+      "expected_output": "Commits to platform conventions (states iOS vs Android decision per screen rather than blending), maps the 5 core screens and transitions as a flow first, then picks the navigation skeleton: a bottom tab bar for the 3 top-level sections (Today, Stats, Settings) since they have roughly equal weight, stack navigation for habit detail drill-in with a proper back affordance, and a modal for the self-contained add/edit habit task. Specifies mobile-native anatomy: safe area insets respected, sticky bottom primary action where needed, tap targets at 44x44pt/48x48dp minimum with the primary action in the thumb zone, single-column layout, and per-screen empty/loading/error/offline states. Covers feedback: haptic on habit completion, optimistic UI for check-offs with rollback, undo-in-snackbar for destructive actions like deleting a habit.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "i mocked up my recipe app's home screen in figma on a 1440px canvas and it looked great, then i put it on my phone and everything's cramped and the buttons are impossible to hit. it has a sidebar, two columns of recipe cards, and a nav bar at the top. help me fix it for real phones",
+      "expected_output": "Diagnoses the design as a shrunken desktop layout, the skill's named anti-pattern, and prescribes mobile-native corrections: remove the sidebar entirely (primary navigation becomes a bottom tab bar or the content itself), collapse the two-column card grid to a single-column list or large-image feed, move navigation from a top bar into always-visible bottom navigation within thumb reach, and ensure every interactive element meets 44x44pt/48x48dp targets. Addresses safe area insets top and bottom, adds pull-to-refresh if it is a feed, defines empty/loading/offline states for the recipe list, and keeps any swipe actions (save, favorite) backed by visible non-gesture alternatives.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "For our iOS expense app, when should I use a bottom sheet vs a modal vs pushing a new screen? Specifically: filters on the transactions list, the 'add expense' form, and confirming a delete. Give me the rules and what goes where.",
+      "expected_output": "Applies the navigation/component decision rules concretely: filters on transactions go in a bottom sheet (contextual action tied to content below, with detents and drag-to-dismiss), the add-expense form is a full-screen modal (self-contained task with clear done/cancel, not navigation), and delete confirmation uses an iOS action sheet (destructive confirms) or better, immediate action with an undo snackbar since undo beats confirm dialogs where possible. States the underlying rules: bottom sheets are for contextual actions not section navigation, modals are for focused tasks, never stack modals, stack pushes are for browsing deeper into content, and the destructive action sits away from primary actions with proper safe-area handling.",
+      "files": []
+    }
+  ]
+}

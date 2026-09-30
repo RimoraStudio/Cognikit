@@ -70,7 +70,7 @@ jobs:
             fi
 
             missing_fields=0
-            for field in name description version license; do
+            for field in name description license; do
               value=$(echo "$frontmatter" | yq -r ".$field // empty" 2>/dev/null)
               if [ -z "$value" ]; then
                 echo "::error file=$skill_md::Missing required field: $field"
@@ -78,6 +78,12 @@ jobs:
                 FAIL=1
               fi
             done
+            fm_version=$(echo "$frontmatter" | yq -r '.metadata.version // empty' 2>/dev/null)
+            if [ -z "$fm_version" ]; then
+              echo "::error file=$skill_md::Missing required field: metadata.version"
+              missing_fields=1
+              FAIL=1
+            fi
 
             if [ "$missing_fields" -eq 1 ]; then
               continue

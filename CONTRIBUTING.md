@@ -34,8 +34,10 @@ The top of every `SKILL.md` must contain a YAML frontmatter block with these fie
 |---------------|----------|----------------------------------------------------------------------|
 | `name`        | Yes      | Kebab-case, no prefix (e.g. `my-skill`, not `cognikit/my-skill`)      |
 | `description` | Yes      | Clear summary plus exact trigger phrases. This is how AI agents decide to activate the skill. Be specific. |
-| `version`     | Yes      | SemVer (e.g. `1.0.0`)                                                |
+| `metadata.version` | Yes | SemVer (e.g. `1.0.0`), nested under `metadata:` to stay within the official spec's allowed frontmatter keys |
 | `license`     | Yes      | `MIT` (required for all Cognikit skills)                              |
+
+Only spec-allowed frontmatter keys (`name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`) may appear. Custom fields go under `metadata:` so Cognikit skills pass third-party validators.
 
 Example:
 
@@ -46,7 +48,8 @@ description: >
   Generates a REST API scaffold from an OpenAPI spec.
   Trigger phrases: "scaffold api from openapi", "generate rest endpoints",
   "create api from spec", "build openapi server".
-version: 1.0.0
+metadata:
+  version: 1.0.0
 license: MIT
 ---
 ```
@@ -110,7 +113,7 @@ All Cognikit skills must meet the following before they can be merged:
 | Clear trigger description | Specific phrases, not vague summaries |
 | AI execution flow | Numbered steps the agent follows |
 | Pre-flight checklist | Present at the end of SKILL.md |
-| Self-contained | No references to other installed skills |
+| Self-contained | Must fully work standalone. Soft "Related skills" pointers to sibling Cognikit skills are allowed but never required for the skill to function |
 | Frontmatter validation | Passes `npm run validate` |
 | Reference files exist | Every file listed in SKILL.md must exist on disk |
 | No em dashes in UI copy | Use periods or commas instead |
@@ -128,4 +131,4 @@ Skills use Semantic Versioning:
 | MINOR | New capability added, backward compatible | `1.0.0` -> `1.1.0` |
 | PATCH | Fix or clarification, no behavior change | `1.0.0` -> `1.0.1` |
 
-Update the `version` field in frontmatter on every change.
+Update the `metadata.version` field in frontmatter on every change.

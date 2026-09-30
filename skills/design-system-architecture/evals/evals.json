@@ -1,0 +1,23 @@
+{
+  "skill_name": "design-system-architecture",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our component library started as a side project and now 8 product teams consume it. Everyone keeps forking Button and inventing their own tokens. Help me set up proper governance and a contribution model so this stops being the wild west.",
+      "expected_output": "Assesses the system as 'mature/scaling' stage and delivers a governance plan: recommends the hybrid contribution model (small core team owning tokens and accessibility review plus embedded contributors), defines contribution tiers (Core, Federated, Community) with review intensity and who can propose each, answers the decision-rights questions, and produces a CONTRIBUTING.md outline covering who merges to main, PR review SLAs, and the propose-review-build-document-release-measure workflow. It does not redesign visual styles or write component code.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "designers tweaked the color palette in Figma again and now the iOS app, Android app, and web app are all showing three different shades of our brand blue. how do teams keep this stuff in sync without manually chasing hex codes every sprint",
+      "expected_output": "Identifies the root problem as the lack of a single token source and proposes a token pipeline: three-tier architecture (reference/primitive tokens, semantic tokens named by purpose like color.action.primary, optional component tier), W3C DTCG JSON format as the single source, a build step (e.g., Style Dictionary) that compiles tokens to CSS, iOS, and Android targets, and a Figma-to-code sync so palette updates propagate instead of being hand-translated. Explains that dark mode and rebranding become token swaps, not rewrites.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We let Cursor and other AI coding tools loose on our repo and now every PR has hardcoded hex values and hand-rolled <div> buttons instead of our design system components. Need a way to catch this automatically before it merges.",
+      "expected_output": "Covers drift detection for AI-agent-generated code: recommends CI gates that scan every PR (regex/AST scan for hardcoded colors and raw values, component-usage scanning for reinvented primitives, deprecated-prop checks), specifies which drift types block merge as errors (hardcoded tokens, accessibility gaps) versus warn (reinvented components, deprecated patterns), and prescribes AI-agent readiness artifacts: an AGENTS.md/CLAUDE.md telling agents which components and tokens exist, a machine-readable component manifest, and the stated rule that hardcoded values and reinvented components are bugs.",
+      "files": []
+    }
+  ]
+}

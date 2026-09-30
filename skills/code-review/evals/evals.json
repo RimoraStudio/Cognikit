@@ -1,0 +1,23 @@
+{
+  "skill_name": "code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Just opened a PR that adds retry logic to our Stripe webhook handler plus a couple of changes to the orders service. Can you review the diff before I merge? Mostly worried about the payment path.",
+      "expected_output": "Reviews only the diff scope, reads surrounding code enough to trace callers and error contracts, and emits a Findings report grouped by severity (HIGH/MEDIUM/LOW) with file:line citations, one-sentence descriptions of what is wrong, when it breaks, and fix sketches for non-obvious issues. Prioritizes correctness and concurrency issues in the payment retry path (idempotency, double-processing, swallowed errors) over style. If nothing survives the confidence filter, states that plainly instead of padding with nitpicks. No style preferences, no praise.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "i wrote this caching layer at 1am and honestly i don't trust it, but i can't stare at it anymore. can you take a pass over what changed and tell me if anything's actually broken",
+      "expected_output": "Scopes the review to the staged/uncommitted changes, traces the cache code paths (invalidation, stale reads, check-then-act races, shared mutable state across requests), and reports only confirmed issues ranked by severity with file:line citations and a brief fix sketch each. Applies the confidence filter so unconfirmed 'potential' issues are dropped. If the code is clean, says so plainly along with what was checked, rather than inventing findings.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "New teammate's first PR is sitting in review and I want a second set of eyes on it before approving. It's the staged diff on branch feature/export-csv, touches the reporting endpoints and a new CSV serializer.",
+      "expected_output": "Fetches the branch diff (git diff main...feature/export-csv or staged changes), reviews the touched files for correctness bugs, security issues (injection, missing ownership checks on report IDs, sensitive data in exports), error handling gaps, and violations of the project's own conventions. Produces severity-ranked findings with file:line refs grouped highest-first, plus at most a one-line out-of-scope note for issues beyond the diff. Does not flag style preferences the project does not enforce and does not demand tests unless the project has a test suite the change clearly needed.",
+      "files": []
+    }
+  ]
+}

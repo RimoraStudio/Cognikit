@@ -1,0 +1,23 @@
+{
+  "skill_name": "mcp-server",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to build an MCP server in TypeScript that wraps our internal ticketing API so Claude Desktop can search tickets and create new ones. Walk me through the whole thing.",
+      "expected_output": "Picks stdio transport as the deployment model (local, per-user credentials), designs a small composed tool set rather than CRUD-per-endpoint (e.g., search_tickets with query/filters/limit and create_ticket), writes model-facing descriptions stating what each tool does, when to use it, and its limits, and defines zod JSON Schema inputs with field descriptions. Scaffolds src/index.ts registering tools on McpServer with StdioServerTransport, returns concise structured results with isError messages the model can act on, keeps secrets in env vars, logs to stderr not stdout, and provides the claude_desktop_config.json snippet with absolute paths. Finishes with the MCP inspector command and a real-client verification step.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "is there a way for claude on my desktop to actually look things up in my company's wiki? right now i copy paste pages into chat like a caveman. it's a notion workspace if that matters",
+      "expected_output": "Recognizes the need for an MCP server exposing the Notion workspace as tools/resources to a desktop client, explains the approach at the right altitude (a local stdio MCP server using the Notion API with a token passed via env), sketches the tool design (e.g., search_wiki and get_page with model-oriented descriptions, concise structured returns, pagination or truncation for large pages), and shows the Claude Desktop config entry. Mentions checking whether an existing community Notion MCP server already covers the need before building custom, and notes the inspector test loop. Does not dump a full implementation unprompted, or if it does, follows the skill's tool-design principles.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Our team of ~15 wants shared agent tools hitting our production services: deploy status, feature flags, runbooks. I'm thinking a hosted MCP server over HTTP instead of stdio since it's multi-user. What does that architecture look like and what should the tool surface be?",
+      "expected_output": "Correctly selects the remote HTTP (Streamable HTTP) deployment model over stdio because this is hosted and multi-user, and discusses the consequences: one process serving many clients over HTTPS, the need for an auth layer (OAuth or tokens) that stdio doesn't have, and central state. Designs an intent-level tool surface of roughly 3 to 10 composed tools (e.g., get_deploy_status, list_feature_flags, search_runbooks) with verb names, model-facing descriptions, validated JSON Schema inputs, and concise structured outputs with actionable error messages. Covers operational concerns: no secrets in tool output, auditability of privileged actions, and testing via the inspector plus a real client.",
+      "files": []
+    }
+  ]
+}

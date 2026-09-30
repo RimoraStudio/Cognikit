@@ -1,0 +1,23 @@
+{
+  "skill_name": "model-distillation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We use GPT-4o to classify inbound support tickets into 8 categories and draft a first reply in our tone. It's accurate but slow and costs us about $2k/month. Can we distill this into a small model that runs on one GPU box?",
+      "expected_output": "Confirms the task is narrow and repeatable enough to distill (stated as one sentence: classify tickets and draft replies in house tone), then lays out the pipeline: collect 200 to 2000 real ticket inputs, run each through the teacher to record ideal outputs as JSONL with instruction/input/output fields, deduplicate and hold out 10% as a never-trained eval set. Picks a student sized to the hardware (7-8B instruct like Qwen or Llama 3.1 for a GPU box, 3B if tighter), fine-tunes with LoRA via unsloth or axolotl with sane defaults (lr ~2e-4, 2-3 epochs, r=16), evaluates student vs teacher on the held-out set with a concrete metric (classification accuracy plus a rubric for reply quality, expecting 80-95% of teacher quality), then exports to GGUF at Q4_K_M and serves via Ollama or llama-server. Flags the teacher ToS caveat for commercial use.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "my laptop is a 4 year old thinkpad, no gpu. i want a tiny local model that rewrites my git commits into conventional commit format because i keep forgetting. is that even realistic or do i need to call an api forever",
+      "expected_output": "Confirms this is a well-scoped distillation target (narrow transformation task, not broad knowledge), sizes the student for the hardware (1-3B model like Qwen 2.5/3, Llama 3.2, or Phi-mini running in 2-4 GB RAM), and outlines the lightweight path: gather a few hundred real commit/diff examples, generate ideal conventional-commit outputs with a teacher model into JSONL, hold out 10% for eval, LoRA fine-tune on a free Colab GPU since there is no local GPU, then quantize to GGUF Q4_K_M and run via Ollama or llama.cpp on CPU. Sets expectations honestly (80-95% of teacher quality, fine for a formatter) and notes that even simpler alternatives like a rules-based commit-msg hook might cover the need before training anything.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I read that you can fine-tune small models on outputs from bigger ones. I want to train a local model to basically be a general assistant for my team that knows all our internal processes. Where do I start?",
+      "expected_output": "Pushes back appropriately: a 'general assistant that knows internal processes' is a broad task with shifting facts, which is the anti-pattern the skill warns against. Redirects to a stock local model plus RAG for the knowledge (facts belong in retrieval, behavior belongs in weights), and explains what distillation IS good for here instead: if the team wants a narrow behavior like 'answers in our house style' or 'formats incident reports a specific way', that slice can be distilled on top of the RAG system. Only after the user picks a narrow task does it proceed to the data/teacher/student/eval pipeline. Does not begin a fine-tune for an unscoped request.",
+      "files": []
+    }
+  ]
+}

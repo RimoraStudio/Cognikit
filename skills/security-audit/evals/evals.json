@@ -1,0 +1,23 @@
+{
+  "skill_name": "security-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "launch is friday and i'm the only eng on this. can you do a pass over the repo and make sure we're not about to ship something scary? node/express backend, ~30 routes, auth with JWTs",
+      "expected_output": "Scopes a whole-repo defensive audit, maps the attack surface first (all route registrations, auth middleware, file upload or parser endpoints, outbound calls, webhook handlers), prioritizes unauthenticated internet-facing routes and auth/payment/PII endpoints, and walks the OWASP checklist (access control/IDOR, injection, auth failures, crypto misuse, misconfiguration, SSRF, XSS, secrets). Runs npm audit and reports only reachable CVEs, summarizing the rest in one line. Output is severity-ranked findings (critical/high/medium/low) with file:line, a traced entry-point-to-sink path, Confirmed exploitable or Needs verification status, impact, and concrete remediation. If clean, says what was checked plainly. No exploit payloads.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Can you audit just the file upload feature? POST /api/uploads accepts images and PDFs, stores to S3, and there's a /api/files/:key route that streams them back. I wrote it fast and the path handling is probably sketchy.",
+      "expected_output": "Scopes the audit to the upload and file-serving routes only. Traces user-controlled input (filename, key, content-type, file bytes) to the dangerous sinks: path.join/sendFile-style path traversal, unvalidated content types, missing ownership checks on /api/files/:key (IDOR on other users' files), and SSRF if any server-side fetch of user URLs exists. Reports findings with file:line citations, exploit traces, impact, and concrete fixes (normalize-and-contain path checks, allowlisted content types, magic-byte validation, opaque storage keys). Adds at most a one-line out-of-scope note for anything beyond these two routes.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Do a security review of the diff on this branch before I merge. It adds a password reset flow: POST /auth/forgot generates a token and emails a link, POST /auth/reset consumes it.",
+      "expected_output": "Reviews only the branch diff, focusing on the auth-failure checklist: whether reset tokens use crypto.randomBytes rather than Math.random or timestamps, whether tokens expire and are single-use, whether the endpoints have rate limiting or lockout, whether tokens leak into URLs/logs, and whether the reset handler verifies before trusting. Reports each finding with severity, file:line, a traced trace from request to sink, and remediation code sketch where non-obvious. Marks anything that depends on runtime config as Needs verification rather than inflating severity, and explicitly notes if the flow checks out.",
+      "files": []
+    }
+  ]
+}

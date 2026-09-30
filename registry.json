@@ -5,12 +5,50 @@
   "github": "https://github.com/RimoraStudio/cognikit",
   "license": "MIT",
   "version": "1.0.0",
+  "installAll": "npx skills add RimoraStudio/cognikit --all --global --yes",
+  "bundles": [
+    {
+      "name": "full",
+      "displayName": "Full Cognikit",
+      "description": "Every skill in the kit, one install.",
+      "install": "npx skills add RimoraStudio/cognikit --all --global --yes",
+      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "legal-docs"]
+    },
+    {
+      "name": "design",
+      "displayName": "Design Bundle",
+      "description": "Visual direction, surface-specific design skills, and the architecture to keep it consistent.",
+      "install": "npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design --global --yes",
+      "skills": ["design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design"]
+    },
+    {
+      "name": "engineering",
+      "displayName": "Engineering Bundle",
+      "description": "Contract design and review quality gates.",
+      "install": "npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit --global --yes",
+      "skills": ["code-review", "api-design", "security-audit"]
+    },
+    {
+      "name": "ai-stack",
+      "displayName": "AI Stack Bundle",
+      "description": "Agent tooling, memory, retrieval, and local models.",
+      "install": "npx skills add RimoraStudio/cognikit --skill mcp-server --skill agent-memory --skill model-distillation --skill rag-pipelines --global --yes",
+      "skills": ["mcp-server", "agent-memory", "model-distillation", "rag-pipelines"]
+    },
+    {
+      "name": "launch",
+      "displayName": "Launch Bundle",
+      "description": "Everything needed before shipping: security, SEO, legal docs, store compliance.",
+      "install": "npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill app-store-compliance --global --yes",
+      "skills": ["security-audit", "seo", "legal-docs", "app-store-compliance"]
+    }
+  ],
   "skills": [
     {
       "name": "design-systems",
       "displayName": "Design Systems",
-      "description": "Choose and implement the right visual design system for any app or website. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, an anti-AI-slop checklist, and DESIGN.md spec generation.",
-      "version": "1.0.0",
+      "description": "Choose and implement the right visual design system for any app or website. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, an anti-AI-slop checklist, DESIGN.md spec generation, anti-drift conventions (token-first composition, namespaced mock palettes, quarantined debt, truth comments, server-safe barrels, animation ownership, page-as-manifest), and UX psychology laws (Fitts, Hick, Miller, Jakob, peak-end, endowed progress) with a dark-pattern guardrail.",
+      "version": "1.3.0",
       "license": "MIT",
       "category": "design",
       "tags": [
@@ -28,14 +66,17 @@
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/design-systems --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/design-systems",
       "docs": "https://cognikit.com/skills/design-systems",
+      "related": ["design-system-architecture", "code-review"],
       "references": [
         "anti-ai-slop.md",
+        "anti-drift.md",
         "choosing-a-system.md",
         "components.md",
         "design-md.md",
         "design-systems.md",
         "modern-trends.md",
-        "responsive-adaptive.md"
+        "responsive-adaptive.md",
+        "ux-psychology.md"
       ]
     },
     {
@@ -59,6 +100,7 @@
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/design-system-architecture --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/design-system-architecture",
       "docs": "https://cognikit.com/skills/design-system-architecture",
+      "related": ["design-systems", "code-review"],
       "references": [
         "token-architecture.md",
         "monorepo-structure.md",
@@ -68,6 +110,327 @@
         "drift-detection.md",
         "ai-readiness.md"
       ]
+    },
+    {
+      "name": "code-review",
+      "displayName": "Code Review",
+      "description": "Review code changes for real bugs, security issues, and convention violations with a confidence filter that suppresses noise. Covers correctness, security, state/concurrency, error handling, and project-convention violations. Severity-ranked findings with file:line citations, not style nitpicks.",
+      "version": "1.1.0",
+      "license": "MIT",
+      "category": "engineering",
+      "tags": [
+        "code-review",
+        "pr-review",
+        "bugs",
+        "diff-review",
+        "pre-merge",
+        "security",
+        "quality"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/code-review --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/code-review",
+      "docs": "https://cognikit.com/skills/code-review",
+      "related": ["security-audit", "api-design", "mcp-server"],
+      "references": []
+    },
+    {
+      "name": "api-design",
+      "displayName": "API Design",
+      "description": "Design REST API contracts before implementation: resource modeling, route conventions, request/response shapes, error codes, pagination, idempotency, and versioning. Produces consistent, predictable API contracts that respect existing codebase conventions.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "engineering",
+      "tags": [
+        "api",
+        "rest",
+        "api-design",
+        "endpoints",
+        "openapi",
+        "backend",
+        "contracts",
+        "http"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/api-design --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/api-design",
+      "docs": "https://cognikit.com/skills/api-design",
+      "related": ["code-review", "security-audit", "mcp-server"],
+      "references": []
+    },
+    {
+      "name": "security-audit",
+      "displayName": "Security Audit",
+      "description": "Adversarial security review of a codebase. Maps attack surface, checks OWASP Top 10 in priority order (access control, injection, auth, crypto, misconfig, SSRF, XSS, secrets), audits dependency CVEs, and produces severity-ranked findings with exploitability confirmation and remediation. Defensive analysis only.",
+      "version": "1.1.0",
+      "license": "MIT",
+      "category": "security",
+      "tags": [
+        "security",
+        "owasp",
+        "audit",
+        "vulnerabilities",
+        "idor",
+        "injection",
+        "xss",
+        "cve",
+        "secrets"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/security-audit --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/security-audit",
+      "docs": "https://cognikit.com/skills/security-audit",
+      "related": ["code-review", "api-design", "rag-pipelines", "mcp-server"],
+      "references": []
+    },
+    {
+      "name": "mcp-server",
+      "displayName": "MCP Server",
+      "description": "Design and build Model Context Protocol servers that expose tools, resources, and prompts to AI agents. Covers stdio vs HTTP vs MCPB deployment models, tool design principles, runnable TypeScript and Python server examples, client config, and testing with the MCP inspector.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "ai-agents",
+      "tags": [
+        "mcp",
+        "model-context-protocol",
+        "tools",
+        "agent-tools",
+        "stdio",
+        "fastmcp",
+        "claude",
+        "integration"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/mcp-server --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/mcp-server",
+      "docs": "https://cognikit.com/skills/mcp-server",
+      "related": ["api-design", "security-audit", "agent-memory"],
+      "references": []
+    },
+    {
+      "name": "agent-memory",
+      "displayName": "Agent Memory",
+      "description": "Design persistent memory systems for AI agents. Four-layer architecture (soul rules, learned preferences, working memory, knowledge base), memory write rules, a self-improvement loop that runs as a periodic review process, confidence levels, memory poisoning defenses, and multi-tenant scoping.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "ai-agents",
+      "tags": [
+        "agent-memory",
+        "self-improvement",
+        "preferences",
+        "soul",
+        "persistent-memory",
+        "agents",
+        "learning"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/agent-memory --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/agent-memory",
+      "docs": "https://cognikit.com/skills/agent-memory",
+      "related": ["rag-pipelines", "model-distillation", "mcp-server"],
+      "references": []
+    },
+    {
+      "name": "model-distillation",
+      "displayName": "Model Distillation",
+      "description": "Distill a large teacher model into a small model that runs on modest hardware. Covers task scoping, training data generation, LoRA fine-tuning with unsloth, student model sizing by RAM, evaluation against the teacher, GGUF quantization, and deployment with Ollama or llama.cpp.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "ai-ml",
+      "tags": [
+        "distillation",
+        "fine-tuning",
+        "lora",
+        "unsloth",
+        "gguf",
+        "ollama",
+        "quantization",
+        "local-llm",
+        "small-models"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/model-distillation --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/model-distillation",
+      "docs": "https://cognikit.com/skills/model-distillation",
+      "related": ["rag-pipelines", "agent-memory", "code-review"],
+      "references": []
+    },
+    {
+      "name": "rag-pipelines",
+      "displayName": "RAG Pipelines",
+      "description": "Build retrieval-augmented generation systems: document ingestion, structure-aware chunking, embeddings, vector store selection by scale, hybrid retrieval, grounded answer generation with citations, multi-tenant isolation, and evaluation of retrieval hit-rate vs answer faithfulness.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "data",
+      "tags": [
+        "rag",
+        "vector-search",
+        "embeddings",
+        "chunking",
+        "semantic-search",
+        "knowledge-base",
+        "pgvector",
+        "retrieval"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/rag-pipelines --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/rag-pipelines",
+      "docs": "https://cognikit.com/skills/rag-pipelines",
+      "related": ["agent-memory", "security-audit", "model-distillation"],
+      "references": []
+    },
+    {
+      "name": "marketing-sites",
+      "displayName": "Marketing Sites",
+      "description": "Design and write marketing and landing pages that convert without looking AI-generated. Narrative arc, hero variations, conversion copy rules, pricing page patterns, one-memorable-element discipline, and an anti-slop blocklist for generic landing page patterns.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "design",
+      "tags": [
+        "landing-page",
+        "marketing",
+        "conversion",
+        "hero",
+        "pricing-page",
+        "copywriting",
+        "homepage",
+        "anti-ai-slop"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/marketing-sites --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/marketing-sites",
+      "docs": "https://cognikit.com/skills/marketing-sites",
+      "related": ["design-systems", "code-review"],
+      "references": []
+    },
+    {
+      "name": "dashboard-ui",
+      "displayName": "Dashboard UI",
+      "description": "Design data-dense dashboards, admin panels, and internal tools that answer questions rather than decorate. Question-first hierarchy, chart selection rules, data table discipline, widget states, filters, density, and anti-patterns for dashboard design.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "design",
+      "tags": [
+        "dashboard",
+        "admin",
+        "data-visualization",
+        "analytics",
+        "tables",
+        "charts",
+        "internal-tools",
+        "metrics"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/dashboard-ui --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/dashboard-ui",
+      "docs": "https://cognikit.com/skills/dashboard-ui",
+      "related": ["design-systems", "api-design"],
+      "references": []
+    },
+    {
+      "name": "mobile-app-design",
+      "displayName": "Mobile App Design",
+      "description": "Design mobile app UIs that respect platform conventions instead of shrunken web pages. iOS HIG vs Material 3 decisions, navigation patterns, touch ergonomics, safe areas, mobile components, feedback patterns, and screen-flow-first design.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "design",
+      "tags": [
+        "mobile",
+        "ios",
+        "android",
+        "app-design",
+        "react-native",
+        "flutter",
+        "navigation",
+        "touch",
+        "hig",
+        "material-design"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/mobile-app-design --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/mobile-app-design",
+      "docs": "https://cognikit.com/skills/mobile-app-design",
+      "related": ["design-systems", "design-system-architecture"],
+      "references": []
+    },
+    {
+      "name": "cognikit",
+      "displayName": "Cognikit Router",
+      "description": "Meta-skill that routes tasks to the right Cognikit skill and sequences multi-skill workflows. Use when a request spans fields or it is unclear which specialist applies.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "meta",
+      "tags": [
+        "router",
+        "meta",
+        "orchestration",
+        "skill-graph",
+        "workflow"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/cognikit --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/cognikit",
+      "docs": "https://cognikit.com/skills/cognikit",
+      "related": ["design-systems", "code-review", "mcp-server"],
+      "references": []
+    },
+    {
+      "name": "seo",
+      "displayName": "SEO",
+      "description": "Audit and implement technical and on-page SEO to professional standard. Meta tags, canonicals, robots and sitemap rules, JSON-LD structured data, Open Graph, Core Web Vitals, EEAT signals, and anti-slop content checks.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "marketing",
+      "tags": [
+        "seo",
+        "meta-tags",
+        "structured-data",
+        "json-ld",
+        "open-graph",
+        "core-web-vitals",
+        "search",
+        "sitemap"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/seo --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/seo",
+      "docs": "https://cognikit.com/skills/seo",
+      "related": ["marketing-sites", "code-review"],
+      "references": []
+    },
+    {
+      "name": "app-store-compliance",
+      "displayName": "App Store Compliance",
+      "description": "Check whether a mobile app meets Apple App Store and Google Play requirements and set up submission correctly. Rejection causes, privacy manifests, data safety, permissions, store metadata, and rejection response.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "mobile",
+      "tags": [
+        "app-store",
+        "google-play",
+        "compliance",
+        "app-review",
+        "privacy-manifest",
+        "data-safety",
+        "submission",
+        "mobile"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/app-store-compliance --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/app-store-compliance",
+      "docs": "https://cognikit.com/skills/app-store-compliance",
+      "related": ["mobile-app-design", "legal-docs"],
+      "references": []
+    },
+    {
+      "name": "legal-docs",
+      "displayName": "Legal Docs",
+      "description": "Draft professional-grade privacy policies, terms of service, cookie policies, refund policies, and acceptable use documents. Intake-driven drafting matched to actual data practices with jurisdiction-aware clauses (GDPR, CCPA, COPPA).",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "compliance",
+      "tags": [
+        "privacy-policy",
+        "terms-of-service",
+        "cookie-policy",
+        "gdpr",
+        "ccpa",
+        "legal",
+        "compliance",
+        "refund-policy"
+      ],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/legal-docs --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/legal-docs",
+      "docs": "https://cognikit.com/skills/legal-docs",
+      "related": ["app-store-compliance", "seo"],
+      "references": []
     }
   ]
 }

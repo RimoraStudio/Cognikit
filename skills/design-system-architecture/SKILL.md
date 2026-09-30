@@ -1,7 +1,8 @@
 ---
 name: design-system-architecture
 description: Use when building, scaling, auditing, or governing a design system as an engineering product. Triggers on "design system architecture", "design tokens pipeline", "design system governance", "design drift", "component contribution model", "design system versioning", "multi-brand design system", "Figma to code sync", "design system audit", "design system health score", "design system monorepo", "component API design", "design system deprecation", "design system adoption metrics", or any task about the structure, scaling, and maintenance of a design system itself (not the visual style). Covers token architecture, governance models, contribution tiers, versioning, deprecation, drift detection, multi-brand orchestration, Figma-to-code pipelines, CI gates, adoption metrics, and AI-agent readiness.
-version: 1.0.0
+metadata:
+  version: 1.0.0
 license: MIT
 ---
 
@@ -401,6 +402,11 @@ Load these for detailed guidance. All files exist under `references/`.
 | `versioning.md` | SemVer policy, changelog format, deprecation timeline, codemod templates | When versioning or deprecating |
 | `drift-detection.md` | Drift types, scanner setup, CI gates, health score calculation | When installing drift detection |
 | `ai-readiness.md` | AGENTS.md, CLAUDE.md, llms.txt, component manifest templates | When making the system AI-agent ready |
+
+## Related skills
+
+- `design-systems`: for choosing and applying the visual direction this architecture serves
+- `code-review`: review component API and token pipeline diffs before merge
 
 ## Pre-flight checklist
 

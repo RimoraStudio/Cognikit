@@ -1,0 +1,23 @@
+{
+  "skill_name": "agent-memory",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Building a personal assistant agent for myself. I want it to remember my preferences across sessions, like that I prefer tables for comparisons and that my standup notes go out Fridays, without me re-explaining every time. How should I structure its memory?",
+      "expected_output": "Proposes the four-layer memory model with clear boundaries: soul.md for identity/non-negotiables (human-edited only, no agent write path), preferences.md for durable learned preferences where each entry carries confidence, source, and date-learned metadata, ephemeral working memory cleared or summarized at session end, and a knowledge base queried at run time rather than memorized. Explains the durability test for what may persist (standing instructions and stable preferences yes, one-off requests and easily-outdated facts no), the file layout (memory/soul.md, memory/preferences.md, memory/corrections.jsonl), and load order. Gives the preferences.md entry template.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "our support bot keeps getting corrected by users and then does the same dumb thing again the next day. every conversation starts from zero. is there a sane way to make it actually learn from corrections without it slowly going off the rails?",
+      "expected_output": "Designs the self-improvement loop as a scheduled batch process rather than inline learning: a corrections log (corrections.jsonl) captures explicit corrections and failures as pending entries, a review job classifies each by improvement class, diagnoses root cause, proposes the smallest memory write, validates against safety constraints and existing preferences, and applies by confidence tier (high persists to preferences.md, medium requires human approval, low stays in the log). Emphasizes poisoning defenses: learned rules can never override security rules/permissions/spend limits, per-user scoping in multi-tenant setups, and soul.md staying human-edited only so identity cannot drift.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Design the memory architecture for a multi-tenant coding assistant SaaS. Each workspace's agent should learn that team's conventions, users must never see another team's learned behavior, and we need an audit trail for anything the agent teaches itself.",
+      "expected_output": "Delivers a multi-tenant memory design: one memory directory per workspace containing soul.md (per-workspace identity, human-managed), preferences.md (team conventions with confidence/source/date metadata for auditability), and corrections.jsonl; working memory stays per-session; the knowledge base stays a per-tenant retrieved store. Specifies poisoning defenses required by the brief: strict per-tenant keying so no cross-tenant leakage, validation-before-promotion so nothing writes to preferences.md without review, a safety floor where learned rules cannot override permissions or security constraints, and a human-reviewable diff from the scheduled review job as the audit trail.",
+      "files": []
+    }
+  ]
+}

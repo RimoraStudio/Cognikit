@@ -39,6 +39,24 @@ system, not the contract itself.
 - One token file drives Figma, CSS, iOS, and Android without a hand-built
   translation layer.
 - Dark mode, theming, and rebranding become token swaps, not rewrites.
+- **Bundle type properties into one step.** Each `text-*` token carries
+  size + line-height + font-weight + letter-spacing, so one utility
+  replaces the four-class stacks (`text-[clamp(...)] leading-[...]
+  font-[690] tracking-[-0.06em]`) that drift at every call site. This
+  collapses the four near-identical `h1` clamps and five near-identical
+  `h2` clamps that accumulate otherwise. Tailwind v4 `@theme` supports
+  this natively via `--text-*--line-height`, `--text-*--font-weight`,
+  `--text-*--letter-spacing` companion tokens.
+- **Namespace mock palettes separately.** Components imitating a real
+  product UI (hero boards, sticky notes, workspace switchers, product
+  shells) use a separate `mock-*` token namespace, never the marketing
+  surface tokens. Mixing the two is what creates a second grey ramp that
+  silently clashes with the first. One cool-neutral ramp for the
+  marketing surface; one namespaced ramp for product mockups.
+- **Quarantine legacy debt in the token file.** Record files that
+  predate the system and still carry raw values, `!important`, or
+  arbitrary breakpoints. They are not precedent. Do not copy their
+  patterns. Migrate them individually with visual checks, not in bulk.
 
 **DESIGN.md integration:** Document tokens in the DESIGN.md using the
 three-tier structure. The template in `design-md.md` already uses

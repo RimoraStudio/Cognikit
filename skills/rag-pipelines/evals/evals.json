@@ -1,0 +1,23 @@
+{
+  "skill_name": "rag-pipelines",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We have ~400 markdown docs in our engineering wiki and engineers keep asking the same questions in Slack. I want to build a 'chat with the wiki' feature in our internal tools app. Postgres is already deployed. Walk me through the architecture.",
+      "expected_output": "Designs the pipeline end to end with concrete choices: markdown parsing that preserves heading structure (heading path becomes section metadata), structure-aware chunking at 300-800 tokens with 10-15% overlap and source/section/doc_id metadata on every chunk, one embedding model used for both indexing and queries (e.g., text-embedding-3-small or a local bge-m3/nomic option if privacy requires), pgvector as the store since Postgres is already deployed, retrieval at top-k 5-10 with hybrid keyword+vector fusion for jargon and error codes, and a grounding prompt that requires per-claim citations and includes the explicit 'I don't have that in the docs' fallback. Mentions incremental re-embedding via content hashing and suggests a small golden Q&A set to measure retrieval hit-rate and faithfulness separately.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "support wants customers to be able to ask questions and get answers straight from our help center instead of filing tickets. we tried just pasting docs into the prompt but answers are inconsistent and sometimes it makes stuff up. what's the right way to build this",
+      "expected_output": "Identifies this as a RAG problem rather than a prompt-engineering problem and prescribes the full pipeline: per-format parsers for the help center content (HTML/markdown), structure-aware chunking with metadata for citations, embeddings plus a vector store matched to corpus size, filtered top-k retrieval with hybrid search for product jargon and SKU-like strings, and a grounding prompt that forbids outside knowledge, requires citations per claim, and returns a grounded fallback when the context lacks the answer. Calls out why the current approach fails (context limits, no retrieval ranking, no citation enforcement) and recommends a golden set of real support questions to measure retrieval hit-rate vs answer faithfulness separately so the failing stage is identifiable.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Adding document Q&A to our multi-tenant SaaS. Each customer's uploaded docs must be searchable only by that customer, zero exceptions. What are the non-negotiables in the retrieval layer?",
+      "expected_output": "States the critical rule clearly: tenant isolation belongs in the retrieval query (WHERE tenant_id = %s or the store's filter API applied before ranking), never in the prompt, because once another tenant's chunks reach the model's context the leak has already happened. Covers the supporting requirements: tenant_id recorded at ingestion and carried on every chunk as filterable metadata, filters applied inside the query rather than post-filtering results, a cross-tenant test proving tenant-A queries cannot return tenant-B chunks, and citations still required so answers stay auditable. Notes the same isolation applies to the keyword/hybrid retrieval path, not just vector search.",
+      "files": []
+    }
+  ]
+}

@@ -105,20 +105,25 @@ Font family, scale, weights, line heights, letter spacing.
 
 ### Type scale
 
-| Size | Weight | Line height | Letter spacing | Use for |
-|---|---|---|---|---|
-| 32 | 800 | 1.1 | -0.02em | Page titles |
-| 24 | 700 | 1.2 | -0.01em | Section headers |
-| 20 | 700 | 1.2 | 0 | Card titles |
-| 16 | 600 | 1.4 | 0 | Buttons, emphasis |
-| 14 | 400 | 1.6 | 0 | Body text |
-| 12 | 400 | 1.5 | 0 | Captions |
-| 11 | 600 | 1.4 | 0.05em | Labels (not uppercase) |
+Each step bundles size + line-height + weight + letter-spacing, so one
+utility replaces four-class stacks at every call site. Match an
+existing step rather than adding one that differs by a pixel or two.
+
+| Token | Size | Line height | Weight | Letter spacing | Use for |
+|---|---|---|---|---|---|
+| `text-display-xl` | `clamp(54px, 6.1vw, 88px)` | 0.94 | 700 | -0.065em | Page `h1` |
+| `text-display-lg` | `clamp(50px, 4.6vw, 74px)` | 1.0 | 700 | -0.06em | Major section heading |
+| `text-heading-lg` | `clamp(26px, 2.2vw, 32px)` | 1.12 | 700 | -0.04em | Card heading |
+| `text-body` | 16px | 1.45 | 400 | 0 | Body |
+| `text-caption` | 13px | 1.45 | 400 | 0 | Metadata |
+| `text-eyebrow` | 13px | 1 | 750 | 0.12em | Uppercase label |
 
 ### Rules
 
 - <any project-specific typography rules: no uppercase labels, no
   serif in body, tabular nums for data, etc.>
+- Match an existing step rather than adding one that differs by a pixel
+  or two. That habit is what produces four near-identical `h1` clamps.
 
 ## Spacing
 
@@ -223,6 +228,19 @@ universal anti-patterns from the design-systems skill, plus any
 project-specific ones.
 
 - <pattern name>: <why rejected, what to do instead>
+
+## Known debt (quarantined)
+
+Files that predate the design system and still carry raw values,
+`!important`, arbitrary breakpoints, or template-literal `className`.
+They are recorded here so contributors know they are **not precedent**.
+Do not copy their patterns. Do not cite them as the way things are
+done. If you edit them, leave them better than you found them, not
+consistent with them.
+
+Migrate entries individually with visual checks, not in bulk.
+
+- `<file path>`: <what debt it carries, why it was left alone>
 
 ## Platform notes
 

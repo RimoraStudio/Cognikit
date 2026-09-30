@@ -12,6 +12,8 @@ platform notes.
 
 ### When to use
 - Portfolios, reading apps, SaaS dashboards, documentation
+- Product-led marketing sites with oversized tightly-tracked headings
+  on clean pale-blue surfaces (the "Avanta style")
 - When content is the hero and UI should disappear
 - When you want timeless design that won't age
 
@@ -21,6 +23,28 @@ platform notes.
 - Limited color palette (1-2 colors + neutrals)
 - No decorative elements (no gradients, no shadows, no patterns)
 - Thin borders or no borders (rely on whitespace for separation)
+
+### Production example: Avanta marketing site
+A token-first implementation of this direction, distilled into
+patterns you can apply to any Next.js marketing site:
+- **Type scale bundles four properties per step.** Each `text-*` token
+  carries size + line-height + weight + letter-spacing, collapsing the
+  four-class stacks (`text-[clamp(...)] leading-[...] font-[690]
+  tracking-[-0.06em]`) that drift at every call site.
+- **Namespaced mock palette.** Product-mockup components (hero boards,
+  sticky notes, workspace switchers) use a separate `mock-*` token
+  namespace, never the marketing surface tokens. This prevents a
+  second grey ramp from drifting in.
+- **One cool-neutral ramp.** `neutral-50` through `neutral-900`
+  replaces the two competing grey families that drift in otherwise.
+- **Scroll-reveal via `<Reveal>` primitive.** GSAP gated on
+  `prefers-reduced-motion: no-preference` because CSS cannot undo
+  inline styles. Animation lives with the component that owns its
+  targets, never driven from page-level selectors.
+- **Server-safe barrel.** Client-only primitives imported from their
+  own modules so the barrel stays server-safe.
+- **Page-as-manifest.** Sections take no props; each imports its own
+  data. Pages are manifests of sections, not prop-threading trees.
 
 ### Color
 - Background: warm white (`#FAFAF8`, `#F7F5F2`) or pure white

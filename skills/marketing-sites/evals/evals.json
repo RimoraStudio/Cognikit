@@ -1,0 +1,23 @@
+{
+  "skill_name": "marketing-sites",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Need a landing page for our launch next week. Product: a CLI that catches secrets in diffs before they hit CI. Audience is senior devs who've been burned by a leaked key. I want signups to the waitlist. Build it in Next.js.",
+      "expected_output": "Grounds the page first: states the product in one sentence, the audience (security-burned senior devs), and names waitlist signup as the ONE job every CTA serves. Chooses a section narrative suited to a dev tool (e.g., live code-block hero showing the tool catching a secret, mechanism over testimonials), picks a hero variation deliberately rather than the centered-gradient default, and writes real conversion copy: outcome-first headline, specific claims, CTA naming the result ('Join the waitlist' variant tied to outcome), no lorem ipsum, no placeholder names, no banned words like Seamless or Supercharge, no em dashes. Includes exactly one memorable element and keeps the rest quiet. Email-only form for the waitlist.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "our homepage gets decent traffic from product hunt but almost nobody signs up. i think it just reads like generic startup wallpaper. can you look at it and rebuild the page so it actually converts? [attached: current index.tsx]",
+      "expected_output": "Diagnoses before rebuilding: identifies which sections could appear unchanged on any competitor's page (the self-check), finds slop patterns in the current page (three equal feature cards, testimonial carousel, accordion FAQ, vague CTAs like 'Get Started', fake or source-less stats), and re-grounds on the ONE job. Produces a new narrative order chosen for this product, a hero that is headline + subhead + one CTA + one visual with the CTA naming a result, headings that carry the story for skimmers, and real specific copy with [verify] markers where facts are unknown. Flags technical conversion issues like LCP on the hero asset and mobile CTA placement.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Design the pricing page for our API monitoring SaaS. Tiers are Free, Team ($49/mo), and Business ($199/mo) plus enterprise contact-us. Sales keeps complaining prospects can't tell which plan is for them.",
+      "expected_output": "Produces a pricing page following the conversion rules: 3 paid/self-serve tiers presented clearly with enterprise as a contact row only if genuinely needed, the middle Team tier anchored as recommended ('Most popular') with the most prominent CTA on the page, an annual toggle showing savings as a concrete dollar amount, and each tier stating who it is for (indie dev, growing team, org with compliance needs) not just limits. Writes scannable copy with outcome-named CTAs, no em dashes, no banned words, and notes objection-handling elements (what happens on overage, cancel anytime) rather than defaulting to an accordion FAQ.",
+      "files": []
+    }
+  ]
+}

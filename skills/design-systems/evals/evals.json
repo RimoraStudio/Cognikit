@@ -1,0 +1,23 @@
+{
+  "skill_name": "design-systems",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We're rebuilding our analytics SaaS frontend in Next.js + Tailwind. Right now it's stock Inter, grey cards, and a purple gradient hero and it looks like every other AI-generated product page. Walk me through picking an actual visual direction before I start rebuilding screens.",
+      "expected_output": "Runs the discovery workflow first: detects whether a design system already exists (DESIGN.md, tailwind.config, tokens), audits the current UI for anti-patterns, then proposes 1 to 3 named design directions with a one-sentence rationale, what changes, and trade-offs for each. Once a direction is chosen it generates a DESIGN.md at the project root covering color tokens, typography scale, spacing rhythm, and component patterns, and notes that the anti-AI-slop checklist should be run before done. It does not jump straight to writing CSS without choosing a direction.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "honestly every side project I ship ends up looking the same. same font, same rounded cards, same blue buttons. I'm building a reading tracker app this weekend and I want it to feel like something a person designed on purpose, warm and bookish. where do I even start",
+      "expected_output": "Recognizes this as a visual direction problem, gathers context (web or native, content type, platform), and proposes 1 to 3 concrete directions that fit a warm, editorial personality (e.g., Editorial/Magazine or Minimalist with warm neutrals), naming the system, why it fits, and key traits like serif display type, warm paper tones, and generous whitespace. It then offers to write a DESIGN.md capturing the palette, type scale, and component rules rather than emitting a generic style dump, and avoids naming AI-default choices like Inter-on-white as the recommendation.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Is neobrutalism a terrible idea for a B2B invoicing tool? Our designer left, marketing wants 'something bold', and I'm leaning toward just using Material 3 to be safe. Flutter app, enterprise finance users.",
+      "expected_output": "Directly answers the comparison question by weighing Neo-Brutalism vs Material Design 3 for an enterprise finance audience, using the decision shortcuts (enterprise/B2B points to Material 3 or Minimalist, trust-first audiences point to Corporate or Swiss). Recommends one direction with a clear rationale tied to audience and content type, notes the trade-offs of the rejected option, and offers to document the choice in DESIGN.md with token rules. Does not produce a fence-sitting 'it depends' answer without a recommendation.",
+      "files": []
+    }
+  ]
+}

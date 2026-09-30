@@ -9,6 +9,26 @@ considering any design task complete.
 
 ---
 
+## The five fingerprint clusters
+
+Individual tells are easy to memorize. What makes a page *read* as
+AI-generated is usually a whole cluster of them firing together. Name
+the cluster and you can kill it in one sweep instead of hunting items.
+
+| Cluster | Reads as | Signature | The fix |
+|---|---|---|---|
+| The Dashboard | Everything is cards | Equal-size bento tiles, soft pastel tints, tabular metrics in boxes | Kill the bento. Big type and negative space do the work |
+| The Startup | SaaS template | Eyebrow label + big centered gradient headline + email CTA + orbiting circles | Pick one unusual layout, real copy, no orbiting widgets |
+| The Blog | Purple SaaS docs | Generic headings, tag pills, thumbnail cards, predictable rhythm | Strong editorial direction or none at all |
+| The Slides | Exported deck | Full-viewport sections, big number headings, one idea per screen, zero density | Scrollable content with real information hierarchy |
+| The Portfolio | Dribbble shot | Decorative blobs, huge whitespace with little content, big display type saying nothing | Content over ornament; every section earns its space |
+
+A design can hit 100 of the 110 tells below and still fail if it lands
+inside one of these clusters whole. Check the cluster first, then the
+details.
+
+---
+
 ## Color tells
 
 ### 1. The Lila Rule

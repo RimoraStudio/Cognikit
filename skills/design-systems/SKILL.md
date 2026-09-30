@@ -1,7 +1,8 @@
 ---
 name: design-systems
-description: Use when building, redesigning, or choosing a visual design system for any app or website. Triggers on "design system", "UI/UX", "redesign", "make it modern", "make it professional", "brutalism", "minimalist", "glassmorphism", "neumorphism", "material design", "bento grid", "editorial", "swiss design", "cyberpunk UI", "art deco UI", "what design style", "choose a design system", "design direction", or any visual design decision for a new or existing project. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, anti-AI-slop checklist, DESIGN.md spec generation, and Flutter + Web implementation notes.
-version: 1.0.0
+description: Use when building, redesigning, or choosing a visual design system for any app or website. Triggers on "design system", "UI/UX", "redesign", "make it modern", "make it professional", "brutalism", "minimalist", "glassmorphism", "neumorphism", "material design", "bento grid", "editorial", "swiss design", "cyberpunk UI", "art deco UI", "what design style", "choose a design system", "design direction", "product-led editorial", "token-first design system", "server-safe component barrel", "GSAP scroll reveal", "Tailwind @theme tokens", or any visual design decision for a new or existing project. Covers 14 design systems with when-to-use guidance, color/typography/spacing rules, component patterns, anti-AI-slop checklist, DESIGN.md spec generation, anti-drift conventions (truth comments, quarantined debt, derived nav), UX psychology laws (Fitts, Hick, peak-end, endowed progress), and Flutter + Web implementation notes.
+metadata:
+  version: 1.3.0
 license: MIT
 ---
 
@@ -180,6 +181,16 @@ directions. For each:
 4. **Trade-offs**: what the system does well and what to watch for
    (accessibility, performance, build speed, longevity)
 
+Spend boldness in one place. Each proposal names one signature element
+(a headline treatment, a hero pattern, a dark section, an illustration
+style) where the design takes a stance. Everything else stays quiet.
+Design spread evenly across every component reads as generated.
+
+Then run the self-similarity check on each option: would you propose
+this same design for any similar product? If yes, it is not specific
+to this brief. Find the element that could only belong to this
+project before presenting.
+
 Present the options to the user. If only one direction is clearly right,
 state it and proceed. If multiple are viable, let the user choose.
 
@@ -212,6 +223,25 @@ universal:
    versa.
 8. **Progressive data loading.** Show data as it arrives. Don't block
    the entire UI behind a single loading state.
+9. **Show endowed progress.** Users fear losing progress more than they
+   value gaining it (loss aversion + goal-gradient effect). Start
+   checklists, completeness bars, and onboarding flows with one real
+   step already done ("Account created") instead of 0%. Never open a
+   first-run experience at zero.
+
+For the full set of UX laws and effects (Fitts, Hick, Miller, Jakob,
+peak-end, Zeigarnik, Doherty, and more), see
+`references/ux-psychology.md`.
+
+## Anti-drift conventions (keep the system from rotting)
+
+A design system decays the moment a contributor reaches for a raw value
+instead of a token, or restyles a primitive instead of composing it.
+The full conventions live in `references/anti-drift.md`: token-first
+rules, composing primitives, one-step type scale, quarantined debt,
+truth comments, derive-don't-duplicate, server-safe barrels, animation
+ownership, and page-as-manifest composition. Load it when implementing
+or reviewing any project with more than one contributor.
 
 ## Choosing a design system
 
@@ -263,14 +293,19 @@ Load these for detailed guidance. All files exist under `references/`.
 | `components.md` | Universal component library (nav, cards, inputs, buttons, modals, lists, tables, empty states, skeletons, FAB, etc.) with Flutter + Web + React Native snippets | When building any UI component |
 | `responsive-adaptive.md` | Phone, tablet, desktop adaptation rules, breakpoints, touch vs mouse, platform conventions | When making the design work across form factors |
 | `anti-ai-slop.md` | 110 universal AI design tells to avoid, organized by category | Before declaring any design task done |
+| `ux-psychology.md` | UX laws and effects with concrete application rules (Fitts, Hick, Miller, Jakob, peak-end, Zeigarnik, Doherty, Tesler, Postel, defaults) and a dark-pattern guardrail | When designing flows, navigation, onboarding, or any decision-heavy UI |
 | `design-md.md` | DESIGN.md template and maintenance rules | When creating or updating the project's DESIGN.md |
 | `modern-trends.md` | 2026 design system trends: token architecture, motion tokens, evolved bento, calm interfaces, WCAG 3.0, dark mode baseline, functional micro-interactions, variable fonts, AI governance | When implementing the chosen system, to apply current best practices |
+| `anti-drift.md` | Anti-drift conventions: token-first rules, primitive composition, type scale, quarantined debt, truth comments, derived nav, server-safe barrels, animation ownership, page-as-manifest | When implementing or reviewing code in a project with more than one contributor |
 
 ## Anti-AI Slop (always check)
 
 AI-generated design has recognizable fingerprints. Regardless of which
 design system you choose, avoid all 110 tells in
-`references/anti-ai-slop.md`. Organized by category:
+`references/anti-ai-slop.md`. Check the five fingerprint clusters first
+(Dashboard, Startup, Blog, Slides, Portfolio): a page can pass every
+individual tell and still land inside a cluster whole. Then check the
+detailed tells, organized by category:
 
 **Color (6 tells):** Lila Rule, premium-consumer palette ban, oversaturated
 accents, multiple accents, color consistency violations, mixed grey families
@@ -340,6 +375,11 @@ design system.
 
 See `references/design-md.md` for the full template and maintenance rules.
 
+## Related skills
+
+- `design-system-architecture`: when the design system itself needs tokens, governance, or versioning infrastructure
+- `code-review`: run a review pass on generated UI code before shipping
+
 ## Pre-flight checklist
 
 Before considering a design task complete:
@@ -351,6 +391,7 @@ Before considering a design task complete:
 - [ ] Spacing rhythm defined in DESIGN.md (base unit, scale)
 - [ ] Component patterns established in DESIGN.md (cards, buttons, inputs, chips)
 - [ ] All states covered (loading, empty, error, loaded)
+- [ ] First-run flows show endowed progress (a real step already done, never 0%)
 - [ ] No universal anti-patterns (em dashes, emoji icons, generic AI tells)
 - [ ] Anti-AI Slop 110-point checklist passed (see `references/anti-ai-slop.md`)
 - [ ] Responsive: layout adapts at phone, tablet, desktop breakpoints
@@ -358,3 +399,18 @@ Before considering a design task complete:
 - [ ] Platform-appropriate (Flutter feels like Flutter, web feels like web)
 - [ ] Consistent within the chosen system (don't mix systems without intent)
 - [ ] DESIGN.md committed with code changes
+
+### Anti-drift checks (token-first systems)
+
+- [ ] No raw hex, arbitrary `text-[...]` / `py-[...]`, or `max-[NNNpx]:` in diff
+- [ ] No `!important` (a primitive is missing a variant instead)
+- [ ] No `[&_...]:` child styling (pass real components instead)
+- [ ] Type steps bundle size + leading + weight + tracking (no four-class stacks)
+- [ ] Namespaced mock palette separate from marketing tokens (no second grey ramp)
+- [ ] Quarantined debt listed in DESIGN.md and not copied as precedent
+- [ ] Data files open with truth comments constraining claims
+- [ ] Secondary lists derived from a single source, not duplicated
+- [ ] Client-only primitives imported from own modules, not through the barrel
+- [ ] Animation lives with the component that owns its targets
+- [ ] GSAP gates on `prefers-reduced-motion: no-preference`
+- [ ] Pages are manifests of propless sections that import their own data
