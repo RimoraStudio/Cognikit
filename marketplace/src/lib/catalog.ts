@@ -6,6 +6,8 @@ const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", ".."
 
 export interface SkillEntry {
   name: string;
+  deprecated?: boolean;
+  replacement?: string[];
   displayName: string;
   description: string;
   version: string;

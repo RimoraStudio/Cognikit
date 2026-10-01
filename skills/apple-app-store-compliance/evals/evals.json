@@ -1,0 +1,23 @@
+{
+  "skill_name": "apple-app-store-compliance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Apple rejected our iPad screenshots under 2.3.10 because they contain an Android status bar. What should I do?",
+      "expected_output": "Treat 2.3.10 separately, tell the user to recapture the submitted iOS/iPadOS app on supported Apple devices, inspect every size and locale including View All Sizes in Media Manager, remove non-Apple system chrome, and ensure screenshots show real shipped features. Do not claim policy completeness without checking the live Apple guideline.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Apple says our employee scheduling app is for one company, but we want it public. Draft a reply saying anyone can use it.",
+      "expected_output": "Do not invent facts or draft a deceptive claim. Ask who can sign up, which organizations use it, whether unaffiliated people can use core features, how accounts are provisioned, and who pays. Explain public versus custom/unlisted/enterprise routes based on verified facts and direct the developer to current Apple terms.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Do we comply with Apple rules if we have login, subscriptions, user posts, analytics, and health recommendations?",
+      "expected_output": "Inventory the actual implementation and SDK behavior, classify sensitive health and UGC risks, inspect live Apple guidelines across applicable Safety, Performance, Business, Design, and Legal sections, and record exact source sections and unknowns. Avoid a blanket yes/no from the feature list alone.",
+      "files": []
+    }
+  ]
+}

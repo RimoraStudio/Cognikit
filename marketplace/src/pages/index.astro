@@ -4,9 +4,9 @@ import { loadRegistry, evalCount } from "../lib/catalog";
 
 const base = import.meta.env.BASE_URL;
 const registry = loadRegistry();
-const skills = registry.skills.filter((s) => s.name !== "cognikit");
+const skills = registry.skills.filter((s) => s.name !== "cognikit" && !s.deprecated);
 const categories = [...new Set(skills.map((s) => s.category))].sort();
-const totalEvals = registry.skills.reduce((n, s) => n + evalCount(s.name), 0);
+const totalEvals = skills.reduce((n, s) => n + evalCount(s.name), 0);
 
 const CAT_COLORS: Record<string, string> = {
   design: "#d97757",
@@ -21,13 +21,13 @@ const CAT_COLORS: Record<string, string> = {
   meta: "#d97757",
 };
 
-const graphNodes = registry.skills.map((s) => ({
+const graphNodes = skills.map((s) => ({
   name: s.name,
   hub: s.name === "cognikit",
   color: CAT_COLORS[s.category] || "#9a9aa3",
 }));
 const seen = new Set<string>();
-const graphEdges = registry.skills.flatMap((s) =>
+const graphEdges = skills.flatMap((s) =>
   (s.related || [])
     .map((r) => [s.name, r].sort().join("~"))
     .filter((k) => !seen.has(k) && seen.add(k))

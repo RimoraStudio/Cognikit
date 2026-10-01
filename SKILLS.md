@@ -23,7 +23,9 @@ or a task spans several fields, start with the `cognikit` router skill.
 | Fine-tuning, distilling a small model, local LLMs, GGUF | `model-distillation` | ai-ml |
 | RAG, document search, knowledge bases, grounded answers | `rag-pipelines` | data |
 | SEO audits, meta tags, structured data, Core Web Vitals | `seo` | marketing |
-| App Store / Google Play review, store compliance, submission | `app-store-compliance` | mobile |
+| Apple App Store review, iOS rejection, App Store Connect, Apple distribution | `apple-app-store-compliance` | mobile |
+| Google Play review, Android rejection, Play Console, Data safety | `google-play-compliance` | mobile |
+| Store compliance for both platforms or unclear platform | `app-store-compliance` router | mobile |
 | Privacy policy, terms of service, cookie policy, legal pages | `legal-docs` | compliance |
 
 ## Workflow chains
@@ -34,9 +36,9 @@ Common jobs that run skills in sequence.
 |---|---|
 | New API feature | `api-design` → implement → `code-review` → `security-audit` |
 | New landing page | `design-systems` → `marketing-sites` → `code-review` → `seo` |
-| New mobile app | `design-systems` → `mobile-app-design` → `legal-docs` → `app-store-compliance` |
+| New mobile app | `design-systems` → `mobile-app-design` → `legal-docs` → Apple and/or Google Play specialist |
 | Agent platform | `mcp-server` → `agent-memory` → `rag-pipelines` → `model-distillation` → `security-audit` |
-| Launch checklist | `security-audit` → `seo` → `legal-docs` → `app-store-compliance` (if mobile) |
+| Launch checklist | `security-audit` → `seo` → `legal-docs` → relevant store specialist(s) (if mobile) |
 | Internal chatbot | `rag-pipelines` → `agent-memory` → `model-distillation` (when data justifies) |
 | New Cognikit skill | `skill-authoring` → `code-review` |
 

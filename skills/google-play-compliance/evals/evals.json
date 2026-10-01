@@ -1,0 +1,23 @@
+{
+  "skill_name": "google-play-compliance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Google Play rejected our Data safety form. We use Firebase Analytics and Crashlytics. Can we just say no data is shared?",
+      "expected_output": "Do not assume SDK behavior. Inspect actual SDK versions/configuration and current Google disclosures, trace collection and sharing, then reconcile the Data safety form and privacy policy. Identify unanswered data flows rather than declaring compliance from the SDK names.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Our Android app uses background location, SMS permissions, and a foreground service. Will Google Play approve it?",
+      "expected_output": "Inspect the merged manifest and real feature use, then check current eligibility, declarations, prominent disclosure/consent, foreground service types, and review evidence for each sensitive API. Do not assume manifest declarations guarantee approval or give a blanket yes/no.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Play suspended our developer account. Write an appeal saying it was a mistake.",
+      "expected_output": "First obtain the full notice, policy citation, scope, deadline, affected app/version, and verified evidence. Distinguish app-level rejection from account-level suspension; only draft a factual appeal if there is evidence and a specific policy basis. Do not invent claims and recommend counsel for complex account/legal issues.",
+      "files": []
+    }
+  ]
+}

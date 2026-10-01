@@ -24,11 +24,11 @@ Groups of related skills installed together:
 
 | Bundle | Skills | Install |
 |---|---|---|
-| `full` | All 17 skills | `npx skills add RimoraStudio/cognikit --all -g -y` |
+| `full` | All 19 skills | `npx skills add RimoraStudio/cognikit --all -g -y` |
 | `design` | design-systems, design-system-architecture, marketing-sites, dashboard-ui, mobile-app-design | `npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design -g -y` |
 | `engineering` | code-review, api-design, security-audit, skill-authoring | `npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit --skill skill-authoring -g -y` |
 | `ai-stack` | mcp-server, agent-memory, model-distillation, rag-pipelines | `npx skills add RimoraStudio/cognikit --skill mcp-server --skill agent-memory --skill model-distillation --skill rag-pipelines -g -y` |
-| `launch` | security-audit, seo, legal-docs, app-store-compliance | `npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill app-store-compliance -g -y` |
+| `launch` | security-audit, seo, legal-docs, apple-app-store-compliance, google-play-compliance | `npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill apple-app-store-compliance --skill google-play-compliance -g -y` |
 
 ## Available skills
 
@@ -48,7 +48,9 @@ Groups of related skills installed together:
 | `dashboard-ui` | Data-dense dashboards that answer questions. Chart selection, table discipline, widget states, filters, density. | design | `npx skills add RimoraStudio/cognikit --skill dashboard-ui -g -y` |
 | `mobile-app-design` | Mobile UIs that respect platform conventions. iOS HIG vs Material 3, nav patterns, touch ergonomics, safe areas. | design | `npx skills add RimoraStudio/cognikit --skill mobile-app-design -g -y` |
 | `seo` | Technical and on-page SEO to professional standard. Meta, canonicals, JSON-LD, OG tags, Core Web Vitals. | marketing | `npx skills add RimoraStudio/cognikit --skill seo -g -y` |
-| `app-store-compliance` | App Store and Google Play requirements. Rejection causes, privacy manifests, data safety, submission setup. | mobile | `npx skills add RimoraStudio/cognikit --skill app-store-compliance -g -y` |
+| `app-store-compliance` | Routes cross-platform or ambiguous store-policy tasks to Apple and Google Play specialists. | mobile | `npx skills add RimoraStudio/cognikit --skill app-store-compliance -g -y` |
+| `apple-app-store-compliance` | Apple review policy, App Store Connect, screenshots, distribution, privacy, and rejection responses. | mobile | `npx skills add RimoraStudio/cognikit --skill apple-app-store-compliance -g -y` |
+| `google-play-compliance` | Google Play policies, Data safety, permissions, billing, release requirements, and enforcement responses. | mobile | `npx skills add RimoraStudio/cognikit --skill google-play-compliance -g -y` |
 | `legal-docs` | Professional privacy policies, ToS, cookie and refund policies. Intake-driven, jurisdiction-aware drafting. | compliance | `npx skills add RimoraStudio/cognikit --skill legal-docs -g -y` |
 | `cognikit` | Meta-skill router. Maps tasks to the right Cognikit skill and sequences multi-skill workflows. | meta | `npx skills add RimoraStudio/cognikit --skill cognikit -g -y` |
 
@@ -64,8 +66,8 @@ Three layers teach an agent which skill to use and when:
 
 ## Quality
 
-- All 17 skills pass Anthropic's official spec validator (spec-allowed frontmatter keys only; version lives under `metadata:`)
-- Each skill ships `evals/evals.json` with realistic test prompts, including implicit triggers that never name the skill
+- 19 skills are listed in the registry, including one deprecated compatibility router
+- Every active specialist ships realistic eval prompts, including implicit triggers that never name the skill
 - CI checks required frontmatter, kebab-case names, reference file integrity, registry consistency, and no em dashes
 
 ## Marketplace
@@ -103,7 +105,9 @@ cognikit/
 │   ├── model-distillation/            # Local model distillation
 │   ├── rag-pipelines/                 # RAG systems
 │   ├── seo/                           # Technical + on-page SEO
-│   ├── app-store-compliance/          # App Store / Play requirements
+│   ├── app-store-compliance/          # Store compliance router
+│   ├── apple-app-store-compliance/    # Apple App Review and distribution
+│   ├── google-play-compliance/        # Google Play policy and publishing
 │   └── legal-docs/                    # Privacy policy, ToS, legal pages
 └── marketplace/                       # Dedicated marketplace platform
     └── README.md                      # Platform spec and roadmap

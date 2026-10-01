@@ -54,7 +54,9 @@ Think of it as the index, not a chapter.
 | Fine-tuning, distillation, small local models | `model-distillation` |
 | RAG, knowledge bases, grounded doc answers | `rag-pipelines` |
 | SEO audits, meta tags, structured data, Web Vitals | `seo` |
-| App Store / Play review, store submission, rejections | `app-store-compliance` |
+| Apple App Store review, iOS rejection, App Store Connect, Apple distribution | `apple-app-store-compliance` |
+| Google Play review, Android rejection, Play Console, Data safety | `google-play-compliance` |
+| Store compliance across both platforms or unclear platform | `app-store-compliance` router, then both relevant specialists |
 | Privacy policy, ToS, cookie policy, legal pages | `legal-docs` |
 
 ## Workflow chains
@@ -63,9 +65,9 @@ Think of it as the index, not a chapter.
 |---|---|
 | New API feature | `api-design` → implement → `code-review` → `security-audit` |
 | New landing page | `design-systems` → `marketing-sites` → `code-review` → `seo` |
-| New mobile app | `design-systems` → `mobile-app-design` → `legal-docs` → `app-store-compliance` |
+| New mobile app | `design-systems` → `mobile-app-design` → `legal-docs` → Apple and/or Google Play specialist |
 | Agent platform | `mcp-server` → `agent-memory` → `rag-pipelines` → `model-distillation` → `security-audit` |
-| Launch checklist | `security-audit` → `seo` → `legal-docs` → `app-store-compliance` (mobile only) |
+| Launch checklist | `security-audit` → `seo` → `legal-docs` → relevant store specialist(s) (mobile only) |
 
 ## Rules
 

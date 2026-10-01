@@ -12,7 +12,7 @@
       "displayName": "Full Cognikit",
       "description": "Every skill in the kit, one install.",
       "install": "npx skills add RimoraStudio/cognikit --all --global --yes",
-      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "legal-docs", "skill-authoring"]
+      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "apple-app-store-compliance", "google-play-compliance", "legal-docs", "skill-authoring"]
     },
     {
       "name": "design",
@@ -39,8 +39,8 @@
       "name": "launch",
       "displayName": "Launch Bundle",
       "description": "Everything needed before shipping: security, SEO, legal docs, store compliance.",
-      "install": "npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill app-store-compliance --global --yes",
-      "skills": ["security-audit", "seo", "legal-docs", "app-store-compliance"]
+      "install": "npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill apple-app-store-compliance --skill google-play-compliance --global --yes",
+      "skills": ["security-audit", "seo", "legal-docs", "apple-app-store-compliance", "google-play-compliance"]
     }
   ],
   "skills": [
@@ -389,9 +389,9 @@
     },
     {
       "name": "app-store-compliance",
-      "displayName": "App Store Compliance",
-      "description": "Check whether a mobile app meets Apple App Store and Google Play requirements and set up submission correctly. Rejection causes, privacy manifests, data safety, permissions, store metadata, and rejection response.",
-      "version": "1.0.0",
+      "displayName": "App Store Compliance Router",
+      "description": "Routes platform-specific store compliance tasks to Apple App Store or Google Play specialists. Use when the platform is unclear or both stores need review.",
+      "version": "2.0.0",
       "license": "MIT",
       "category": "mobile",
       "tags": [
@@ -399,16 +399,45 @@
         "google-play",
         "compliance",
         "app-review",
-        "privacy-manifest",
-        "data-safety",
         "submission",
-        "mobile"
+        "mobile",
+        "router"
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/app-store-compliance --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/app-store-compliance",
       "docs": "https://cognikit.com/skills/app-store-compliance",
       "related": ["mobile-app-design", "legal-docs"],
-      "references": []
+      "references": [],
+      "deprecated": true,
+      "replacement": ["apple-app-store-compliance", "google-play-compliance"]
+    },
+    {
+      "name": "apple-app-store-compliance",
+      "displayName": "Apple App Store Compliance",
+      "description": "Audit Apple-platform apps against App Review Guidelines, App Store Connect requirements, privacy and business rules; diagnose rejections and prepare factual responses. Covers guideline mapping, 2.3.10 screenshots, 3.2 distribution, and current-source verification.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "mobile",
+      "tags": ["apple", "app-store", "ios", "ipados", "app-review", "screenshots", "privacy", "distribution"],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/apple-app-store-compliance --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/apple-app-store-compliance",
+      "docs": "https://cognikit.com/skills/apple-app-store-compliance",
+      "related": ["google-play-compliance", "mobile-app-design", "legal-docs"],
+      "references": ["policy-map.md"]
+    },
+    {
+      "name": "google-play-compliance",
+      "displayName": "Google Play Compliance",
+      "description": "Audit Android apps against Google Play Developer Program Policies and Play Console requirements; diagnose rejections and enforcement, reconcile Data safety, permissions, billing, ads, target API, and prepare evidence-based appeals.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "mobile",
+      "tags": ["google-play", "android", "play-console", "data-safety", "permissions", "billing", "app-review", "compliance"],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/google-play-compliance --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/google-play-compliance",
+      "docs": "https://cognikit.com/skills/google-play-compliance",
+      "related": ["apple-app-store-compliance", "mobile-app-design", "legal-docs"],
+      "references": ["policy-map.md"]
     },
     {
       "name": "legal-docs",

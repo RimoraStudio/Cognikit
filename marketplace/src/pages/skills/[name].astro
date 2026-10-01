@@ -5,14 +5,14 @@ import { loadRegistry, evalCount } from "../../lib/catalog";
 
 export function getStaticPaths() {
   const registry = loadRegistry();
-  return registry.skills.map((skill) => ({ params: { name: skill.name } }));
+  return registry.skills.filter((skill) => !skill.deprecated).map((skill) => ({ params: { name: skill.name } }));
 }
 
 const base = import.meta.env.BASE_URL;
 const registry = loadRegistry();
 const skill = registry.skills.find((s) => s.name === Astro.params.name)!;
 const related = (skill.related || [])
-  .map((r) => registry.skills.find((s) => s.name === r))
+  .map((r) => registry.skills.find((s) => s.name === r && !s.deprecated))
   .filter(Boolean);
 const evals = evalCount(skill.name);
 const bodyHtml = marked.parse(skill.skillBody || "");
