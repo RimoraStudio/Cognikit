@@ -352,7 +352,7 @@
       "license": "MIT",
       "category": "design",
       "tags": ["ui", "ux", "components", "buttons", "interactions", "accessibility", "keyboard", "responsive", "refinement"],
-      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/refine-component --global --yes",
+      "install": "npx skills add RimoraStudio/cognikit@refine-component --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/refine-component",
       "docs": "https://cognikit.com/skills/refine-component",
       "related": ["design-systems", "mobile-app-design", "dashboard-ui", "code-review"],

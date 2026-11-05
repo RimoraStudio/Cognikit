@@ -21,7 +21,7 @@ platform-specific mobile design, or `dashboard-ui` for dashboard-level work.
 Install the skill:
 
 ```sh
-npx skills add RimoraStudio/cognikit/tree/main/skills/refine-component --global --yes
+npx skills add RimoraStudio/cognikit@refine-component --global --yes
 ```
 
 Example requests:
