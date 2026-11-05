@@ -2,6 +2,7 @@
 import { marked } from "marked";
 import Base from "../../layouts/Base.astro";
 import { loadRegistry, evalCount } from "../../lib/catalog";
+import ComponentLab from "../../components/component-lab/ComponentLab.astro";
 
 export function getStaticPaths() {
   const registry = loadRegistry();
@@ -40,6 +41,8 @@ const bodyHtml = marked.parse(skill.skillBody || "");
   </section>
 
   <div class="container">
+    {skill.name === "refine-component" && <ComponentLab />}
+
     <article class="skill-body" set:html={bodyHtml} />
 
     {
@@ -72,5 +75,6 @@ const bodyHtml = marked.parse(skill.skillBody || "");
         }, 1600);
       });
     });
+
   </script>
 </Base>

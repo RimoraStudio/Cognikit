@@ -1,0 +1,54 @@
+<article class="lab-tile lab-action-tile" id="lab-action" aria-labelledby="lab-action-title">
+  <div class="lab-tile-top">
+    <span class="lab-ref"><b>01</b> ACTION / PRIMARY</span>
+    <span class="lab-state"><i aria-hidden="true"></i> <span id="lab-action-state">READY</span></span>
+  </div>
+  <div class="lab-tile-body">
+    <div class="lab-glyph lab-glyph-action" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 3.75h11.5L20 7v13.25H5z" />
+        <path d="M8 4v5h8V4M8 20v-6h8v6" />
+        <path d="m15.5 16.5 1.5 1.5 3-3.5" />
+      </svg>
+    </div>
+    <h3 id="lab-action-title">Save control</h3>
+    <p>One activation, clear pending feedback, then a brief success state.</p>
+    <button class="lab-button lab-button-primary" id="lab-save" type="button">
+      <span class="lab-button-label">Save changes</span>
+      <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
+    </button>
+    <p class="lab-status" id="lab-action-status" role="status" aria-live="polite">Ready for preview.</p>
+  </div>
+  <div class="lab-tile-foot"><span>SPACE / ENTER</span><span>NO DATA WRITTEN</span></div>
+</article>
+
+<script>
+  const actionSpecimens = document.querySelectorAll<HTMLElement>("#lab-action");
+
+  actionSpecimens.forEach((specimen) => {
+    const saveButton = specimen.querySelector<HTMLButtonElement>("#lab-save");
+    const saveLabel = specimen.querySelector<HTMLElement>(".lab-button-label");
+    const actionState = specimen.querySelector<HTMLElement>("#lab-action-state");
+    const actionStatus = specimen.querySelector<HTMLElement>("#lab-action-status");
+
+    saveButton?.addEventListener("click", () => {
+      if (saveButton.disabled) return;
+      saveButton.disabled = true;
+      if (saveLabel) saveLabel.textContent = "Saving…";
+      if (actionState) actionState.textContent = "SAVING";
+      if (actionStatus) actionStatus.textContent = "Saving preview…";
+
+      window.setTimeout(() => {
+        if (saveLabel) saveLabel.textContent = "Saved";
+        if (actionState) actionState.textContent = "COMPLETE";
+        if (actionStatus) actionStatus.textContent = "Preview saved for this visit.";
+        window.setTimeout(() => {
+          if (saveLabel) saveLabel.textContent = "Save changes";
+          if (actionState) actionState.textContent = "READY";
+          if (actionStatus) actionStatus.textContent = "Ready for preview.";
+          saveButton.disabled = false;
+        }, 1400);
+      }, 550);
+    });
+  });
+</script>

@@ -1,0 +1,442 @@
+{
+  "catalogVersion": "2.0.0",
+  "product": {
+    "name": "Refine Component",
+    "description": "Framework-specific catalog specimens and behavior contracts. Adapt each pattern to the target product and verify it in context.",
+    "designSystem": "Illustrative examples; use the target project's system in production.",
+    "platforms": [
+      "web"
+    ]
+  },
+  "components": [
+    {
+      "id": "button",
+      "referenceCode": "RC-ACT-001",
+      "name": "Primary action button",
+      "category": "actions",
+      "purpose": "Runs the highest-priority in-place action, such as saving a form.",
+      "designConcept": "A compact, tactile action surface with a directional edge and a one-pixel press response that acknowledges the save without shifting nearby content.",
+      "status": "example",
+      "platforms": [
+        "web"
+      ],
+      "semantics": {
+        "element": "button",
+        "role": "button",
+        "name": "Visible action label, such as Save changes",
+        "relationships": [
+          "Associated form when submitting"
+        ]
+      },
+      "variants": [
+        {
+          "name": "primary",
+          "useWhen": "The most important in-place action in the current context",
+          "avoidWhen": "The action is destructive or secondary"
+        },
+        {
+          "name": "secondary",
+          "useWhen": "An action is useful but should not compete with the primary action",
+          "avoidWhen": "The action confirms the main task"
+        },
+        {
+          "name": "destructive",
+          "useWhen": "The action removes or irreversibly changes user data",
+          "avoidWhen": "The action is routine and reversible"
+        }
+      ],
+      "states": [
+        {
+          "name": "resting",
+          "trigger": "Ready for activation",
+          "feedback": "Concrete label and clear action hierarchy"
+        },
+        {
+          "name": "hover",
+          "trigger": "Pointer enters",
+          "feedback": "Subtle surface response; meaning does not depend on hover"
+        },
+        {
+          "name": "focus-visible",
+          "trigger": "Keyboard focus enters",
+          "feedback": "Distinct visible focus ring"
+        },
+        {
+          "name": "pressed",
+          "trigger": "Pointer or keyboard activation",
+          "feedback": "Brief downward press response without layout movement"
+        },
+        {
+          "name": "pending",
+          "trigger": "Async action starts",
+          "feedback": "Progress is announced and repeated activation is blocked"
+        },
+        {
+          "name": "success",
+          "trigger": "Action completes",
+          "feedback": "Completion is briefly stated, then the original action context returns"
+        },
+        {
+          "name": "disabled",
+          "trigger": "Action is unavailable",
+          "feedback": "Unavailable state is visible and activation is blocked"
+        }
+      ],
+      "interactions": [
+        {
+          "input": "Pointer click, Enter, or Space",
+          "result": "Runs the action once",
+          "constraints": "Prevent duplicate activation while pending"
+        }
+      ],
+      "accessibility": {
+        "keyboard": [
+          "Tab to focus",
+          "Enter or Space to activate"
+        ],
+        "focus": "Keep focus visible and distinct from hover or pressed styling.",
+        "announcements": "Expose a native button name and disabled state; announce async status in a related live region.",
+        "contrast": "Keep label, state, and focus indicator distinguishable in every state.",
+        "motion": "Press feedback is brief and disabled or simplified for reduced motion.",
+        "touchTarget": "Follow the target platform's minimum target size and spacing rules."
+      },
+      "responsive": [
+        "Keep the full action label and hit area available at narrow widths.",
+        "Do not depend on hover for discoverability or activation."
+      ],
+      "tokens": [
+        "button.primary",
+        "focus.ring",
+        "motion.fast"
+      ],
+      "api": [
+        "type",
+        "disabled",
+        "status",
+        "onClick",
+        "children"
+      ],
+      "verification": [
+        "Pointer and keyboard activate the same action once.",
+        "Pending state blocks repeats and communicates progress.",
+        "Disabled state is behaviorally enforced.",
+        "Focus remains visible at narrow widths and zoom.",
+        "Reduced motion preserves state feedback without the press transition."
+      ],
+      "related": [
+        "text-field",
+        "dialog"
+      ],
+      "example": "../examples/button/index.html",
+      "codeFiles": [
+        {
+          "label": "component.tsx",
+          "path": "../catalog/components/button/component.tsx"
+        },
+        {
+          "label": "preview.tsx",
+          "path": "../catalog/components/button/preview.tsx"
+        },
+        {
+          "label": "notes.md",
+          "path": "../catalog/components/button/notes.md"
+        },
+        {
+          "label": "Framework-neutral example: index.html",
+          "path": "../examples/button/index.html"
+        },
+        {
+          "label": "Framework-neutral example: styles.css",
+          "path": "../examples/button/styles.css"
+        }
+      ]
+    },
+    {
+      "id": "text-field",
+      "referenceCode": "RC-FRM-001",
+      "name": "Required email field",
+      "category": "forms",
+      "purpose": "Collects and validates an email address while preserving the user's input and giving a direct correction path.",
+      "designConcept": "A quiet, clearly labeled field keeps the data-entry task primary; a short invalid-submit shake is paired with inline guidance and focus rather than replacing either one.",
+      "status": "example",
+      "platforms": [
+        "web"
+      ],
+      "semantics": {
+        "element": "label and input type=email",
+        "role": "textbox",
+        "name": "Email address",
+        "relationships": [
+          "Visible label",
+          "Helper text",
+          "Inline validation message"
+        ]
+      },
+      "variants": [
+        {
+          "name": "required",
+          "useWhen": "The field must be completed to continue",
+          "avoidWhen": "The value is optional"
+        },
+        {
+          "name": "error",
+          "useWhen": "The submitted value is missing or invalid",
+          "avoidWhen": "Validation has not run and no error exists"
+        }
+      ],
+      "states": [
+        {
+          "name": "empty",
+          "trigger": "No value entered",
+          "feedback": "Persistent label and concise format hint remain visible"
+        },
+        {
+          "name": "focused",
+          "trigger": "Input receives focus",
+          "feedback": "Focus ring remains distinct from validation styling"
+        },
+        {
+          "name": "invalid",
+          "trigger": "Required value is missing or malformed on submit",
+          "feedback": "Inline correction text, invalid semantics, focus, and an optional short shake identify the issue"
+        },
+        {
+          "name": "valid",
+          "trigger": "Value satisfies input validation",
+          "feedback": "Error clears and the valid state is communicated without implying submission"
+        },
+        {
+          "name": "disabled",
+          "trigger": "Field is unavailable",
+          "feedback": "Value and disabled state remain legible"
+        }
+      ],
+      "interactions": [
+        {
+          "input": "Typing or pasting",
+          "result": "Value is preserved; a corrected valid value clears the stale error"
+        },
+        {
+          "input": "Invalid form submission",
+          "result": "Inline error is associated with the field and focus returns to it",
+          "constraints": "Shake is secondary, retriggerable, and omitted for reduced motion"
+        }
+      ],
+      "accessibility": {
+        "keyboard": [
+          "Tab to focus",
+          "Type or paste a value",
+          "Submit through the form's native keyboard behavior"
+        ],
+        "focus": "Keep the focus ring visible in empty, valid, and invalid states.",
+        "announcements": "Use a persistent label and associate helper and error text with aria-describedby; expose invalid state with aria-invalid.",
+        "contrast": "Do not communicate errors by red color alone; keep text and border contrast clear.",
+        "motion": "The short shake is supplemental and disabled for prefers-reduced-motion.",
+        "touchTarget": "Use a comfortable input height and leave enough room for an on-screen keyboard."
+      },
+      "responsive": [
+        "Keep label, hint, input, and error in reading order.",
+        "Allow long error text to wrap without clipping or overlaying the field."
+      ],
+      "tokens": [
+        "field.border",
+        "field.error",
+        "focus.ring",
+        "motion.feedback"
+      ],
+      "api": [
+        "id",
+        "label",
+        "hint",
+        "required",
+        "error",
+        "shakeKey",
+        "value",
+        "onChange"
+      ],
+      "verification": [
+        "Empty and malformed submission show distinct corrective text.",
+        "Input retains entered value and returns focus after failed submit.",
+        "Error clears after correction.",
+        "Screen readers receive the label, invalid state, hint, and error relationship.",
+        "Reduced motion removes the shake without removing error feedback."
+      ],
+      "related": [
+        "button",
+        "dialog"
+      ],
+      "example": "../examples/input/index.html",
+      "codeFiles": [
+        {
+          "label": "component.tsx",
+          "path": "../catalog/components/text-field/component.tsx"
+        },
+        {
+          "label": "preview.tsx",
+          "path": "../catalog/components/text-field/preview.tsx"
+        },
+        {
+          "label": "notes.md",
+          "path": "../catalog/components/text-field/notes.md"
+        },
+        {
+          "label": "Framework-neutral example: index.html",
+          "path": "../examples/input/index.html"
+        },
+        {
+          "label": "Framework-neutral example: styles.css",
+          "path": "../examples/input/styles.css"
+        },
+        {
+          "label": "Framework-neutral example: app.js",
+          "path": "../examples/input/app.js"
+        }
+      ]
+    },
+    {
+      "id": "dialog",
+      "referenceCode": "RC-OVL-001",
+      "name": "Confirmation dialog",
+      "category": "overlays",
+      "purpose": "Requests a focused decision before a consequential action is applied.",
+      "designConcept": "A calm, compact surface separates the decision from the page; a restrained fade and short vertical settle mark entry and exit without competing with the consequence or actions.",
+      "status": "example",
+      "platforms": [
+        "web"
+      ],
+      "semantics": {
+        "element": "dialog opened with showModal()",
+        "role": "dialog",
+        "name": "Visible dialog heading referenced by aria-labelledby",
+        "relationships": [
+          "Trigger opens dialog",
+          "Cancel closes without applying",
+          "Confirm runs the requested action"
+        ]
+      },
+      "variants": [
+        {
+          "name": "confirmation",
+          "useWhen": "A consequential action requires an explicit decision",
+          "avoidWhen": "The action is low-risk and easily undone"
+        },
+        {
+          "name": "informational",
+          "useWhen": "A brief message needs focused acknowledgement",
+          "avoidWhen": "The content can be read inline without interruption"
+        }
+      ],
+      "states": [
+        {
+          "name": "closed",
+          "trigger": "Initial or dismissed",
+          "feedback": "The opener remains available"
+        },
+        {
+          "name": "opening",
+          "trigger": "The trigger is activated",
+          "feedback": "Dialog and backdrop enter with brief opacity and position transitions; focus moves inside"
+        },
+        {
+          "name": "open",
+          "trigger": "Modal is active",
+          "feedback": "Background is inert and the heading and choices remain available"
+        },
+        {
+          "name": "pending",
+          "trigger": "Confirmation begins",
+          "feedback": "Repeated confirmation and dismissal are blocked while progress is announced"
+        },
+        {
+          "name": "error",
+          "trigger": "Confirmation fails",
+          "feedback": "An inline error appears and the dialog remains open",
+          "recovery": "Allow a safe retry or cancel"
+        },
+        {
+          "name": "closing",
+          "trigger": "Cancel, successful confirm, or Escape",
+          "feedback": "Dialog and backdrop exit; native focus restoration returns focus to the opener"
+        }
+      ],
+      "interactions": [
+        {
+          "input": "Trigger activation",
+          "result": "Opens the modal and moves focus inside"
+        },
+        {
+          "input": "Escape or cancel",
+          "result": "Closes without confirming and restores focus to the opener"
+        },
+        {
+          "input": "Confirm",
+          "result": "Runs the action once and closes after the product reports success",
+          "constraints": "Keep the dialog open on failure when retry or cancel is possible; prevent Escape or cancel from closing during pending work"
+        }
+      ],
+      "accessibility": {
+        "keyboard": [
+          "Focus remains in the modal while open",
+          "Escape dismisses when safe",
+          "Tab reaches dialog actions"
+        ],
+        "focus": "Move focus into the dialog and rely on native dialog close behavior or a tested equivalent to restore it to the opener.",
+        "announcements": "Use dialog semantics and a visible heading as its accessible name; describe additional context when needed.",
+        "contrast": "Dialog text, actions, and focus stay visible over the backdrop.",
+        "motion": "Entry and exit motion is brief and removed for prefers-reduced-motion.",
+        "touchTarget": "Keep actions reachable when the viewport is narrow, short, or the virtual keyboard is open."
+      },
+      "responsive": [
+        "Constrain dialog width and height to the viewport.",
+        "Allow long content to scroll while keeping dismissal and decision actions reachable."
+      ],
+      "tokens": [
+        "surface.dialog",
+        "overlay.backdrop",
+        "focus.ring",
+        "motion.overlay"
+      ],
+      "api": [
+        "open",
+        "onOpenChange",
+        "onConfirm",
+        "title",
+        "description"
+      ],
+      "verification": [
+        "Focus enters on open and returns to the trigger on close.",
+        "Escape and cancel never confirm.",
+        "Background content is inert while modal is open.",
+        "Close transition does not prevent focus restoration.",
+        "Reduced motion removes transitions but retains immediate open and close feedback."
+      ],
+      "related": [
+        "button",
+        "text-field"
+      ],
+      "example": "../examples/dialog/index.html",
+      "codeFiles": [
+        {
+          "label": "component.tsx",
+          "path": "../catalog/components/dialog/component.tsx"
+        },
+        {
+          "label": "preview.tsx",
+          "path": "../catalog/components/dialog/preview.tsx"
+        },
+        {
+          "label": "notes.md",
+          "path": "../catalog/components/dialog/notes.md"
+        },
+        {
+          "label": "Framework-neutral example: index.html",
+          "path": "../examples/dialog/index.html"
+        },
+        {
+          "label": "Framework-neutral example: styles.css",
+          "path": "../examples/dialog/styles.css"
+        }
+      ]
+    }
+  ]
+}

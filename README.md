@@ -24,8 +24,8 @@ Groups of related skills installed together:
 
 | Bundle | Skills | Install |
 |---|---|---|
-| `full` | All 19 skills | `npx skills add RimoraStudio/cognikit --all -g -y` |
-| `design` | design-systems, design-system-architecture, marketing-sites, dashboard-ui, mobile-app-design | `npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design -g -y` |
+| `full` | All 20 packages (19 active skills plus one deprecated compatibility alias) | `npx skills add RimoraStudio/cognikit --all -g -y` |
+| `design` | design-systems, design-system-architecture, marketing-sites, dashboard-ui, mobile-app-design, refine-component | `npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design --skill refine-component -g -y` |
 | `engineering` | code-review, api-design, security-audit, skill-authoring | `npx skills add RimoraStudio/cognikit --skill code-review --skill api-design --skill security-audit --skill skill-authoring -g -y` |
 | `ai-stack` | mcp-server, agent-memory, model-distillation, rag-pipelines | `npx skills add RimoraStudio/cognikit --skill mcp-server --skill agent-memory --skill model-distillation --skill rag-pipelines -g -y` |
 | `launch` | security-audit, seo, legal-docs, apple-app-store-compliance, google-play-compliance | `npx skills add RimoraStudio/cognikit --skill security-audit --skill seo --skill legal-docs --skill apple-app-store-compliance --skill google-play-compliance -g -y` |
@@ -47,8 +47,9 @@ Groups of related skills installed together:
 | `marketing-sites` | Landing pages that convert without looking generated. Narrative arc, hero variations, conversion copy, pricing patterns, anti-slop blocklist. | design | `npx skills add RimoraStudio/cognikit --skill marketing-sites -g -y` |
 | `dashboard-ui` | Data-dense dashboards that answer questions. Chart selection, table discipline, widget states, filters, density. | design | `npx skills add RimoraStudio/cognikit --skill dashboard-ui -g -y` |
 | `mobile-app-design` | Mobile UIs that respect platform conventions. iOS HIG vs Material 3, nav patterns, touch ergonomics, safe areas. | design | `npx skills add RimoraStudio/cognikit --skill mobile-app-design -g -y` |
+| `refine-component` | Refine components from buttons to sidebars. Interaction states, accessibility, responsive behavior, and preserved functionality. | design | `npx skills add RimoraStudio/cognikit --skill refine-component -g -y` |
 | `seo` | Technical and on-page SEO to professional standard. Meta, canonicals, JSON-LD, OG tags, Core Web Vitals. | marketing | `npx skills add RimoraStudio/cognikit --skill seo -g -y` |
-| `app-store-compliance` | Routes cross-platform or ambiguous store-policy tasks to Apple and Google Play specialists. | mobile | `npx skills add RimoraStudio/cognikit --skill app-store-compliance -g -y` |
+| `app-store-compliance` | Deprecated compatibility alias. For new work, use the Apple and Google Play specialists directly. | mobile | `npx skills add RimoraStudio/cognikit --skill app-store-compliance -g -y` |
 | `apple-app-store-compliance` | Apple review policy, App Store Connect, screenshots, distribution, privacy, and rejection responses. | mobile | `npx skills add RimoraStudio/cognikit --skill apple-app-store-compliance -g -y` |
 | `google-play-compliance` | Google Play policies, Data safety, permissions, billing, release requirements, and enforcement responses. | mobile | `npx skills add RimoraStudio/cognikit --skill google-play-compliance -g -y` |
 | `legal-docs` | Professional privacy policies, ToS, cookie and refund policies. Intake-driven, jurisdiction-aware drafting. | compliance | `npx skills add RimoraStudio/cognikit --skill legal-docs -g -y` |
@@ -66,9 +67,9 @@ Three layers teach an agent which skill to use and when:
 
 ## Quality
 
-- 19 skills are listed in the registry, including one deprecated compatibility router
-- Every active specialist ships realistic eval prompts, including implicit triggers that never name the skill
-- CI checks required frontmatter, kebab-case names, reference file integrity, registry consistency, and no em dashes
+- 19 active skills and one deprecated compatibility alias are listed in the registry
+- Active specialists ship representative eval prompts; the validator checks their structure and coverage
+- CI checks human-facing package READMEs, frontmatter, evals, references, registry consistency, and no em dashes
 
 ## Marketplace
 
@@ -86,29 +87,11 @@ cognikit/
 ├── .github/workflows/                 # CI: validate, lint, publish
 │   ├── validate-skills.yml
 │   └── publish-skills.yml
-├── skills/                            # All skill packages (17)
-│   ├── cognikit/                      # Router meta-skill
-│   ├── design-systems/                # Visual design system skill
-│   │   ├── SKILL.md
-│   │   ├── references/
-│   │   └── evals/
-│   ├── marketing-sites/               # Landing page + conversion design
-│   ├── dashboard-ui/                  # Data-dense interface design
-│   ├── mobile-app-design/             # Mobile UI conventions
-│   ├── design-system-architecture/    # Design system engineering
-│   ├── code-review/                   # Confidence-filtered code review
-│   ├── skill-authoring/               # Skill + agent authoring
-│   ├── api-design/                    # API contract design
-│   ├── security-audit/                # OWASP security audit
-│   ├── mcp-server/                    # MCP server building
-│   ├── agent-memory/                  # Agent memory architecture
-│   ├── model-distillation/            # Local model distillation
-│   ├── rag-pipelines/                 # RAG systems
-│   ├── seo/                           # Technical + on-page SEO
-│   ├── app-store-compliance/          # Store compliance router
-│   ├── apple-app-store-compliance/    # Apple App Review and distribution
-│   ├── google-play-compliance/        # Google Play policy and publishing
-│   └── legal-docs/                    # Privacy policy, ToS, legal pages
+├── skills/                            # 20 packages: 19 active + 1 deprecated alias
+│   ├── <skill>/README.md               # Human overview, install, package contents
+│   ├── <skill>/SKILL.md                # Agent triggers and task workflow
+│   ├── <skill>/evals/                  # Representative eval prompts where applicable
+│   └── refine-component/                # Example package with catalog, examples, references
 └── marketplace/                       # Dedicated marketplace platform
     └── README.md                      # Platform spec and roadmap
 ```

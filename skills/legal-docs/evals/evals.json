@@ -1,0 +1,23 @@
+{
+  "skill_name": "legal-docs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you write a privacy policy for our meal-planning app? We use Firebase Auth, Stripe, and analytics. We have users in the US and EU. Tell me what you need from me first.",
+      "expected_output": "Does not draft a generic policy. Collects the missing intake facts in one concise batch: legal entity and contact, exact data and purposes, analytics vendor and events, retention, user geography beyond the broad regions given, processor roles, children's use, user-rights request path, and actual consent mechanism. Uses the supplied Firebase and Stripe facts without inventing practices, then explains unknowns can be placeholders if the user wants a first draft.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Draft terms for a marketplace where users post design templates and pay monthly. We allow creators to delete their accounts, and customers can request a refund within 14 days. We haven't settled the governing law or company entity yet.",
+      "expected_output": "Recognizes that a user-content marketplace needs creator and customer terms, an explicit UGC license, IP ownership boundaries, account and termination rules, subscription billing and the stated refund window. Does not invent the company, contact, governing law, or enforcement details; asks for material missing facts or uses conspicuous placeholders. Includes acceptance, service, acceptable use, warranties, liability, indemnity, termination, changes, and a concise legal-review notice, and does not imply the result is legal advice.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We use GA4 and Meta Pixel on our product site and have visitors from Germany and California. Write the cookie policy. Our consent banner is being replaced, so I don't know exactly what it does yet.",
+      "expected_output": "Pauses before asserting a compliant consent flow. Asks what cookies and tags actually fire, when they fire, whether consent is opt-in for non-essential cookies in the EU, what California opt-out and sale/share signals are supported, cookie durations, vendors, and how users change preferences. Distinguishes the policy from the consent mechanism, avoids inventing cookie names or durations, and offers to draft with clearly marked unknowns after intake.",
+      "files": []
+    }
+  ]
+}

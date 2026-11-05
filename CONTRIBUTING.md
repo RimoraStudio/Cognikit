@@ -17,12 +17,24 @@ Every skill lives in its own directory under `skills/`:
 ```
 skill-name/
 ├── SKILL.md          # Required: YAML frontmatter + instructions
+├── README.md         # Human-facing overview, usage, and package contents
+├── evals/            # Optional: representative activation and quality prompts
 ├── references/       # Optional: Deep docs loaded on demand
+├── examples/         # Optional: worked examples
 ├── scripts/          # Optional: Executable code
 └── assets/           # Optional: Templates or static files
 ```
 
-Only `SKILL.md` is required. The other directories are optional but must follow the naming conventions above if present.
+Some packages also use `catalog/` for validated component inventories or
+`templates/` for reusable specs. List the actual contents in that skill's
+README.
+
+`SKILL.md` is required. Include a concise `README.md` for human readers that
+explains what the skill does, when to use it, how to install or invoke it, and
+what files the package contains. Keep execution rules in `SKILL.md`; the
+README is orientation, not a second copy of the agent instructions.
+`references/`, `scripts/`, and `assets/` are optional but must follow the
+naming conventions above if present.
 
 ---
 

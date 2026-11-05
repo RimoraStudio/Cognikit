@@ -1,0 +1,77 @@
+{
+  "skill_name": "refine-component",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you make this save button feel better? It looks dead when I click it, and keyboard users say they can't tell where focus is. Please keep the existing React props and API.",
+      "expected_output": "Inspects and preserves the current React API and save behavior, then improves relevant hover, pressed, visible focus, disabled, and pending states without adding unrelated variants. Uses existing tokens and semantic button behavior, checks keyboard activation and duplicate-submit prevention, and runs relevant tests or checks.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Our desktop sidebar is crowded and the active section is hard to find. On mobile it just gets squeezed into a tiny column. Refine the component, not the entire app redesign.",
+      "expected_output": "Audits the existing sidebar structure and navigation behavior first, preserves routes and navigation semantics, improves grouping and active-location feedback, and gives mobile a usable responsive pattern rather than shrinking the desktop sidebar. Checks keyboard navigation, focus, scrolling, and relevant viewport behavior without expanding into a full app redesign.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Polish this dropdown. It opens on click, but escape does nothing and focus gets lost after choosing an item. Don't just restyle it.",
+      "expected_output": "Treats this as a composite interaction, traces current open and selection behavior, implements or specifies Escape dismissal and sensible focus return while preserving selection behavior, and verifies keyboard as well as pointer interaction. Visual changes support clear open, focused, and selected states rather than replacing functional fixes.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "The primary button feels flat. On press, I want it to sink slightly toward the surface, like it reaches the edge. Keep it subtle and don't change layout or keyboard focus.",
+      "expected_output": "Inspects the existing button style and adds a subtle, short pressed-state response such as a 1 to 2 px transform only if it suits the current visual language. Avoids layout shifts and arbitrary shadow stacks, preserves keyboard activation and a visible focus ring, respects reduced motion, and checks that loading or disabled states cannot trigger duplicate actions.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Please improve our date-range filter. It has two custom calendars, but keyboard users can't change months and it's impossible to tell which date is the start vs. end.",
+      "expected_output": "Treats the date-range picker as a composite form control. Inspects current date, locale, range, and apply/cancel behavior, then clarifies start and end dates, selected range, disabled dates, and validation. Adds or specifies keyboard month navigation and date selection using the existing calendar primitive, preserves typed/direct entry if supported, and verifies boundaries, focus, narrow viewport fit, and timezone assumptions without replacing unrelated filters.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Our settings page has a switch for email alerts but it only saves after you click Save. Can you polish the switch UI?",
+      "expected_output": "Notices the switch is a draft form value, not an immediate setting. Preserves the Save contract instead of implying an immediate change, refines checked, unchecked, focus, disabled, dirty, and saving feedback as applicable, keeps the label and unsaved state clear, and checks keyboard toggling and failed-save recovery.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "We have buttons, inputs, dialogs, and navigation all over the app. Build a human-readable component catalog and write useful component specs. Don't just dump a list of names.",
+      "expected_output": "Scopes and inventories existing components from the project instead of inventing components. Creates or updates catalog/registry.json with unique stable IDs and per-component paths, then keeps each component's component.tsx, preview.tsx, metadata.json, and notes.md together under catalog/components/<id>/. Records a distinct product-grounded designConcept, purpose, semantics, meaningful variants, state transitions, keyboard/accessibility behavior, responsive rules, and verifiable checks. Preserves framework-neutral runnable examples under examples/<component>/ when useful. Runs scripts/validate-catalog.mjs and scripts/build-catalog.mjs; the viewer provides a copyable behavior prompt and canonical source, supports manual copy when clipboard access is denied, and renders untrusted values as text. Clearly marks unknown behavior for verification rather than claiming untested components are compliant.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Make this button grow just a little on hover and shrink when clicked. Keep it subtle, avoid a page jump, and keep the keyboard focus ring obvious.",
+      "expected_output": "Inspects existing behavior first, then adds restrained transform-based scale-up on hover and scale-down on press without changing layout dimensions. Keeps focus-visible distinct, preserves semantic activation and pending protections, does not rely on hover for touch, respects reduced motion, and checks for clipping or overlap in the real layout.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Give this button a subtle 3D edge-light look, but no gradient: light from the top-right edge and darker on the bottom-left. Keep the fill flat.",
+      "expected_output": "Uses a flat background with directional border colors: lighter top and right edges, darker bottom and left edges. Avoids gradients and unnecessary stacked shadows, checks contrast and focus visibility, and adapts edge contrast to the pressed state if appropriate.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "We're making a reusable button component for the whole app. It needs variants and all the important states, plus optional 3D edge lighting or a shine effect. Help us design it without making every combination a prop.",
+      "expected_output": "Inspects existing conventions and proposes a stable API separating intent, size, content, behavior, status, and optional finish. Covers relevant rest, hover, focus-visible, pressed, disabled, pending, success/error, and toggle-selected states without treating them as interchangeable or implementing irrelevant states. Defines native button semantics, form type, keyboard/focus behavior, pending duplicate protection, touch and reduced-motion behavior, and test coverage. Presents edge-lit 3D and sheen as optional, restrained treatments with contrast, clipping, focus visibility, and no-continuous-loop guardrails. Avoids boolean/prop explosion and unsupported combinations.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Design a professional, distinctive upload area for our existing product. Don't give me a generic dashed dropzone with a gradient. Make it feel like it belongs in this app, and make sure it works well for keyboard users and errors.",
+      "expected_output": "Inspects existing brand, tokens, nearby components, platform, and upload behavior before styling. Defines a concise concept grounded in the product and one or two intentional visual cues that make the upload component distinctive without generic effects or sacrificing familiarity. Specifies browse and drag/drop affordances, keyboard path, file constraints, selected/uploading/success/error states, recovery, accessible labeling and announcements, responsive behavior, and reduced-motion/contrast needs. Preserves existing file handling and verifies actual states rather than presenting only a polished resting state.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "Polish this form and confirmation dialog. Make the required email field shake when submission is invalid, animate the dialog in and out, and replace the text-symbol icons. Keep the components from feeling like they all use the same effect.",
+      "expected_output": "Audits the existing product conventions and behavior first. Gives the required input a brief, retriggerable invalid-submit shake paired with an inline error and focus, while keeping the error clear without motion and disabling the animation under reduced-motion preferences. Gives the dialog a restrained enter/exit transition without changing native or established focus entry, Escape dismissal, or focus return. Uses the existing icon library or small custom SVGs instead of emoji or Unicode glyphs; decorative SVGs are hidden from assistive technology and icon-only controls have accessible names. Explains why each treatment fits its component and does not copy one animation across unrelated states.",
+      "files": []
+    }
+  ]
+}

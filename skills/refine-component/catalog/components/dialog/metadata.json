@@ -1,0 +1,46 @@
+{
+  "id": "dialog",
+  "referenceCode": "RC-OVL-001",
+  "name": "Confirmation dialog",
+  "category": "overlays",
+  "purpose": "Requests a focused decision before a consequential action is applied.",
+  "designConcept": "A calm, compact surface separates the decision from the page; a restrained fade and short vertical settle mark entry and exit without competing with the consequence or actions.",
+  "status": "example",
+  "platforms": ["web"],
+  "semantics": {
+    "element": "dialog opened with showModal()",
+    "role": "dialog",
+    "name": "Visible dialog heading referenced by aria-labelledby",
+    "relationships": ["Trigger opens dialog", "Cancel closes without applying", "Confirm runs the requested action"]
+  },
+  "variants": [
+    { "name": "confirmation", "useWhen": "A consequential action requires an explicit decision", "avoidWhen": "The action is low-risk and easily undone" },
+    { "name": "informational", "useWhen": "A brief message needs focused acknowledgement", "avoidWhen": "The content can be read inline without interruption" }
+  ],
+  "states": [
+    { "name": "closed", "trigger": "Initial or dismissed", "feedback": "The opener remains available" },
+    { "name": "opening", "trigger": "The trigger is activated", "feedback": "Dialog and backdrop enter with brief opacity and position transitions; focus moves inside" },
+    { "name": "open", "trigger": "Modal is active", "feedback": "Background is inert and the heading and choices remain available" },
+    { "name": "pending", "trigger": "Confirmation begins", "feedback": "Repeated confirmation and dismissal are blocked while progress is announced" },
+    { "name": "error", "trigger": "Confirmation fails", "feedback": "An inline error appears and the dialog remains open", "recovery": "Allow a safe retry or cancel" },
+    { "name": "closing", "trigger": "Cancel, successful confirm, or Escape", "feedback": "Dialog and backdrop exit; native focus restoration returns focus to the opener" }
+  ],
+  "interactions": [
+    { "input": "Trigger activation", "result": "Opens the modal and moves focus inside" },
+    { "input": "Escape or cancel", "result": "Closes without confirming and restores focus to the opener" },
+    { "input": "Confirm", "result": "Runs the action once and closes after the product reports success", "constraints": "Keep the dialog open on failure when retry or cancel is possible; prevent Escape or cancel from closing during pending work" }
+  ],
+  "accessibility": {
+    "keyboard": ["Focus remains in the modal while open", "Escape dismisses when safe", "Tab reaches dialog actions"],
+    "focus": "Move focus into the dialog and rely on native dialog close behavior or a tested equivalent to restore it to the opener.",
+    "announcements": "Use dialog semantics and a visible heading as its accessible name; describe additional context when needed.",
+    "contrast": "Dialog text, actions, and focus stay visible over the backdrop.",
+    "motion": "Entry and exit motion is brief and removed for prefers-reduced-motion.",
+    "touchTarget": "Keep actions reachable when the viewport is narrow, short, or the virtual keyboard is open."
+  },
+  "responsive": ["Constrain dialog width and height to the viewport.", "Allow long content to scroll while keeping dismissal and decision actions reachable."],
+  "tokens": ["surface.dialog", "overlay.backdrop", "focus.ring", "motion.overlay"],
+  "api": ["open", "onOpenChange", "onConfirm", "title", "description"],
+  "verification": ["Focus enters on open and returns to the trigger on close.", "Escape and cancel never confirm.", "Background content is inert while modal is open.", "Close transition does not prevent focus restoration.", "Reduced motion removes transitions but retains immediate open and close feedback."],
+  "related": ["button", "text-field"]
+}

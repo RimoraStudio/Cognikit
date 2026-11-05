@@ -1,0 +1,30 @@
+:root { color-scheme: light; font: 16px/1.5 system-ui, sans-serif; color: #20211f; background: #f6f6f2; }
+body { margin: 0; padding: 48px 24px; }
+main { max-width: 560px; margin: auto; }
+button {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid;
+  border-color: #789886 #789886 #17372b #17372b;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #315b4b;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+button:hover:not([aria-disabled="true"]) {
+  transform: scale(1.03);
+  border-color: #9ab5a5 #9ab5a5 #17372b #17372b;
+  background-color: #35624f;
+}
+button:active:not([aria-disabled="true"]) {
+  transform: translateY(1px) scale(.97);
+  border-color: #234637 #234637 #789886 #789886;
+  background-color: #294b3d;
+}
+button:focus-visible { outline: 3px solid #185fbc; outline-offset: 3px; }
+button[aria-disabled="true"] { cursor: wait; }
+#status { min-height: 1.5em; }
+@media (prefers-reduced-motion: reduce) { button { transition: none; } }

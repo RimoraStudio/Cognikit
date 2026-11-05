@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Button interaction example</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <h1>Button interaction</h1>
+    <p>The example demonstrates semantic activation, focus, pressed, and pending states.</p>
+    <button id="save" type="button">Save changes</button>
+    <p id="status" role="status"></p>
+  </main>
+  <script>
+    const button = document.getElementById("save");
+    const status = document.getElementById("status");
+    button.addEventListener("click", () => {
+      if (button.getAttribute("aria-disabled") === "true") return;
+      button.setAttribute("aria-disabled", "true");
+      status.textContent = "Saving changes.";
+      window.setTimeout(() => {
+        status.textContent = "Changes saved.";
+        window.setTimeout(() => {
+          button.removeAttribute("aria-disabled");
+        }, 900);
+      }, 700);
+    });
+  </script>
+</body>
+</html>

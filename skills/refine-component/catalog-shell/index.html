@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Component implementation examples and behavior contracts">
+  <title>Refine Component Catalog</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalog.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <p class="eyebrow">COGNIKIT / COMPONENT INVENTORY</p>
+    <div class="masthead-row">
+      <div>
+        <h1 id="catalog-title">Component catalog</h1>
+        <p id="catalog-description" class="lede">Behavior contracts and component-specific examples.</p>
+      </div>
+      <p id="catalog-meta" class="meta"></p>
+    </div>
+  </header>
+  <main>
+    <section class="toolbar" aria-label="Catalog filters">
+      <label for="search">Find a component</label>
+      <input id="search" type="search" autocomplete="off" placeholder="Search name, purpose, or category">
+      <label for="category">Category</label>
+      <select id="category"><option value="all">All categories</option></select>
+      <p id="result-count" class="result-count" aria-live="polite"></p>
+    </section>
+    <section id="component-list" class="component-list" aria-label="Components"></section>
+    <p id="empty" class="empty" hidden>No components match. Clear the search or choose another category.</p>
+  </main>
+  <footer>
+    <p>Built from <code>catalog/registry.json</code> and each component's metadata. Adapt examples to the target product and verify behavior in context.</p>
+  </footer>
+</body>
+</html>

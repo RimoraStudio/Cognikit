@@ -705,7 +705,7 @@ illustration style.
 
 ### 69. Emojis as Icons
 
-**The tell:** Emoji characters (🔒, ⚙️, 👤) used as UI icons.
+**The tell:** Emoji characters used in place of UI icons.
 
 **Instead:** Use a proper icon library per the hierarchy in tell 64
 (Phosphor > Radix > Tabler > Lucide as last resort).
@@ -716,7 +716,7 @@ illustration style.
 
 ### 70. Em Dashes in UI Copy
 
-**The tell:** Em dashes (`—`) as sentence connectors in headlines,
+**The tell:** Em-dash punctuation used as sentence connectors in headlines,
 descriptions, button labels, or UI text.
 
 **Why it's slop:** Reads as AI-generated text. One of the most reliable

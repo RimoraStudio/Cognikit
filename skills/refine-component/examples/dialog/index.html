@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dialog interaction example</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <h1>Confirmation dialog</h1>
+    <p>Use a dialog when a consequential action needs a focused decision.</p>
+    <button id="open-dialog" type="button">Delete draft</button>
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <dialog id="confirm-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <h2 id="dialog-title">Delete this draft?</h2>
+    <p id="dialog-description">This action cannot be undone.</p>
+    <div class="actions">
+      <button id="cancel" type="button">Keep draft</button>
+      <button id="confirm" class="danger" type="button">Delete draft</button>
+    </div>
+  </dialog>
+  <script>
+    const dialog = document.getElementById("confirm-dialog");
+    const opener = document.getElementById("open-dialog");
+    const status = document.getElementById("status");
+    opener.addEventListener("click", () => dialog.showModal());
+    document.getElementById("cancel").addEventListener("click", () => dialog.close("cancel"));
+    document.getElementById("confirm").addEventListener("click", () => dialog.close("confirm"));
+    dialog.addEventListener("close", () => {
+      status.textContent = dialog.returnValue === "confirm" ? "Draft deleted." : "Draft kept.";
+      opener.focus();
+    });
+  </script>
+</body>
+</html>

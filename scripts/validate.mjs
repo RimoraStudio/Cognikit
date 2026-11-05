@@ -72,9 +72,28 @@ const KEBAB = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 for (const dir of skillDirs) {
   const name = basename(dir);
   const mdPath = join(dir, "SKILL.md");
+  const readmePath = join(dir, "README.md");
   console.log(`\n==============================================`);
   console.log(`Validating: ${name}`);
   console.log(`==============================================`);
+
+  if (!existsSync(readmePath)) {
+    error(readmePath, `README.md not found in ${dir}`);
+  } else {
+    const readme = readFileSync(readmePath, "utf8");
+    const requiredSections = [
+      [/^#\s+.+/m, "a title"],
+      [/^##\s+(when to use|use it for)\b/im, "a use-case section"],
+      [/^##\s+(install|how to use)\b/im, "install or invocation instructions"],
+      [/^##\s+package contents\b/im, "a package contents section"],
+    ];
+    for (const [pattern, label] of requiredSections) {
+      if (!pattern.test(readme)) error(readmePath, `README.md must include ${label}`);
+    }
+    if (requiredSections.every(([pattern]) => pattern.test(readme))) {
+      ok("README.md has a title, usage, install, and package contents");
+    }
+  }
 
   if (!existsSync(mdPath)) {
     error(mdPath, `SKILL.md not found in ${dir}`);
@@ -198,6 +217,52 @@ if (!existsSync(regPath)) {
           warn("registry.json", `'${s.name}' has a related link to unregistered skill '${rel}'`);
         }
       }
+    }
+
+    // Active specialist skills need representative evals. Routers and deprecated aliases are exempt.
+    for (const s of registry.skills || []) {
+      const evalsPath = join(SKILLS_DIR, s.name, "evals", "evals.json");
+      const requiresEvals = !s.deprecated && s.category !== "meta";
+      if (!existsSync(evalsPath)) {
+        if (requiresEvals) error(evalsPath, `Active specialist '${s.name}' must include evals/evals.json`);
+        continue;
+      }
+
+      let data;
+      try {
+        data = JSON.parse(readFileSync(evalsPath, "utf8"));
+      } catch {
+        error(evalsPath, "evals/evals.json is not valid JSON");
+        continue;
+      }
+
+      if (data.skill_name !== s.name) {
+        error(evalsPath, `skill_name must match '${s.name}'`);
+      }
+      if (!Array.isArray(data.evals) || data.evals.length === 0) {
+        error(evalsPath, "evals must be a non-empty array");
+        continue;
+      }
+
+      const ids = new Set();
+      data.evals.forEach((item, index) => {
+        const label = `eval ${index + 1}`;
+        if (item.id === undefined || ids.has(item.id)) {
+          error(evalsPath, `${label} must have a unique id`);
+        } else {
+          ids.add(item.id);
+        }
+        if (typeof item.prompt !== "string" || !item.prompt.trim()) {
+          error(evalsPath, `${label} must include a prompt`);
+        }
+        if (typeof item.expected_output !== "string" || !item.expected_output.trim()) {
+          error(evalsPath, `${label} must include expected_output`);
+        }
+        if (!Array.isArray(item.files)) {
+          error(evalsPath, `${label} files must be an array`);
+        }
+      });
+      ok(`evals: ${data.evals.length} prompt(s)`);
     }
   }
 }

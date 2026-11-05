@@ -12,14 +12,14 @@
       "displayName": "Full Cognikit",
       "description": "Every skill in the kit, one install.",
       "install": "npx skills add RimoraStudio/cognikit --all --global --yes",
-      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "apple-app-store-compliance", "google-play-compliance", "legal-docs", "skill-authoring"]
+      "skills": ["cognikit", "design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "refine-component", "code-review", "api-design", "security-audit", "mcp-server", "agent-memory", "model-distillation", "rag-pipelines", "seo", "app-store-compliance", "apple-app-store-compliance", "google-play-compliance", "legal-docs", "skill-authoring"]
     },
     {
       "name": "design",
       "displayName": "Design Bundle",
       "description": "Visual direction, surface-specific design skills, and the architecture to keep it consistent.",
-      "install": "npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design --global --yes",
-      "skills": ["design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design"]
+      "install": "npx skills add RimoraStudio/cognikit --skill design-systems --skill design-system-architecture --skill marketing-sites --skill dashboard-ui --skill mobile-app-design --skill refine-component --global --yes",
+      "skills": ["design-systems", "design-system-architecture", "marketing-sites", "dashboard-ui", "mobile-app-design", "refine-component"]
     },
     {
       "name": "engineering",
@@ -343,6 +343,20 @@
       "docs": "https://cognikit.com/skills/mobile-app-design",
       "related": ["design-systems", "design-system-architecture"],
       "references": ["mobile-navigation.md", "mobile-perf-patterns.md", "mobile-quality-checklist.md"]
+    },
+    {
+      "name": "refine-component",
+      "displayName": "Refine Component",
+      "description": "Design, audit, and refine UI components from small controls to complex navigation. Create professional, distinctive, product-grounded concepts while preserving behavior, accessibility, and responsive quality.",
+      "version": "1.6.0",
+      "license": "MIT",
+      "category": "design",
+      "tags": ["ui", "ux", "components", "buttons", "interactions", "accessibility", "keyboard", "responsive", "refinement"],
+      "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/refine-component --global --yes",
+      "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/refine-component",
+      "docs": "https://cognikit.com/skills/refine-component",
+      "related": ["design-systems", "mobile-app-design", "dashboard-ui", "code-review"],
+      "references": ["component-playbooks.md", "component-catalog.md", "design-principles.md", "design-quality.md", "accessibility.md", "interaction-states.md", "responsive-behavior.md", "catalog-workflow.md", "component-patterns.md", "button-system.md", "verification.md"]
     },
     {
       "name": "cognikit",

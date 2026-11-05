@@ -183,8 +183,8 @@ Must include all of:
 
 ## Related skills
 
-- `app-store-compliance`: app stores require a privacy policy URL and
-  reject listings without one; run that skill before submission
+- `apple-app-store-compliance` and `google-play-compliance`: verify
+  platform-specific privacy-policy URL and submission requirements
 - `seo`: legal pages sometimes need noindex or canonical decisions; check
   when publishing to a site
 

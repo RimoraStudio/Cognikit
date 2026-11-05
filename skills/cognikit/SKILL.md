@@ -45,6 +45,7 @@ Think of it as the index, not a chapter.
 | Landing pages, heroes, pricing, conversion copy | `marketing-sites` |
 | Dashboards, admin panels, charts, data tables | `dashboard-ui` |
 | Mobile app UI, iOS/Android conventions, touch patterns | `mobile-app-design` |
+| Refining a specific button, input, dialog, navigation, or component flow | `refine-component` |
 | Code diffs, PR review, bug finding, over-engineering, bloat | `code-review` |
 | Authoring skills or agents, SKILL.md files, eval prompts | `skill-authoring` |
 | REST contracts, endpoints, error shapes, pagination | `api-design` |
@@ -56,8 +57,11 @@ Think of it as the index, not a chapter.
 | SEO audits, meta tags, structured data, Web Vitals | `seo` |
 | Apple App Store review, iOS rejection, App Store Connect, Apple distribution | `apple-app-store-compliance` |
 | Google Play review, Android rejection, Play Console, Data safety | `google-play-compliance` |
-| Store compliance across both platforms or unclear platform | `app-store-compliance` router, then both relevant specialists |
+| Apple or Google Play store compliance | The matching platform specialist; for both, run each specialist independently |
 | Privacy policy, ToS, cookie policy, legal pages | `legal-docs` |
+
+The legacy `app-store-compliance` alias remains for existing installs. Route
+new work directly to the Apple and Google Play specialists.
 
 ## Workflow chains
 
@@ -82,7 +86,8 @@ Think of it as the index, not a chapter.
 ## Related skills
 
 - All Cognikit skills; see the routing table and `SKILLS.md` at the
-  repo root for the machine-readable map.
+  repository root for the human-readable map. `registry.json` is the
+  machine-readable package catalog.
 
 ## Pre-flight checklist
 

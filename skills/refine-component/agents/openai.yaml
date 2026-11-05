@@ -1,0 +1,6 @@
+interface:
+  display_name: "Refine Component"
+  short_description: "Improve UI components without breaking their behavior"
+  default_prompt: "Inspect the component, its surrounding design conventions, and existing interaction contract. Then refine the requested component-specific states, visuals, motion, accessibility, and responsive behavior without applying a generic treatment across unrelated components."
+policy:
+  allow_implicit_invocation: true

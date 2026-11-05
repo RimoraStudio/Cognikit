@@ -1,0 +1,23 @@
+{
+  "skill_name": "seo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We relaunched our site last week and organic traffic fell off a cliff. Can you find out what broke before changing anything?",
+      "expected_output": "Starts with an audit rather than rewriting copy. Checks representative rendered HTML for titles, descriptions, canonicals, robots directives, headings, and structured data; requests robots.txt and sitemap.xml; verifies status codes, redirects, host and trailing-slash consistency, and whether important URLs are indexable. Asks for Search Console coverage and query data if available. Ranks findings by severity with affected URLs and evidence, separates likely causes from hypotheses, and does not promise ranking recovery.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Add Article structured data to our blog post template. We have title, author, publish date, updated date, and a hero image in the CMS.",
+      "expected_output": "Inspects the template and CMS fields first, then adds JSON-LD Article markup using only values already visible on the page. Uses absolute image and URL values, emits valid dates only when present, does not invent author or publisher details, and avoids FAQ schema or hidden keyword content. Verifies the output markup and recommends Rich Results Test or validator.schema.org; preserves the existing canonical and page content.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Our Next.js marketing site needs an SEO pass before launch. Please implement the essentials, not a giant content rewrite.",
+      "expected_output": "Audits the current app and identifies the correct metadata and sitemap conventions before editing. Implements unique, intent-matched titles and descriptions for indexable pages, canonical and robots behavior, a sitemap containing only canonical indexable URLs, robots.txt with the sitemap URL, and appropriate social preview metadata. Does not promise rankings or generate keyword-stuffed copy. Runs the project's build or checks, verifies representative rendered metadata and sitemap URLs, and lists any Search Console or deployment actions that cannot be completed in code.",
+      "files": []
+    }
+  ]
+}

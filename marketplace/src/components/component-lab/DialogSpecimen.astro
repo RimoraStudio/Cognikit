@@ -1,0 +1,69 @@
+<article class="lab-tile lab-dialog-tile" id="lab-dialog-specimen" aria-labelledby="lab-dialog-title">
+  <div class="lab-tile-top">
+    <span class="lab-ref"><b>03</b> OVERLAY / MODAL</span>
+    <span class="lab-state lab-state-idle"><i aria-hidden="true"></i> <span id="lab-dialog-state">CLOSED</span></span>
+  </div>
+  <div class="lab-tile-body">
+    <div class="lab-glyph lab-glyph-dialog" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
+        <path d="M3.5 8.5h17M7 6.5h.01M10 6.5h.01M7.5 12h9M7.5 15.5h6" />
+      </svg>
+    </div>
+    <h3 id="lab-dialog-title">Decision dialog</h3>
+    <p>Open with focus inside. Close with Escape or a clear action.</p>
+    <button class="lab-button lab-button-secondary" id="lab-open-dialog" type="button" aria-haspopup="dialog">Inspect dialog
+      <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11 12 4M6 4h6v6" /></svg>
+    </button>
+    <p class="lab-status" id="lab-dialog-status" role="status" aria-live="polite">Focus returns to this control.</p>
+  </div>
+  <div class="lab-tile-foot"><span>ESC TO DISMISS</span><span>FOCUS RETURNS</span></div>
+
+  <dialog class="lab-dialog" id="lab-dialog" aria-labelledby="lab-dialog-heading" aria-describedby="lab-dialog-description">
+    <div class="lab-dialog-mark" aria-hidden="true">03</div>
+    <p class="lab-kicker">MODAL / DECISION CHECK</p>
+    <h3 id="lab-dialog-heading">Keep this change in the preview?</h3>
+    <p id="lab-dialog-description">This demonstration only updates its local status. Nothing is saved outside this page.</p>
+    <div class="lab-dialog-actions">
+      <button class="lab-button lab-button-secondary" id="lab-dialog-cancel" type="button">Keep editing</button>
+      <button class="lab-button lab-button-primary" id="lab-dialog-confirm" type="button">Confirm preview
+        <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
+      </button>
+    </div>
+  </dialog>
+</article>
+
+<script>
+  const dialogSpecimens = document.querySelectorAll<HTMLElement>("#lab-dialog-specimen");
+
+  dialogSpecimens.forEach((specimen) => {
+    const dialog = specimen.querySelector<HTMLDialogElement>("#lab-dialog");
+    const dialogOpener = specimen.querySelector<HTMLButtonElement>("#lab-open-dialog");
+    const dialogStatus = specimen.querySelector<HTMLElement>("#lab-dialog-status");
+    const dialogState = specimen.querySelector<HTMLElement>("#lab-dialog-state");
+
+    const closeDialog = (message: string) => {
+      dialog?.close();
+      if (dialogState) dialogState.textContent = "CLOSED";
+      if (dialogStatus) dialogStatus.textContent = message;
+      dialogOpener?.focus();
+    };
+
+    dialogOpener?.addEventListener("click", () => {
+      if (!dialog) return;
+      if (dialogState) dialogState.textContent = "OPEN";
+      if (dialogStatus) dialogStatus.textContent = "Dialog open. Focus is inside.";
+      dialog.showModal();
+    });
+    specimen.querySelector("#lab-dialog-cancel")?.addEventListener("click", () => {
+      closeDialog("Returned to the preview.");
+    });
+    specimen.querySelector("#lab-dialog-confirm")?.addEventListener("click", () => {
+      closeDialog("Preview action confirmed. Nothing changed outside this page.");
+    });
+    dialog?.addEventListener("cancel", () => {
+      if (dialogState) dialogState.textContent = "CLOSED";
+      if (dialogStatus) dialogStatus.textContent = "Dismissed with Escape; focus returns here.";
+    });
+  });
+</script>

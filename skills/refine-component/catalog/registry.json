@@ -1,0 +1,39 @@
+{
+  "catalogVersion": "2.0.0",
+  "product": {
+    "name": "Refine Component",
+    "description": "Framework-specific catalog specimens and behavior contracts. Adapt each pattern to the target product and verify it in context.",
+    "designSystem": "Illustrative examples; use the target project's system in production.",
+    "platforms": ["web"]
+  },
+  "components": [
+    {
+      "id": "button",
+      "metadata": "components/button/metadata.json",
+      "source": "components/button/component.tsx",
+      "preview": "components/button/preview.tsx",
+      "notes": "components/button/notes.md",
+      "htmlExample": "../examples/button/index.html",
+      "htmlStyles": "../examples/button/styles.css"
+    },
+    {
+      "id": "text-field",
+      "metadata": "components/text-field/metadata.json",
+      "source": "components/text-field/component.tsx",
+      "preview": "components/text-field/preview.tsx",
+      "notes": "components/text-field/notes.md",
+      "htmlExample": "../examples/input/index.html",
+      "htmlStyles": "../examples/input/styles.css",
+      "htmlScript": "../examples/input/app.js"
+    },
+    {
+      "id": "dialog",
+      "metadata": "components/dialog/metadata.json",
+      "source": "components/dialog/component.tsx",
+      "preview": "components/dialog/preview.tsx",
+      "notes": "components/dialog/notes.md",
+      "htmlExample": "../examples/dialog/index.html",
+      "htmlStyles": "../examples/dialog/styles.css"
+    }
+  ]
+}

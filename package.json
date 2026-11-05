@@ -3,6 +3,6 @@
   "private": true,
   "description": "Cognikit skill registry and validation tooling",
   "scripts": {
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs && node skills/refine-component/scripts/validate-catalog.mjs"
   }
 }

@@ -1,0 +1,46 @@
+{
+  "id": "button",
+  "referenceCode": "RC-ACT-001",
+  "name": "Primary action button",
+  "category": "actions",
+  "purpose": "Runs the highest-priority in-place action, such as saving a form.",
+  "designConcept": "A compact, tactile action surface with a directional edge and a one-pixel press response that acknowledges the save without shifting nearby content.",
+  "status": "example",
+  "platforms": ["web"],
+  "semantics": {
+    "element": "button",
+    "role": "button",
+    "name": "Visible action label, such as Save changes",
+    "relationships": ["Associated form when submitting"]
+  },
+  "variants": [
+    { "name": "primary", "useWhen": "The most important in-place action in the current context", "avoidWhen": "The action is destructive or secondary" },
+    { "name": "secondary", "useWhen": "An action is useful but should not compete with the primary action", "avoidWhen": "The action confirms the main task" },
+    { "name": "destructive", "useWhen": "The action removes or irreversibly changes user data", "avoidWhen": "The action is routine and reversible" }
+  ],
+  "states": [
+    { "name": "resting", "trigger": "Ready for activation", "feedback": "Concrete label and clear action hierarchy" },
+    { "name": "hover", "trigger": "Pointer enters", "feedback": "Subtle surface response; meaning does not depend on hover" },
+    { "name": "focus-visible", "trigger": "Keyboard focus enters", "feedback": "Distinct visible focus ring" },
+    { "name": "pressed", "trigger": "Pointer or keyboard activation", "feedback": "Brief downward press response without layout movement" },
+    { "name": "pending", "trigger": "Async action starts", "feedback": "Progress is announced and repeated activation is blocked" },
+    { "name": "success", "trigger": "Action completes", "feedback": "Completion is briefly stated, then the original action context returns" },
+    { "name": "disabled", "trigger": "Action is unavailable", "feedback": "Unavailable state is visible and activation is blocked" }
+  ],
+  "interactions": [
+    { "input": "Pointer click, Enter, or Space", "result": "Runs the action once", "constraints": "Prevent duplicate activation while pending" }
+  ],
+  "accessibility": {
+    "keyboard": ["Tab to focus", "Enter or Space to activate"],
+    "focus": "Keep focus visible and distinct from hover or pressed styling.",
+    "announcements": "Expose a native button name and disabled state; announce async status in a related live region.",
+    "contrast": "Keep label, state, and focus indicator distinguishable in every state.",
+    "motion": "Press feedback is brief and disabled or simplified for reduced motion.",
+    "touchTarget": "Follow the target platform's minimum target size and spacing rules."
+  },
+  "responsive": ["Keep the full action label and hit area available at narrow widths.", "Do not depend on hover for discoverability or activation."],
+  "tokens": ["button.primary", "focus.ring", "motion.fast"],
+  "api": ["type", "disabled", "status", "onClick", "children"],
+  "verification": ["Pointer and keyboard activate the same action once.", "Pending state blocks repeats and communicates progress.", "Disabled state is behaviorally enforced.", "Focus remains visible at narrow widths and zoom.", "Reduced motion preserves state feedback without the press transition."],
+  "related": ["text-field", "dialog"]
+}
