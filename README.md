@@ -2,6 +2,8 @@
 
 > A kit that gives AI agents cognitive abilities. Premium Agent Skills for Claude Code, Cursor, Windsurf, and any SKILL.md-compatible platform.
 
+> **Marketplace status:** Live on Cloudflare Workers at [cognikit.rimora.space](https://cognikit.rimora.space/). The old `cognikit.com` domain still shows an Infomaniak parking page.
+
 Cognikit is a curated marketplace and registry of Agent Skills following the open [SKILL.md standard](https://docs.claude.com/en/docs/claude-code/skills). Each skill is a self-contained package of expertise that makes AI agents better at specific tasks: design systems, code review, security audits, MCP servers, SEO, store compliance, legal docs, and more. Skills pass Anthropic's official spec validator and ship with eval prompts.
 
 ## Install a skill
@@ -73,7 +75,7 @@ Three layers teach an agent which skill to use and when:
 
 ## Marketplace
 
-Visit [cognikit.com](https://cognikit.com) for the full marketplace with search, ratings, documentation, and one-click install.
+Visit [cognikit.rimora.space](https://cognikit.rimora.space/) for the full marketplace with search, ratings, documentation, and one-click install.
 
 ## Structure
 
@@ -100,10 +102,10 @@ cognikit/
 
 - **Name:** Cognikit
 - **Tagline:** A kit that gives AI agents cognitive abilities.
-- **Domain:** cognikit.com
+- **Domain:** cognikit.rimora.space
 - **GitHub:** github.com/RimoraStudio/cognikit
 - **License:** MIT (skills) / proprietary (marketplace platform)
 
 ## License
 
-MIT for all skills in this repository. The marketplace platform (cognikit.com) has its own license.
+MIT for all skills in this repository. The marketplace platform has its own license.

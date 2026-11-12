@@ -75,7 +75,7 @@ The only tier where value-naming is allowed is the reference tier. Semantic name
 
 ## W3C DTCG JSON format
 
-The W3C Design Tokens Community Group format (spec finalized October 2025) is the single source of truth. One token file drives Figma, CSS, iOS, Android, and Flutter without a hand-built translation layer.
+The Design Tokens Community Group published the [Design Tokens Format Module 2025.10](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) as a Candidate Recommendation and Final Community Group Report, not a W3C Standard. It can serve as an interchange format, but tool support and platform transforms still vary; verify the current format and toolchain before making it the canonical source.
 
 Key rules:
 - `$value` holds the raw or aliased value.

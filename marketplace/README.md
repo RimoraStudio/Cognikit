@@ -1,7 +1,7 @@
 # Cognikit Marketplace Platform
 
 > A full marketplace platform for AI Agent Skills. Browse, search, install, rate, and submit skills.
-> Live at **cognikit.com**
+> Live at **https://cognikit.rimora.space/**
 
 ---
 

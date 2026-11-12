@@ -62,7 +62,7 @@ Every release ships a changelog in `CHANGELOG.md`.
 - `Input` error text now meets WCAG AA contrast in dark mode
 
 ### Security
-- Updated `react-aria` dependency to patch CVE-2026-1234
+- Updated a dependency to patch `CVE-YYYY-NNNN` (illustrative placeholder; replace with a verified advisory before publishing a real changelog entry).
 ```
 
 ## Deprecation timeline (6-month window)

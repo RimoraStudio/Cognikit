@@ -8,7 +8,7 @@ license: MIT
 
 # Design System Architecture: Building, Scaling & Governing the System
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 This skill is about the **engineering of a design system itself**, not the
 visual style it contains. Use a visual design skill for choosing visual
@@ -16,6 +16,10 @@ direction (brutalism, minimalist, etc.). This skill focuses on the
 engineering, not the aesthetics. Use this skill for the architecture,
 governance, token pipeline, contribution model, versioning, drift detection,
 and scaling of the system as a product.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 

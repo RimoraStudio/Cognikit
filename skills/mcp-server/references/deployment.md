@@ -5,6 +5,12 @@ client and plugin configuration, authentication, and the full MCPB
 packaging pipeline. Read this when the decision matrix in SKILL.md is not
 enough to act on.
 
+> **Version warning:** This reference contains v1 SDK and host-specific
+> configuration examples. For new TypeScript servers use the current
+> `@modelcontextprotocol/server` API; verify each host's own config format
+> and MCPB schema against `sources.md`. These snippets are
+> migration aids, not universal/current client configuration.
+
 ## Choosing a deployment model, expanded
 
 | Model | Transport | Install friction | Auth story | Reach |
@@ -76,7 +82,7 @@ The client spawns and manages the process, communicates over
 stdin/stdout, and terminates it on exit. Use for filesystem access,
 local databases, custom servers, and npm-packaged servers.
 
-### SSE (Server-Sent Events, legacy hosted)
+### Legacy HTTP+SSE (compatibility only)
 
 ```json
 {
@@ -87,8 +93,9 @@ local databases, custom servers, and npm-packaged servers.
 }
 ```
 
-For hosted servers that still expose SSE. OAuth is handled by the host;
-the user is prompted in a browser on first use.
+Only use to connect to a server that still exposes the deprecated
+HTTP+SSE transport. New servers should use Streamable HTTP. Client config
+is host-specific; verify the target client's current format.
 
 ### HTTP (streamable or REST-style)
 

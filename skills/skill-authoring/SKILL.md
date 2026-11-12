@@ -16,13 +16,17 @@ license: MIT
 
 # Skill Authoring
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 A skill is two things: a description that decides whether it ever
 loads, and a body that decides whether it helps once loaded. Write
 both on purpose. Pushy metadata that names the phrases real users
 say, then a lean body of decisions already made so the next agent
 never has to re-derive them.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 
@@ -106,7 +110,7 @@ concerned. Never duplicate content between levels; pick one home.
 Match the sibling skills, in this order:
 
 1. `# Title`, then the attribution line:
-   `> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.`
+   `> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.`
 2. One opinionated opening paragraph stating the worldview, the
    principle that organizes everything below.
 3. `## AI execution flow (follow in order)`: numbered steps, each

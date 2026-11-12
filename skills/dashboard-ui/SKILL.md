@@ -15,11 +15,15 @@ license: MIT
 
 # Dashboard UI
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 A dashboard answers questions. It does not display data. Every pixel exists
 so a person can answer "is something wrong, and what do I do about it" in
 seconds. Design for the decision, not the dataset.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 

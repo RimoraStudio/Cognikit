@@ -17,12 +17,16 @@ license: MIT
 
 # Model Distillation
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 Copy the behavior of a large teacher model into a small student model
 for one narrow, well-defined task. The pipeline is: scope the task,
 generate training data with the teacher, fine-tune with LoRA, evaluate
 on held-out examples, then export to GGUF and serve locally.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 
@@ -33,88 +37,93 @@ on held-out examples, then export to GGUF and serve locally.
    format". If the user wants a general assistant or broad knowledge,
    stop and steer them to a stock model plus RAG instead. Write the
    task down as one sentence; everything else follows from it.
-2. **Data**: Collect 200 to 2000 real input examples. If the user has
-   fewer than ~100 real inputs, generate synthetic inputs too, but keep
-   them realistic. Run every input through the teacher model and record
-   its ideal output. Format as JSONL, one object per line:
+2. **Data**: Build a representative, licensed dataset from real task
+   inputs. There is no universal example count: start with a pilot, inspect
+   coverage and quality, then add examples for failure modes. Synthetic
+   data can help cover rare cases, but label it and review it. Reserve a
+   held-out evaluation set before training. Check the chosen teacher's
+   terms and data-handling rules before using its outputs for training.
+   A simple JSONL shape is:
 
    ```json
    {"instruction": "Classify the ticket and draft a reply.", "input": "<raw ticket text>", "output": "<teacher's ideal response>"}
    ```
 
-   Rules: quality over quantity, deduplicate near-identical inputs,
-   remove malformed or empty outputs, and hold out 10% as an eval set
-   that is never trained on. ToS caveat: prefer open-weight teachers
-   (Llama, Qwen, DeepSeek) for anything commercial; API providers may
-   restrict training on their outputs.
+   Deduplicate near-identical inputs, remove malformed outputs, document
+   provenance and consent, and keep evaluation examples out of training.
+   Do not assume open-weight automatically means commercial-use rights;
+   verify the specific model and data licenses.
 3. **Pick the student**: Choose the smallest model that can hold the
    task, sized to the target hardware.
 
-   | Student size | RAM needed | Runs on | Good families |
-   |---|---|---|---|
-   | 1-3B | 2-4 GB | Raspberry Pi, old laptop | Qwen 2.5/3, Llama 3.2, Phi-3/4-mini, Gemma 3 |
-   | 7-8B | 5-8 GB | Mini PC, modern laptop | Qwen 2.5/3, Llama 3.1, Mistral |
-   | 13-14B | 10-12 GB | Workstation, small GPU | Qwen 2.5, Phi-4 |
-
-   Default to a 3B or 7-8B instruct model. Smaller students learn
-   narrow tasks surprisingly well and deploy anywhere.
-4. **Fine-tune**: Use LoRA via unsloth on a single GPU or free Colab.
-   Axolotl is a solid YAML-driven alternative for multi-GPU or
-   team-shared configs.
+   Compare currently available models using task quality, license,
+   tokenizer/context support, quantized memory requirements, latency, and
+   target hardware. Estimate memory from the actual parameter count,
+   precision, context length, runtime overhead, and concurrent workload;
+   do not use parameter-count-only RAM tables as guarantees. Benchmark a
+   small candidate set on the target hardware.
+4. **Fine-tune**: Choose a maintained training stack that supports the
+   selected architecture and hardware. Inspect the repository's pinned
+   `trl`, `transformers`, `peft`, and CUDA/ROCm versions first. The example
+   below follows the current TRL SFT/PEFT interface documented at
+   `references/sources.md`; it is a starting point, not a tested lockfile.
 
    ```python
-   from unsloth import FastLanguageModel
-   from trl import SFTTrainer
-   from datasets import load_dataset
+    from datasets import load_dataset
+    from peft import LoraConfig
+    from trl import SFTConfig, SFTTrainer
 
-   model, tokenizer = FastLanguageModel.from_pretrained(
-       model_name="unsloth/Qwen2.5-7B-Instruct",
-       max_seq_length=2048,
-       load_in_4bit=True,
-   )
-   model = FastLanguageModel.get_peft_model(model, r=16, lora_alpha=32)
+    dataset = load_dataset("json", data_files="train.jsonl", split="train")
+    dataset = dataset.map(lambda row: {
+        "text": f"Instruction: {row['instruction']}\n"
+                f"Input: {row['input']}\nOutput: {row['output']}"
+    })
 
-   dataset = load_dataset("json", data_files="train.jsonl", split="train")
-
-   trainer = SFTTrainer(
-       model=model,
-       train_dataset=dataset,
-       args=dict(
-           learning_rate=2e-4,
-           num_train_epochs=2,
-           per_device_train_batch_size=2,
-           output_dir="out",
-       ),
-   )
-   trainer.train()
-   model.save_pretrained("adapter")
+    trainer = SFTTrainer(
+        model="<verified-model-id>",
+        train_dataset=dataset,
+        args=SFTConfig(
+            output_dir="out",
+            learning_rate=2e-4,
+            num_train_epochs=1,
+            per_device_train_batch_size=2,
+        ),
+        peft_config=LoraConfig(r=16, lora_alpha=32, task_type="CAUSAL_LM"),
+    )
+    trainer.train()
+    trainer.save_model("adapter")
    ```
 
-   Hyperparameter defaults: learning rate ~2e-4, 2-3 epochs, LoRA
-   r=16. On datasets under ~500 examples, more epochs overfits fast;
-   watch for memorized outputs and stop early.
-5. **Evaluate**: Run the student and the teacher on the held-out 10%.
-   Score task accuracy, not vibes: exact-match rate for extraction,
-   a rubric or judge prompt for generated text. Expect 80-95% of
-   teacher quality on a well-scoped task. If the gap is bigger, fix
-   the data (more coverage of failing input types, cleaner outputs)
-   before touching hyperparameters.
-6. **Export and deploy**: Merge the adapter into the base model or
-   convert straight to GGUF with llama.cpp, then quantize. Q4_K_M is
-   the sweet spot for quality per byte; go Q8_0 only if eval shows a
-   real regression, and Q3 or below only for extreme size limits.
+   Treat these values as initial experiment settings, not recommendations
+   for every model. Tune against the held-out task set and monitor
+   overfitting, training stability, and resource use.
+5. **Evaluate**: Run the student and the teacher on the held-out set.
+   Score task-specific outcomes: exact-match or structured validity for
+   extraction, and a fixed rubric plus human review for generated text.
+   Compare against the teacher and a no-fine-tuning baseline. Set an
+   acceptance threshold from the product's requirements; do not promise a
+   fixed fraction of teacher quality. Diagnose failures before tuning.
+6. **Export and deploy**: Merge the adapter into the base model only when
+    the deployment format requires it. Use the current llama.cpp conversion
+    and quantization instructions for the architecture.
+   Compare supported quantization profiles on the held-out set and target
+   hardware; quality, memory, and speed tradeoffs vary by model and task.
 
    ```bash
-   python convert_hf_to_gguf.py ./merged --outfile student-f16.gguf
-   ./llama-quantize student-f16.gguf student-q4_k_m.gguf Q4_K_M
+    # Use the converter and quantizer paths from the current llama.cpp build.
+    python /path/to/llama.cpp/convert_hf_to_gguf.py ./merged \
+      --outfile student-f16.gguf
+    /path/to/llama.cpp/build/bin/llama-quantize \
+      student-f16.gguf student-quantized.gguf <supported-type>
    ```
 
-   Then serve with Ollama using a minimal Modelfile:
+   Prepare GGUF quantization before importing it into Ollama. Use the
+   model's correct chat template; do not override a working template with
+   a generic one. Consult the current Ollama import docs in the sources
+   reference.
 
    ```
-   FROM ./student-q4_k_m.gguf
-   TEMPLATE """{{ .Prompt }}"""
-   PARAMETER temperature 0.2
+    FROM ./student-quantized.gguf
    ```
 
    ```bash
@@ -133,15 +142,14 @@ on held-out examples, then export to GGUF and serve locally.
   small models hallucinate them anyway, and retraining to update them
   is a treadmill. Teach behavior with fine-tuning; supply knowledge
   with RAG.
-- Do not start with under ~100 real examples and expect reliable
-  behavior. Thin data produces a model that parrots a few cases.
+- Do not assume a fixed dataset size produces reliable behavior. Check
+  coverage and held-out performance for the actual task.
 - Do not distill a broad task. "Be helpful" does not distill;
   "answer billing questions in our tone" does.
 - Do not skip the eval set. Training loss going down says nothing
   about task accuracy.
-- Do not expect the student to beat the teacher. 80-95% of teacher
-  quality on the narrow task is a win; chasing more means the task or
-  data is wrong, not the student.
+- Do not treat a target score as universal. Define product-specific
+  acceptance criteria and compare baselines.
 - Do not crank epochs to fix bad outputs. Iterate on data first.
 
 ## Related skills

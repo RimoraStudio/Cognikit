@@ -19,7 +19,7 @@ license: MIT
 
 # Mobile App Design
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 Design mobile interfaces the way a platform-native designer does: score
 the risk before you start, lock a design bible before the first screen,
@@ -28,6 +28,10 @@ size every target for a thumb, and treat interruption (offline, empty,
 loading, error) as a first-class state. Mobile users are distracted and
 one-handed on bad networks; design for that reality or the app fails
 quietly.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 
@@ -174,9 +178,9 @@ Rules:
 
 ### Touch ergonomics
 
-- Minimum tap target: 44x44pt iOS, 48x48dp Android, 44px per WCAG 2.2; 8px spacing between targets.
+- Touch target guidance: aim for at least 44x44pt on iOS and 48x48dp on Android. WCAG 2.2 AA SC 2.5.8 requires 24x24 CSS px or sufficient spacing (with listed exceptions); 44x44 CSS px is the enhanced target-size criterion, not the AA minimum. Check the current platform guidance and WCAG text for the target product.
 - Padding counts toward the hit area even when the visible glyph is smaller.
-- Thumb zone: primary actions in the bottom half; reach degrades toward the top; 49% hold one-handed.
+- Thumb zone: primary actions in the bottom half; reach generally degrades toward the top. Treat reach maps as design heuristics and validate with the target device and user group.
 - Destructive actions stay away from primary actions; never put "delete" next to "save".
 - Swipe gestures are shortcuts, never the only path; give each a visible alternative and a visual hint.
 - Pull-to-refresh only on feeds where fresh content matters.

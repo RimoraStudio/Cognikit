@@ -1,7 +1,7 @@
 {
   "name": "cognikit",
   "description": "A kit that gives AI agents cognitive abilities. Premium Agent Skills for Claude Code, Cursor, Windsurf, and any SKILL.md-compatible platform.",
-  "url": "https://cognikit.com",
+  "url": "https://cognikit.rimora.space",
   "github": "https://github.com/RimoraStudio/cognikit",
   "license": "MIT",
   "version": "1.1.0",
@@ -65,7 +65,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/design-systems --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/design-systems",
-      "docs": "https://cognikit.com/skills/design-systems",
+      "docs": "https://cognikit.rimora.space/skills/design-systems",
       "related": ["design-system-architecture", "code-review"],
       "references": [
         "anti-ai-slop.md",
@@ -100,7 +100,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/design-system-architecture --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/design-system-architecture",
-      "docs": "https://cognikit.com/skills/design-system-architecture",
+      "docs": "https://cognikit.rimora.space/skills/design-system-architecture",
       "related": ["design-systems", "code-review"],
       "references": [
         "token-architecture.md",
@@ -130,7 +130,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/code-review --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/code-review",
-      "docs": "https://cognikit.com/skills/code-review",
+      "docs": "https://cognikit.rimora.space/skills/code-review",
       "related": ["security-audit", "api-design", "mcp-server"],
       "references": []
     },
@@ -153,7 +153,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/api-design --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/api-design",
-      "docs": "https://cognikit.com/skills/api-design",
+      "docs": "https://cognikit.rimora.space/skills/api-design",
       "related": ["code-review", "security-audit", "mcp-server"],
       "references": []
     },
@@ -177,7 +177,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/security-audit --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/security-audit",
-      "docs": "https://cognikit.com/skills/security-audit",
+      "docs": "https://cognikit.rimora.space/skills/security-audit",
       "related": ["code-review", "api-design", "rag-pipelines", "mcp-server"],
       "references": []
     },
@@ -200,7 +200,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/mcp-server --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/mcp-server",
-      "docs": "https://cognikit.com/skills/mcp-server",
+      "docs": "https://cognikit.rimora.space/skills/mcp-server",
       "related": ["api-design", "security-audit", "agent-memory"],
       "references": ["deployment.md", "ui-widgets.md"]
     },
@@ -222,7 +222,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/agent-memory --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/agent-memory",
-      "docs": "https://cognikit.com/skills/agent-memory",
+      "docs": "https://cognikit.rimora.space/skills/agent-memory",
       "related": ["rag-pipelines", "model-distillation", "mcp-server"],
       "references": []
     },
@@ -246,7 +246,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/model-distillation --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/model-distillation",
-      "docs": "https://cognikit.com/skills/model-distillation",
+      "docs": "https://cognikit.rimora.space/skills/model-distillation",
       "related": ["rag-pipelines", "agent-memory", "code-review"],
       "references": []
     },
@@ -269,7 +269,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/rag-pipelines --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/rag-pipelines",
-      "docs": "https://cognikit.com/skills/rag-pipelines",
+      "docs": "https://cognikit.rimora.space/skills/rag-pipelines",
       "related": ["agent-memory", "security-audit", "model-distillation"],
       "references": []
     },
@@ -292,7 +292,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/marketing-sites --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/marketing-sites",
-      "docs": "https://cognikit.com/skills/marketing-sites",
+      "docs": "https://cognikit.rimora.space/skills/marketing-sites",
       "related": ["design-systems", "code-review"],
       "references": []
     },
@@ -315,7 +315,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/dashboard-ui --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/dashboard-ui",
-      "docs": "https://cognikit.com/skills/dashboard-ui",
+      "docs": "https://cognikit.rimora.space/skills/dashboard-ui",
       "related": ["design-systems", "api-design"],
       "references": []
     },
@@ -340,7 +340,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/mobile-app-design --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/mobile-app-design",
-      "docs": "https://cognikit.com/skills/mobile-app-design",
+      "docs": "https://cognikit.rimora.space/skills/mobile-app-design",
       "related": ["design-systems", "design-system-architecture"],
       "references": ["mobile-navigation.md", "mobile-perf-patterns.md", "mobile-quality-checklist.md"]
     },
@@ -354,7 +354,7 @@
       "tags": ["ui", "ux", "components", "buttons", "interactions", "accessibility", "keyboard", "responsive", "refinement"],
       "install": "npx skills add RimoraStudio/cognikit@refine-component --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/refine-component",
-      "docs": "https://cognikit.com/skills/refine-component",
+      "docs": "https://cognikit.rimora.space/skills/refine-component",
       "related": ["design-systems", "mobile-app-design", "dashboard-ui", "code-review"],
       "references": ["component-playbooks.md", "component-catalog.md", "design-principles.md", "design-quality.md", "accessibility.md", "interaction-states.md", "responsive-behavior.md", "catalog-workflow.md", "component-patterns.md", "button-system.md", "verification.md"]
     },
@@ -374,7 +374,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/cognikit --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/cognikit",
-      "docs": "https://cognikit.com/skills/cognikit",
+      "docs": "https://cognikit.rimora.space/skills/cognikit",
       "related": ["design-systems", "code-review", "mcp-server"],
       "references": []
     },
@@ -397,7 +397,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/seo --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/seo",
-      "docs": "https://cognikit.com/skills/seo",
+      "docs": "https://cognikit.rimora.space/skills/seo",
       "related": ["marketing-sites", "code-review"],
       "references": []
     },
@@ -419,7 +419,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/app-store-compliance --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/app-store-compliance",
-      "docs": "https://cognikit.com/skills/app-store-compliance",
+      "docs": "https://cognikit.rimora.space/skills/app-store-compliance",
       "related": ["mobile-app-design", "legal-docs"],
       "references": [],
       "deprecated": true,
@@ -435,7 +435,7 @@
       "tags": ["apple", "app-store", "ios", "ipados", "app-review", "screenshots", "privacy", "distribution"],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/apple-app-store-compliance --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/apple-app-store-compliance",
-      "docs": "https://cognikit.com/skills/apple-app-store-compliance",
+      "docs": "https://cognikit.rimora.space/skills/apple-app-store-compliance",
       "related": ["google-play-compliance", "mobile-app-design", "legal-docs"],
       "references": ["policy-map.md"]
     },
@@ -449,7 +449,7 @@
       "tags": ["google-play", "android", "play-console", "data-safety", "permissions", "billing", "app-review", "compliance"],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/google-play-compliance --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/google-play-compliance",
-      "docs": "https://cognikit.com/skills/google-play-compliance",
+      "docs": "https://cognikit.rimora.space/skills/google-play-compliance",
       "related": ["apple-app-store-compliance", "mobile-app-design", "legal-docs"],
       "references": ["policy-map.md"]
     },
@@ -472,7 +472,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/legal-docs --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/legal-docs",
-      "docs": "https://cognikit.com/skills/legal-docs",
+      "docs": "https://cognikit.rimora.space/skills/legal-docs",
       "related": ["app-store-compliance", "seo"],
       "references": []
     },
@@ -494,7 +494,7 @@
       ],
       "install": "npx skills add RimoraStudio/cognikit/tree/main/skills/skill-authoring --global --yes",
       "githubUrl": "https://github.com/RimoraStudio/cognikit/tree/main/skills/skill-authoring",
-      "docs": "https://cognikit.com/skills/skill-authoring",
+      "docs": "https://cognikit.rimora.space/skills/skill-authoring",
       "related": ["code-review", "mcp-server", "cognikit"],
       "references": ["agent-authoring.md", "evals-and-benchmarks.md"]
     }

@@ -14,13 +14,17 @@ license: MIT
 
 # Google Play Compliance
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 Use this skill for Google Play review, policy, listing, and Play Console
 readiness. It is a practical audit framework, not a copy of every Google
 policy and not a guarantee of approval. Policies, forms, and deadlines
 change; check the current official policy and app-specific console
 messages before advising or submitting.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## Workflow
 

@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cognikit-marketplace",
+  "compatibility_date": "2026-11-05",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "cognikit.rimora.space",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  }
+}

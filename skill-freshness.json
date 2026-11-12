@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "reviewed_policy_on": "2026-11-12",
+  "skills": {
+    "agent-memory": { "risk": "low", "interval_days": 365, "reviewed_on": null, "scope": "Pending content review." },
+    "api-design": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." },
+    "app-store-compliance": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "apple-app-store-compliance": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "code-review": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." },
+    "cognikit": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." },
+    "dashboard-ui": { "risk": "low", "interval_days": 365, "reviewed_on": null, "scope": "Pending content review." },
+    "design-system-architecture": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." },
+    "design-systems": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." },
+    "google-play-compliance": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "legal-docs": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "marketing-sites": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." },
+    "mcp-server": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "MCP protocol and SDK guidance requires source-backed refresh." },
+    "mobile-app-design": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "model-distillation": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Training stack and model recommendations require source-backed refresh." },
+    "rag-pipelines": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Embedding models and retrieval integrations require source-backed refresh." },
+    "refine-component": { "risk": "low", "interval_days": 365, "reviewed_on": null, "scope": "Pending content review." },
+    "security-audit": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "seo": { "risk": "high", "interval_days": 90, "reviewed_on": null, "scope": "Pending content review." },
+    "skill-authoring": { "risk": "medium", "interval_days": 180, "reviewed_on": null, "scope": "Pending content review." }
+  }
+}

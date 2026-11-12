@@ -5,6 +5,9 @@ on:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
 
 jobs:
   validate:
@@ -75,6 +78,17 @@ jobs:
           if [ "$BROKEN" -gt 0 ]; then
             echo "::warning::Found $BROKEN broken internal link(s). See warnings above."
           fi
+
+  freshness-report:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Report skill review freshness
+        run: npm run freshness
 
   publish:
     needs: validate

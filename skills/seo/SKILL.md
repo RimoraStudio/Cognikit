@@ -16,13 +16,17 @@ license: MIT
 
 # SEO
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 Work like an SEO consultant: establish the current state first, then fix
 what is actually broken. The output is either a severity-ranked audit
 report or concrete changes to markup, config, and content. Never rewrite
 meta tags blindly, and never chase vanity optimizations that do not
 affect crawling, indexing, or ranking.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 

@@ -17,12 +17,16 @@ license: MIT
 
 # MCP Server
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 Build an MCP server the way a good API designer builds an API: interrogate
 the use case first, pick the deployment model before writing code, design
 a small set of well-described tools, and verify with a real client before
 shipping. Picking the wrong shape early causes painful rewrites later.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow (follow in order)
 
@@ -97,22 +101,22 @@ add is prompt text the model pays attention to on every call.
 | Visual preview, chart, map, diff | no | yes |
 | Live-updating progress | no | yes |
 
-Elicitation is spec-native: the server sends a flat JSON schema mid-tool
-and the host renders a native form, with zero UI code. Always check the
-client's elicitation capability first and keep a text fallback; host
-support is still rolling out. Widgets are iframe-sandboxed HTML resources
-served via `@modelcontextprotocol/ext-apps`. Both patterns with code:
-`references/ui-widgets.md`.
+Elicitation and UI extensions are capability- and host-dependent. Check
+the current protocol specification and target client's compatibility
+before designing around them; keep a text fallback. Widgets and MCP Apps
+are extensions, not universal host behavior. See `references/ui-widgets.md`.
 
 ### Framework
 
 | Framework | Use when |
 |---|---|
-| Official TypeScript SDK (`@modelcontextprotocol/sdk`) | Default. Best spec coverage, first to get new features. |
-| FastMCP 3.x (`fastmcp` on PyPI) | Python preferred, or wrapping a Python library. Decorator-based, low boilerplate. Not the frozen FastMCP 1.0 bundled in the `mcp` package. |
+| Official TypeScript SDK v2 (`@modelcontextprotocol/server`) | Start here for new TypeScript servers. Check the current migration guide and host compatibility. |
+| Official Python SDK v2 (`mcp`) | Start here for new Python servers; v2 uses `MCPServer`. Do not confuse it with third-party packages named `fastmcp`. |
+| Existing SDK v1 project | Keep its lockfile and target protocol explicit; use the official v1-to-v2 migration guide before upgrading. |
 
-Both produce identical wire protocol. If the user already has a stack, go
-with it.
+SDK API versions and protocol revisions are separate choices. Inspect the
+installed SDK, target host, and required protocol revision before choosing
+imports or transport behavior.
 
 ### Tools vs resources vs prompts
 
@@ -123,8 +127,9 @@ with it.
   `@mcp.resource("uri://...")` (Python).
 - **Prompts** are reusable templates the user picks from a menu:
   "summarize this ticket". `server.registerPrompt` or `@mcp.prompt()`.
-- **Sampling** lets the server request LLM inference mid-tool. Rare; only
-  when tool logic itself needs a model.
+- **Sampling, roots, and logging** are legacy capabilities with a
+  deprecation path in newer protocol revisions. Add them only when a
+  required client and protocol version still support them.
 
 Rule of thumb: if it changes state or computes, it is a tool. If it is
 read-once context, it is a resource. If it is a user-facing template, it
@@ -155,8 +160,7 @@ local-security burden for zero benefit.
 |---|---|---|---|
 | stdio | child process | local tools, custom servers | env vars |
 | Streamable HTTP | HTTPS | hosted services, multi-user | OAuth or bearer token |
-| SSE | HTTPS (legacy) | older hosted servers | OAuth |
-| WebSocket | WSS | real-time streams | tokens |
+| Legacy HTTP+SSE | HTTPS | compatibility with older servers only; avoid for new deployments | Host-specific |
 
 ### Client configuration
 
@@ -216,7 +220,8 @@ Bundle MCP servers in a plugin via `.mcp.json` at the plugin root
   Restart the host after config changes.
 
 Remote scaffold, OAuth patterns, and all four server types in depth:
-`references/deployment.md`.
+`references/deployment.md`. Verify version-specific behavior against
+`references/sources.md`.
 
 ## Phase 4: Build and security
 
@@ -233,16 +238,18 @@ my-mcp-server/
   tsconfig.json
 ```
 
-Dependencies for TypeScript: `@modelcontextprotocol/sdk`, `zod`.
-Python: `mcp` (includes FastMCP) or `fastmcp`.
+For a new TypeScript server, install the current stable
+`@modelcontextprotocol/server` package and a supported schema library. For
+Python, use the official `mcp` package. Pin versions in the project and
+consult the migration guide before changing an existing SDK major version.
 
 ### Minimal TypeScript server (stdio)
 
 ```ts
 // src/index.ts
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
+import { McpServer } from "@modelcontextprotocol/server";
+import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
+import * as z from "zod/v4";
 
 const server = new McpServer({
   name: "docs-server",
@@ -286,13 +293,13 @@ await server.connect(transport);
 }
 ```
 
-### Minimal Python server (FastMCP)
+### Minimal Python server (official SDK v2)
 
 ```py
 # server.py
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
-mcp = FastMCP("docs-server")
+mcp = MCPServer("docs-server")
 
 @mcp.tool()
 def search_docs(query: str, limit: int = 5) -> list[dict]:
@@ -309,16 +316,17 @@ def search_docs(query: str, limit: int = 5) -> list[dict]:
     return search_index(query, limit)  # your logic
 
 if __name__ == "__main__":
-    mcp.run()  # stdio transport by default
+    mcp.run()  # stdio by default; verify current SDK options before hosting
 ```
 
 The docstring becomes the tool description. Write it for the model.
 
 ### Packaging as MCPB
 
-An MCPB is a zip containing `manifest.json`, the server code, and bundled
-dependencies. The host launches `server.mcp_config.command` over stdio,
-so tool code needs no changes.
+MCPB is a host ecosystem packaging format, not a core protocol transport.
+Use the current MCPB manifest specification and verify that the target
+client accepts the bundle before promising one-click installation. Keep
+the package schema version aligned with that specification.
 
 ```json
 {

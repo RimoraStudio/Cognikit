@@ -7,6 +7,12 @@ mandatory bundle-inlining step, and the iframe sandbox rules. The UI
 layer is additive: underneath it is still tools, resources, and the same
 wire protocol.
 
+> **Version warning:** MCP Apps and SDK APIs evolve separately from core
+> MCP. Check the current package docs and the target host's support matrix
+> in `sources.md` before copying these examples. The capability
+> and `App` snippets below include earlier API shapes and are illustrative,
+> not guaranteed to compile with the current SDK.
+
 ## When a widget beats plain text
 
 Do not add UI for its own sake; most tools are fine returning text or
@@ -22,7 +28,9 @@ JSON. Add a widget only when one of these is true:
 
 ## Elicitation vs widgets
 
-Elicitation is spec-native and zero UI code. Route there first.
+When supported by the target client and protocol revision, elicitation
+can collect structured input without custom UI. Prefer it for simple
+forms; verify current capability negotiation and response shapes first.
 
 | Need | Elicitation | Widget |
 |---|---|---|

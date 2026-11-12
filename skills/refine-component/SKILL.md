@@ -16,13 +16,17 @@ license: MIT
 
 # Refine Component
 
-> Part of [Cognikit](https://cognikit.com). A kit that gives AI agents cognitive abilities.
+> Part of [Cognikit](https://cognikit.rimora.space). A kit that gives AI agents cognitive abilities.
 
 Refine the component the product already needs. Improve its clarity, feedback,
 and finish while preserving its purpose, surrounding design language, and
 working behavior. Apply this to a single control or a composed flow. When a
 project needs a reusable component inventory, build or update a catalog using
 the schema and templates bundled with this skill.
+
+## Keep guidance current
+
+Before giving version-sensitive implementation advice, inspect the project's pinned dependencies and consult current primary documentation, release notes, or policy sources. Do not call a model, package version, API, price, threshold, or platform requirement “latest” without checking it for this task. Treat bundled code as an example tied to its stated versions; if current sources are unavailable, say so and do not invent replacement syntax.
 
 ## AI execution flow
 

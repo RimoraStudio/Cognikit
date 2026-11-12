@@ -112,7 +112,7 @@ Keep `SKILL.md` under 20KB. Move detail to `references/`.
    - No overlap with existing skills
    - Quality of instructions
    - Anti-AI-slop compliance (no filler, no generic boilerplate, no em dashes, no emojis)
-7. **Approved skills are published** to skills.sh and cognikit.com.
+7. **Approved skills are published** to skills.sh and cognikit.rimora.space.
 
 ---
 
